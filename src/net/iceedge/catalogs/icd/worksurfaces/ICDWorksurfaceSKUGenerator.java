@@ -15,7 +15,6 @@ import net.iceedge.icebox.dataimport.sif.CatalogBroker;
 import java.io.IOException;
 import java.util.TreeSet;
 import net.dirtt.icelib.main.TableOfContents;
-import net.dirtt.icelib.main.TableOfContents.PartItem;
 import net.dirtt.icelib.main.Solution;
 import net.dirtt.icelib.main.Catalog;
 import java.util.SortedSet;
@@ -61,7 +60,7 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
                             value2 = new TreeSet<Integer>();
                             ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.put(description, value2);
                         }
-                        final Iterator<PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
+                        final Iterator iterator3 = tableOfContents3.getPartItems().iterator();
                         while (iterator3.hasNext()) {
                             final Part part = broker.getPart(iterator3.next().getPartName());
                             final String attributeValue = part.getAttributeValue("Depth", (String)null);
@@ -160,39 +159,39 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         final Manufacturer manufacturer = CatalogManager.getCatalogs().first();
         return catalog;
     }
-   // Decks Less Than 10 inch fix adding leading 0 start
+    
     private String getValidDepth(final float n, final String key) {
-    String formattedString = "";
-    if (key != null) {
-        final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(key);
-        if (set != null) {
-            for (final int intValue : set) {
-                if ((int)n <= intValue) {
-                    formattedString = String.format("%02d", intValue); // Formats the number with leading zero if less than 10
-                    break;
+        String string = "";
+        if (key != null) {
+            final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(key);
+            if (set != null) {
+                for (final int intValue : set) {
+                    if ((int)n <= intValue) {
+                        string = intValue + "";
+                        break;
+                    }
                 }
             }
         }
+        return string;
     }
-    return formattedString;
-}
-
-	private String getValidWidth(final float n, final String key) {
-    String formattedString = "";
-    if (key != null) {
-        final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(key);
-        if (set != null) {
-            for (final int intValue : set) {
-                if ((int)n <= intValue) {
-                    formattedString = String.format("%02d", intValue); // Formats the number with leading zero if less than 10
-                    break;
+    
+    private String getValidWidth(final float n, final String key) {
+        String string = "";
+        if (key != null) {
+            final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(key);
+            if (set != null) {
+                for (final int intValue : set) {
+                    if ((int)n <= intValue) {
+                        string = intValue + "";
+                        break;
+                    }
                 }
             }
         }
+        return string;
     }
-    return formattedString;
-}
-   // Decks Less Than 10 inch fix adding leading 0 end   
+    
     static {
         ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth = null;
         ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth = null;

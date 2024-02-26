@@ -72,7 +72,7 @@ public class ICDQuoteExport extends ReportNode
     }
     
     public void writeQuoteBuckets() throws IOException {
-        final Enumeration<ReportNode> breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
+        final Enumeration breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
         while (breadthFirstEnumeration.hasMoreElements()) {
             final ReportNode reportNode = breadthFirstEnumeration.nextElement();
             if (reportNode instanceof GeneralQuoteSectionBucket) {

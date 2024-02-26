@@ -119,7 +119,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public boolean isNoTile() {
-        final Iterator<BasicMaterialEntity> iterator = this.getChildrenByClass(BasicMaterialEntity.class, false, true).iterator();
+        final Iterator<BasicMaterialEntity> iterator = this.getChildrenByClass((Class)BasicMaterialEntity.class, false, true).iterator();
         while (iterator.hasNext()) {
             if ("noTile".equals(iterator.next().getAttributeValueAsString("Option_Indicator"))) {
                 return true;
@@ -326,7 +326,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     
     private void removeBreakTopExtrusion() {
         if (!this.isInCorePanel()) {
-            final ICDTileGroup icdTileGroup = (ICDTileGroup)this.getParent(ICDTileGroup.class);
+            final ICDTileGroup icdTileGroup = (ICDTileGroup)this.getParent((Class)ICDTileGroup.class);
             if (icdTileGroup != null) {
                 icdTileGroup.removeBreakTopExtrusion();
             }
@@ -348,7 +348,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     private String getTileChaseValue() {
-        if (((EntityObject)this.getParent(ICDPanel.class)) instanceof ICDSubFrameSideContainer) {
+        if (((EntityObject)this.getParent((Class)ICDPanel.class)) instanceof ICDSubFrameSideContainer) {
             return "Chase";
         }
         return "Regular";
@@ -376,7 +376,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     
     public List<String> getCodeList() {
         final ArrayList<String> list = new ArrayList<String>();
-        for (final BasicMaterialEntity basicMaterialEntity : this.getChildrenByClass(BasicMaterialEntity.class, false)) {
+        for (final BasicMaterialEntity basicMaterialEntity : this.getChildrenByClass((Class)BasicMaterialEntity.class, false)) {
             for (int i = 1; i <= 2; ++i) {
                 final String attributeValueAsString = basicMaterialEntity.getAttributeValueAsString("TILE_FINISH_SIDE_" + i + "_POSITION_" + this.getVerticalLocation());
                 if (attributeValueAsString != null && attributeValueAsString.length() > 0) {
@@ -413,7 +413,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
             highestPriorityCode = "O";
         }
         else if ("Glass Tile".equalsIgnoreCase(attributeValueAsString)) {
-            final EntityObject childByClass = this.getChildByClass(BasicMaterialEntity.class);
+            final EntityObject childByClass = this.getChildByClass((Class)BasicMaterialEntity.class);
             if (childByClass != null) {
                 final String attributeValueAsString2 = childByClass.getAttributeValueAsString("GLASS_TILE_FINISH_POSITION_1");
                 if (attributeValueAsString2 == null) {
@@ -507,7 +507,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         final LinkedList list = new LinkedList();
         final Vector vector = new Vector();
         this.model3D = this.get3DModel();
-        final Vector<Shape3D> shapesBySubstring = Utility3D.findShapesBySubstring((Node)this.model3D, "_UV3", vector);
+        final Vector shapesBySubstring = Utility3D.findShapesBySubstring((Node)this.model3D, "_UV3", vector);
         String s;
         if (this.getSide() == 0) {
             s = shapesBySubstring.get(0).getName();
@@ -562,7 +562,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         final LinkedList list = new LinkedList();
         final Vector vector = new Vector();
         this.model3D = this.get3DModel();
-        final Vector<Shape3D> shapesBySubstring = Utility3D.findShapesBySubstring((Node)this.model3D, "_UV3", vector);
+        final Vector shapesBySubstring = Utility3D.findShapesBySubstring((Node)this.model3D, "_UV3", vector);
         if (!shapesBySubstring.isEmpty()) {
             String s;
             if (n == 1) {
@@ -657,7 +657,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
                         this.createNewAttribute("Base_Price", this.currentCatalogOption.getAttributeValueAsString("P1"));
                         this.createNewAttribute("Base_SKU", this.newSku);
                         if (this.isStackedTile()) {
-                            this.createNewAttribute("SubType", ((ICDPanel)this.getParent(ICDPanel.class)).getSubType());
+                            this.createNewAttribute("SubType", ((ICDPanel)this.getParent((Class)ICDPanel.class)).getSubType());
                         }
                     }
                     else {
@@ -804,7 +804,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public Vector<Ice2DPaintableNode> getAssemblyIcons(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
-        final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
+        final Vector<Ice2DTextNode> vector = (Vector<Ice2DTextNode>)new Vector<Ice2DPaintableNode>();
         if (this.getCurrentOption().getId().contains("No_Tile")) {
             final Matrix4f matrix4f2 = new Matrix4f();
             matrix4f2.setIdentity();
@@ -821,7 +821,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public List<IceOutputNode> getPlotOutputNodes(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
-        final Vector<IceOutputNode> vector = new Vector<IceOutputNode>();
+        final Vector<IceOutputTextNode> vector = (Vector<IceOutputTextNode>)new Vector<IceOutputNode>();
         if (this.getCurrentOption().getId().contains("No_Tile")) {
             final Matrix4f matrix4f2 = new Matrix4f();
             matrix4f2.setIdentity();
@@ -862,7 +862,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     
     public boolean isPanelWithHorisontalInnerExtrusion() {
         boolean withHorizontalInnerExtrusion = false;
-        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
         if (icdPanel != null) {
             withHorizontalInnerExtrusion = icdPanel.withHorizontalInnerExtrusion();
         }
@@ -879,8 +879,8 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     
     private boolean allowNoTileWithoutFrame() {
         final PanelInterface parentPanel = this.getParentPanel();
-        final ICDTileGroup icdTileGroup = (ICDTileGroup)this.getParent(ICDTileGroup.class);
-        return this.isBottomTileInBasePanel() || (parentPanel != null && !parentPanel.isCorePanel() && icdTileGroup.getChildrenByClass(ICDTile.class, true, true).size() > 1);
+        final ICDTileGroup icdTileGroup = (ICDTileGroup)this.getParent((Class)ICDTileGroup.class);
+        return this.isBottomTileInBasePanel() || (parentPanel != null && !parentPanel.isCorePanel() && icdTileGroup.getChildrenByClass((Class)ICDTile.class, true, true).size() > 1);
     }
     
     public void applyChangesFromEditor(final String s, final PossibleValue possibleValue, final Collection<PossibleValue> collection, final Collection<String> collection2, final String s2) {
@@ -936,7 +936,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public void collectExtraIndirectAssemblyParts(final boolean b, final HashSet<EntityObject> set, final boolean b2, final Class<EntityObject>[] array) {
-        set.addAll((Collection<? extends EntityObject>)this.getChildrenByClass(ICDInnerExtrusion.class, true, true));
+        set.addAll((Collection<?>)this.getChildrenByClass((Class)ICDInnerExtrusion.class, true, true));
     }
     
     public void addDimensionsToManufacturingReport(final TreeMap<String, String> treeMap) {
@@ -957,7 +957,7 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     
     static {
         ICDTile.TOTAL_TUBE_WIDTH = 1;
-        ICDTile.logger = Logger.getLogger(ICDTile.class);
+        ICDTile.logger = Logger.getLogger((Class)ICDTile.class);
         ICDTile.PARENT_TYPE = "Valet Door";
         priorityArray = new char[] { 'L', 'F', 'M' };
         ICD_ERROR_OPTION = "ICD_Panel_Error_Option";

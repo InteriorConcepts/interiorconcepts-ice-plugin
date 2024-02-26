@@ -137,7 +137,7 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
             this.getNamedPointLocal("Suspened_Chase_Bottom_Support_B_POS").set((Tuple3f)new Point3f(0.0f, -0.5f, 0.75f));
             this.getNamedPointLocal("Suspened_Chase_Vertical_Support_B_POS").set((Tuple3f)new Point3f(0.0f, -n4 + 0.5f, n - n2 + 1.0f));
         }
-        for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : this.getChildrenByClass(ICDChaseConnectorExtrusion.class, false)) {
+        for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, false)) {
             if (icdChaseConnectorExtrusion.isVertical()) {
                 if (icdChaseConnectorExtrusion.isSuspendedeChaseSupport()) {
                     continue;
@@ -168,7 +168,7 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
     
     public Vector<ICDChaseConnectorExtrusion> getVerticalPieces() {
         final Vector<ICDChaseConnectorExtrusion> vector = new Vector<ICDChaseConnectorExtrusion>();
-        for (final ICDChaseConnectorExtrusion e : this.getChildrenByClass(ICDChaseConnectorExtrusion.class, false, true)) {
+        for (final ICDChaseConnectorExtrusion e : this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, false, true)) {
             if (e.isVertical()) {
                 vector.add(e);
             }

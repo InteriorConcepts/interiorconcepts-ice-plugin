@@ -151,11 +151,11 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     public void flip() {
         final Vector breakingIntersections = this.getBreakingIntersections();
         for (int i = 0; i < breakingIntersections.size(); ++i) {
-            final Iterator iterator = ((GeneralIntersectionInterface)breakingIntersections.get(i)).getSegmentsFromArms().iterator();
+            final Iterator iterator = breakingIntersections.get(i).getSegmentsFromArms().iterator();
             while (iterator.hasNext()) {
-                final Iterator iterator2 = ((Segment)((BasicILine)iterator.next())).getMyParentILine().getChildrenByClass((Class)ICDSubFrameSideContainer.class, true, true).iterator();
+                final Iterator iterator2 = ((BasicILine)iterator.next().getMyParentILine()).getChildrenByClass((Class)ICDSubFrameSideContainer.class, true, true).iterator();
                 while (iterator2.hasNext()) {
-                    ((ICDSubFrameSideContainer)iterator2.next()).removeAllBreaks();
+                    iterator2.next().removeAllBreaks();
                 }
             }
         }
@@ -196,7 +196,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     private void addIsVerticalChaseAttOnTheFly() {
         final List selectedEntitiesByClass = this.getSolution().getSelectedEntitiesByClass((Class)ICDILine.class, true);
         if (selectedEntitiesByClass != null) {
-            final OptionAttributeProxy optionAttributeProxy = (OptionAttributeProxy) Solution.getWorldAttributeProxy().get("ICD_is_Vertical_Chase");
+            final OptionAttributeProxy optionAttributeProxy = Solution.getWorldAttributeProxy().get("ICD_is_Vertical_Chase");
             optionAttributeProxy.getPossibleValues().clear();
             optionAttributeProxy.addPossibleValue("No");
             if (this.isValidSelectionForChase(selectedEntitiesByClass)) {
@@ -334,13 +334,13 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     public void setVerticalChase(final ICDVerticalChase icdVerticalChase) {
         final IntersectionFactoryInterface intersectionFactory = this.getIntersectionFactory();
         if (intersectionFactory != null) {
-            for (final ICDIntersection icdIntersection : ((EntityObject)intersectionFactory).getChildrenByClass(ICDIntersection.class, true, true)) {
+            for (final ICDIntersection icdIntersection : ((EntityObject)intersectionFactory).getChildrenByClass((Class)ICDIntersection.class, true, true)) {
                 final Vector segmentsFromArms = icdIntersection.getSegmentsFromArms();
                 if (segmentsFromArms.size() == 2) {
                     boolean b = true;
                     final Iterator<Segment> iterator2 = segmentsFromArms.iterator();
                     while (iterator2.hasNext()) {
-                        final ICDILine icdiLine = (ICDILine)iterator2.next().getParent(ICDILine.class);
+                        final ICDILine icdiLine = (ICDILine)iterator2.next().getParent((Class)ICDILine.class);
                         if (icdiLine != null && !icdiLine.isVerticalChase()) {
                             b = false;
                             break;
@@ -369,9 +369,9 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
             if (this.isVerticalChase()) {
                 final Iterator<ICDILine> iterator = andValidateVerticalChase.getChaseILines().iterator();
                 while (iterator.hasNext()) {
-                    final Iterator iterator2 = iterator.next().getChildrenFirstAppearance(ICDPanel.class, true).iterator();
+                    final Iterator iterator2 = iterator.next().getChildrenFirstAppearance((Class)ICDPanel.class, true).iterator();
                     while (iterator2.hasNext()) {
-                        ((ICDPanel)iterator2.next()).destroyCad();
+                        iterator2.next().destroyCad();
                     }
                 }
             }
@@ -420,7 +420,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     
     private List<ChaseAndPanel> createChaseAndPanelList() {
         final ArrayList<ChaseAndPanel> list = new ArrayList<ChaseAndPanel>();
-        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass(ICDSubFrameSideContainer.class, true)) {
+        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass((Class)ICDSubFrameSideContainer.class, true)) {
             list.add(new ChaseAndPanel(icdSubFrameSideContainer, icdSubFrameSideContainer.getPanel(true), icdSubFrameSideContainer.getPanel(false)));
         }
         return list;
@@ -544,13 +544,13 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public HashSet<AssembleParent> getExternalAssemblyParts() {
-        final HashSet<ICDSegment> set = new HashSet<ICDSegment>();
-        for (final ICDSegment e : this.getChildrenFirstAppearance(ICDSegment.class, true)) {
+        final HashSet<ICDSegment> set = (HashSet<ICDSegment>)new HashSet<AssembleParent>();
+        for (final ICDSegment e : this.getChildrenFirstAppearance((Class)ICDSegment.class, true)) {
             if (!e.isSegmentExcludedFromIlineAssemly()) {
-                set.add((ICDSegment)(AssembleParent)e);
+                set.add((AssembleParent)e);
             }
         }
-        return new HashSet<AssembleParent>(set);
+        return (HashSet<AssembleParent>)set;
     }
     
     public boolean shouldIncludeExtraIndirectAssemblyParts() {
@@ -581,12 +581,12 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public Collection<EntitySpaceCompareNodeWrapper> getSpaceCompareNodeWrappers() {
-        final LinkedList<Object> list = new LinkedList<Object>(new LinkedList<EntitySpaceCompareNodeWrapper>());
+        final LinkedList<Object> list = (LinkedList<Object>)new LinkedList<EntitySpaceCompareNodeWrapper>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             list.addAll(iterator.next().getSpaceCompareNodeWrappers());
         }
-        return (Collection<EntitySpaceCompareNodeWrapper>)new ArrayList(list);
+        return (Collection<EntitySpaceCompareNodeWrapper>)list;
     }
     
     public void populateCompareNode(final Class clazz, final CompareNode compareNode) {
@@ -596,7 +596,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public HashSet<TypeableEntity> getAssembledChildrenForManReport() {
-        final HashSet<TypeableEntity> set = new HashSet<TypeableEntity>();
+        final HashSet<Object> set = (HashSet<Object>)new HashSet<TypeableEntity>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             set.addAll(iterator.next().getAssembledChildrenForManReport());

@@ -105,7 +105,7 @@ public abstract class ICDCornerParametricWorksurface extends ICDParametricWorksu
         final GeneralSnapSet generalSnapSet = this.getGeneralSnapSet();
         if (generalSnapSet != null) {
             final BoundingCube worldBoundingCube = this.getWorldBoundingCube();
-            for (final ICDPanel icdPanel : generalSnapSet.getChildrenByClass(ICDPanel.class, true)) {
+            for (final ICDPanel icdPanel : generalSnapSet.getChildrenByClass((Class)ICDPanel.class, true)) {
                 if (worldBoundingCube.intersect(icdPanel.getWorldBoundingCube())) {
                     final Point3f convertPointToOtherLocalSpace = MathUtilities.convertPointToOtherLocalSpace((EntityObject)icdPanel, this.getBasePointWorldSpace());
                     if (!icdPanel.hasChaseOnPointSide(convertPointToOtherLocalSpace)) {

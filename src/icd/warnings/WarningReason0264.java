@@ -41,7 +41,7 @@ public class WarningReason0264 extends WarningReason
     
     public static void addRequiredWarning(final ICDBasicOverhead icdBasicOverhead) {
         startTimer(264);
-        final List<ICDPanel> childrenByClass = icdBasicOverhead.getSolution().getChildrenByClass(ICDPanel.class, true, true);
+        final List childrenByClass = icdBasicOverhead.getSolution().getChildrenByClass((Class)ICDPanel.class, true, true);
         final Point3f basePointWorldSpace = icdBasicOverhead.getBasePointWorldSpace();
         ICDPanel icdPanel = null;
         if (childrenByClass.size() > 0) {

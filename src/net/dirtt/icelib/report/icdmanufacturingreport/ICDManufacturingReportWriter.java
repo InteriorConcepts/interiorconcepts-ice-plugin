@@ -79,9 +79,9 @@ public class ICDManufacturingReportWriter extends ReportWriter
     }
     
     private void writeAssembledChildren(final AssembleParent assembleParent, final String value, final int n) throws IOException {
-        final HashSet<TypeableEntity> assembledChildrenForManReport = assembleParent.getAssembledChildrenForManReport();
+        final HashSet assembledChildrenForManReport = assembleParent.getAssembledChildrenForManReport();
         if (assembledChildrenForManReport.size() > 0) {
-            final HashMap<TreeMap<String, String>, Integer> hashMap = new HashMap<TreeMap<String, String>, Integer>();
+            final HashMap<Object, Integer> hashMap = new HashMap<Object, Integer>();
             for (final TypeableEntity typeableEntity : assembledChildrenForManReport) {
                 final TreeMap<String, String> key = new TreeMap<String, String>();
                 typeableEntity.getManufacturingInfo((TreeMap)key);
@@ -146,7 +146,7 @@ public class ICDManufacturingReportWriter extends ReportWriter
         final Enumeration breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
         final Vector<ReportNode> vector = new Vector<ReportNode>();
         while (breadthFirstEnumeration.hasMoreElements()) {
-            final ReportNode e = (ReportNode)breadthFirstEnumeration.nextElement();
+            final ReportNode e = breadthFirstEnumeration.nextElement();
             if (e instanceof ICDManufacturingReportNode) {
                 if (e instanceof ICDManufacturingReportRoot) {
                     continue;

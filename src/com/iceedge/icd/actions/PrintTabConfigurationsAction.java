@@ -24,10 +24,10 @@ public class PrintTabConfigurationsAction extends IceAction
     
     public void actionPerformed(final AppView appView) {
         PrintTabConfigurationsAction.logger.info((Object)("Executing action: " + this.getActionInfo()));
-        if (!appView.getSolution().getChildrenByClass(ICDTabContainer.class, true, true).isEmpty()) {
+        if (!appView.getSolution().getChildrenByClass((Class)ICDTabContainer.class, true, true).isEmpty()) {
             PrintTabConfigurationsAction.logger.trace((Object)"===================Printing Tab Configurations===============================");
             boolean b = false;
-            for (final ICDTabContainer icdTabContainer : appView.getSolution().getChildrenByClass(ICDTabContainer.class, true, true)) {
+            for (final ICDTabContainer icdTabContainer : appView.getSolution().getChildrenByClass((Class)ICDTabContainer.class, true, true)) {
                 final String reportIndex = icdTabContainer.getReportIndex();
                 if (reportIndex.trim().isEmpty()) {
                     continue;

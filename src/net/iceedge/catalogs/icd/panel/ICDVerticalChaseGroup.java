@@ -119,7 +119,7 @@ public class ICDVerticalChaseGroup extends TypeableEntity implements ICDManufact
     }
     
     private ICDVerticalChase getChaseWithILine(final ICDILine o) {
-        for (final ICDVerticalChase icdVerticalChase : this.getChildrenByClass(ICDVerticalChase.class, false)) {
+        for (final ICDVerticalChase icdVerticalChase : this.getChildrenByClass((Class)ICDVerticalChase.class, false)) {
             if (icdVerticalChase.getChaseILines().contains(o)) {
                 return icdVerticalChase;
             }

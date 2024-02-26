@@ -171,7 +171,7 @@ public class ICDElectricalIntersectionArea extends BasicElectricalIntersectionAr
         if (icdIntersection != null) {
             final Iterator<Segment> iterator = icdIntersection.getSegmentsFromArms().iterator();
             while (iterator.hasNext()) {
-                for (final ICDPanel e : iterator.next().getChildrenByClass(ICDPanel.class, true, true)) {
+                for (final ICDPanel e : iterator.next().getChildrenByClass((Class)ICDPanel.class, true, true)) {
                     if (e.isCorePanel()) {
                         vector.add(e);
                     }

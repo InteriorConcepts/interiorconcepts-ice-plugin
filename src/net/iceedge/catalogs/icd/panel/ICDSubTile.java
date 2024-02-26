@@ -117,7 +117,7 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
         final Vector<BasicMaterialEntity> vector = new Vector<BasicMaterialEntity>();
         final Enumeration breadthFirstEnumeration = this.breadthFirstEnumeration();
         while (breadthFirstEnumeration.hasMoreElements()) {
-            final EntityObject entityObject = (EntityObject)breadthFirstEnumeration.nextElement();
+            final EntityObject entityObject = breadthFirstEnumeration.nextElement();
             if (entityObject instanceof BasicMaterialEntity && entityObject instanceof BasicMaterialEntity) {
                 vector.add((BasicMaterialEntity)entityObject);
             }

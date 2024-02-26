@@ -48,7 +48,7 @@ public class ICDWDRWorksurface extends ICDBasicWorksurface
         if (this.getYDimensionFromData() > 60.0f) {
             return 60.0f;
         }
-        return 96.0f;
+        return 144.0f;
     }
     
     @Override
@@ -56,7 +56,7 @@ public class ICDWDRWorksurface extends ICDBasicWorksurface
         if (this.getXDimensionFromData() > 60.0f) {
             return 60.0f;
         }
-        return 96.0f;
+        return 144.0f;
     }
     
     @Override

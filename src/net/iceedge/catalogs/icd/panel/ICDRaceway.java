@@ -88,12 +88,12 @@ public class ICDRaceway extends BasicRaceway implements ICDExtrusionInterface, I
             for (final GeneralIntersectionInterface generalIntersectionInterface : icdSubILine.getIntersections()) {
                 if (generalIntersectionInterface != null && "ICD_TwoWay90Intersection".equals(((EntityObject)generalIntersectionInterface).getCurrentOption().getId())) {
                     final Vector armsOrderedByIndex = ((BasicIntersection)generalIntersectionInterface).getArmsOrderedByIndex();
-                    if (armsOrderedByIndex.size() != 2 || ((IntersectionArmInterface)armsOrderedByIndex.get(1)).getSegment() != parentSegment) {
+                    if (armsOrderedByIndex.size() != 2 || armsOrderedByIndex.get(1).getSegment() != parentSegment) {
                         continue;
                     }
                     b = true;
-                    final ICDSegment icdSegment = (ICDSegment)((IntersectionArmInterface)((ICDSegment)armsOrderedByIndex.get(0))).getSegment();
-                    final SubILineInterface subWall = ((IntersectionArmInterface)armsOrderedByIndex.get(0)).getSubWall();
+                    final ICDSegment icdSegment = (ICDSegment)armsOrderedByIndex.get(0).getSegment();
+                    final SubILineInterface subWall = armsOrderedByIndex.get(0).getSubWall();
                     if (icdSegment != null && subWall != null) {
                         final ICDPanel icdPanel = icdSegment.getICDPanel();
                         if (icdPanel != null) {

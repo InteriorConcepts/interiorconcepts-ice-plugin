@@ -55,7 +55,7 @@ public class ICDPanelSubILine extends BasicPanelSubILine implements ICDManufactu
     }
     
     public float getMaxStackHeight() {
-        return 96.0f;
+        return 144.0f;
     }
     
     public void addDimensionsToManufacturingReport(final TreeMap<String, String> treeMap) {

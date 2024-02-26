@@ -198,14 +198,14 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     private boolean isVerticalChase() {
-        final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
+        final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
         return icdiLine != null && icdiLine.isVerticalChase();
     }
     
     public boolean hasWorksurfaceOnBothSide() {
         final Solution solution = this.getSolution();
         int n = 0;
-        final Iterator<BasicParametricWorksurface> iterator = solution.getEntityInSolutionByClass(BasicParametricWorksurface.class).iterator();
+        final Iterator iterator = solution.getEntityInSolutionByClass((Class)BasicParametricWorksurface.class).iterator();
         while (iterator.hasNext()) {
             if (iterator.next().getRealBounds(0.5f).intersects(this.getRealBounds(0.5f))) {
                 ++n;
@@ -238,11 +238,11 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     public void flip() {
         final ILineInterface myParentILine = this.getMyParentILine();
         if (myParentILine != null) {
-            final Vector<GeneralIntersectionInterface> breakingIntersections = myParentILine.getBreakingIntersections();
+            final Vector breakingIntersections = myParentILine.getBreakingIntersections();
             for (int i = 0; i < breakingIntersections.size(); ++i) {
                 for (final Segment segment : breakingIntersections.get(i).getSegmentsFromArms()) {
                     if (!segment.equals(this)) {
-                        final Iterator<ICDSubFrameSideContainer> iterator2 = ((BasicILine)segment.getMyParentILine()).getChildrenByClass(ICDSubFrameSideContainer.class, true, true).iterator();
+                        final Iterator iterator2 = ((BasicILine)segment.getMyParentILine()).getChildrenByClass((Class)ICDSubFrameSideContainer.class, true, true).iterator();
                         while (iterator2.hasNext()) {
                             iterator2.next().removeAllBreaks();
                         }
@@ -257,8 +257,8 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
         final HashSet<EntityObject> set = new HashSet<EntityObject>();
         final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final EntityObject e = (EntityObject)breadthFirstEnumerationIterator.next();
-            if (e.containsAttributeKey("isAssembled") && e != this && e.getParent(ICDSubFrameSideContainer.class) == null) {
+            final EntityObject e = breadthFirstEnumerationIterator.next();
+            if (e.containsAttributeKey("isAssembled") && e != this && e.getParent((Class)ICDSubFrameSideContainer.class) == null) {
                 if (e instanceof ICDInstallTagDrawable) {
                     e.modifyAttributeValue("isAssembled", "false");
                 }
@@ -280,7 +280,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public HashSet<AssembleParent> getExternalAssemblyParts() {
-        final HashSet<AssembleParent> set = new HashSet<AssembleParent>();
+        final HashSet<Object> set = (HashSet<Object>)new HashSet<AssembleParent>();
         set.addAll(this.getAssembledChildrenOnIntersection());
         set.addAll(this.getAssembledChildrenOnSubILine());
         return (HashSet<AssembleParent>)set;
@@ -295,11 +295,11 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     private Vector<AssembleParent> getAssembledChildrenOnSubILine(final boolean b) {
         final Vector<AssembleParent> vector = new Vector<AssembleParent>();
-        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent(ICDSubILine.class);
+        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent((Class)ICDSubILine.class);
         if (icdSubILine != null) {
-            final Iterator iterator = icdSubILine.getChildrenByClass(ICDPanelToPanelConnectionHW.class, false).iterator();
+            final Iterator iterator = icdSubILine.getChildrenByClass((Class)ICDPanelToPanelConnectionHW.class, false).iterator();
             while (iterator.hasNext()) {
-                final ICDPost e = ((ICDPanelToPanelConnectionHW)iterator.next()).getFirstChildByClass(ICDPost.class, false);
+                final ICDPost e = (ICDPost)iterator.next().getFirstChildByClass((Class)ICDPost.class, false);
                 final Point3f point3f = new Point3f(0.0f, 0.0f, 0.0f);
                 final Point3f point3f2 = new Point3f(this.getXDimension(), 0.0f, 0.0f);
                 final Point3f convertPointToWorldSpace = this.convertPointToWorldSpace(point3f);
@@ -328,10 +328,10 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     private Vector<AssembleParent> getAssembledChildrenOnIntersection(final boolean b) {
-        final Vector<AssembleParent> vector = new Vector<AssembleParent>();
+        final Vector<ICDPost> vector = (Vector<ICDPost>)new Vector<AssembleParent>();
         final GeneralIntersectionInterface intersectionForSegment = this.getIntersectionForSegment(b);
         if (intersectionForSegment != null) {
-            final ICDPost icdPost = (ICDPost)intersectionForSegment.getFirstChildByClass(ICDPost.class, false);
+            final ICDPost icdPost = (ICDPost)intersectionForSegment.getFirstChildByClass((Class)ICDPost.class, false);
             if (icdPost != null && !vector.contains(icdPost)) {
                 vector.add((AssembleParent)icdPost);
             }
@@ -351,7 +351,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public ICDPanel getICDPanel() {
-        final List<ICDPanel> childrenByClass = this.getChildrenByClass(ICDPanel.class, true);
+        final List childrenByClass = this.getChildrenByClass((Class)ICDPanel.class, true);
         if (childrenByClass != null && childrenByClass.size() > 0) {
             return childrenByClass.get(0);
         }
@@ -444,7 +444,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     private Vector<ICDTab> getTabs() {
         final Vector<ICDTab> vector = new Vector<ICDTab>();
-        final List<ICDTabContainer> childrenByClass = this.getChildrenByClass(ICDTabContainer.class, true);
+        final List childrenByClass = this.getChildrenByClass((Class)ICDTabContainer.class, true);
         for (int i = 0; i < childrenByClass.size(); ++i) {
             final ICDTabContainer icdTabContainer = childrenByClass.get(i);
             for (int j = 0; j < icdTabContainer.getChildCount(); ++j) {
@@ -481,10 +481,10 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     private Vector<TypeableEntity> getJointsAndChildrenForManufacturingReport() {
-        final Vector<TypeableEntity> vector = new Vector<TypeableEntity>();
+        final Vector<ICDMiddleJoint> vector = (Vector<ICDMiddleJoint>)new Vector<TypeableEntity>();
         for (final ICDJoint e : this.getJoints()) {
             if (e instanceof ICDMiddleJoint && ((ICDMiddleJoint)e).isBoltOnJoint()) {
-                for (final ICDTypeValidatorEntity e2 : e.getChildrenByClass(ICDTypeValidatorEntity.class, true, true)) {
+                for (final ICDTypeValidatorEntity e2 : e.getChildrenByClass((Class)ICDTypeValidatorEntity.class, true, true)) {
                     if (e2.containsAttributeKey("isAssembled")) {
                         vector.add((TypeableEntity)e2);
                     }
@@ -499,7 +499,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     private Vector<ICDJoint> getJointsOnSegment() {
         final Vector<ICDJoint> vector = new Vector<ICDJoint>();
-        for (final ICDJoint e : this.getChildrenByClass(ICDJoint.class, true, true)) {
+        for (final ICDJoint e : this.getChildrenByClass((Class)ICDJoint.class, true, true)) {
             if (!e.isNonOption()) {
                 vector.add(e);
             }
@@ -551,20 +551,20 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public void addAdditonalPaintableEntities(final List<AssemblyPaintable> list) {
-        final Iterator<ICDPanel> iterator = this.getChildrenByClass(ICDPanel.class, true, true).iterator();
+        final Iterator<ICDPanel> iterator = this.getChildrenByClass((Class)ICDPanel.class, true, true).iterator();
         while (iterator.hasNext()) {
             if (iterator.next().isDoorPanel()) {
                 return;
             }
         }
-        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent(ICDSubILine.class);
+        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent((Class)ICDSubILine.class);
         if (icdSubILine != null) {
-            final List<ICDPost> childrenByClass = icdSubILine.getChildrenByClass(ICDPost.class, true, true);
-            final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
+            final List childrenByClass = icdSubILine.getChildrenByClass((Class)ICDPost.class, true, true);
+            final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
             if (icdiLine != null) {
-                final Iterator<GeneralIntersectionInterface> iterator2 = icdiLine.getIntersections().iterator();
+                final Iterator iterator2 = icdiLine.getIntersections().iterator();
                 while (iterator2.hasNext()) {
-                    childrenByClass.addAll(iterator2.next().getChildrenByClass(ICDPost.class, true, true));
+                    childrenByClass.addAll(iterator2.next().getChildrenByClass((Class)ICDPost.class, true, true));
                 }
             }
             final Point3f point3f = new Point3f(0.0f, 0.0f, 0.0f);
@@ -573,7 +573,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
             final Point3f convertPointToWorldSpace2 = this.convertPointToWorldSpace(point3f2);
             for (final ICDPost icdPost : childrenByClass) {
                 if (icdPost.getBasePointWorldSpace().distance(convertPointToWorldSpace) < 0.1f || icdPost.getBasePointWorldSpace().distance(convertPointToWorldSpace2) < 0.1f) {
-                    for (final AssemblyPaintable assemblyPaintable : icdPost.getChildrenByClass(AssemblyPaintable.class, true, true)) {
+                    for (final AssemblyPaintable assemblyPaintable : icdPost.getChildrenByClass((Class)AssemblyPaintable.class, true, true)) {
                         if (!list.contains(assemblyPaintable)) {
                             list.add(assemblyPaintable);
                         }
@@ -634,8 +634,8 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     public void setSelected(final boolean b, final Solution solution) {
         super.setSelected(b, solution);
-        if (this.getParent(ICDILine.class) != null) {
-            final ICDVerticalChase verticalChase = ((ICDILine)this.getParent(ICDILine.class)).getVerticalChase();
+        if (this.getParent((Class)ICDILine.class) != null) {
+            final ICDVerticalChase verticalChase = ((ICDILine)this.getParent((Class)ICDILine.class)).getVerticalChase();
             if (verticalChase != null) {
                 verticalChase.setVerticalChaseSegmentsSelected(b, solution);
             }
@@ -647,10 +647,10 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public Collection<JointIntersectable> getAllIntersectables() {
-        final Vector<JointIntersectable> vector = new Vector<JointIntersectable>();
+        final Vector<Object> vector = (Vector<Object>)new Vector<JointIntersectable>();
         vector.addAll(this.getOwnIntersectables());
         final SubILineInterface myParentSubILine = this.getMyParentSubILine();
-        final NoDuplicateVector<Segment> noDuplicateVector = new NoDuplicateVector<Segment>();
+        final NoDuplicateVector noDuplicateVector = new NoDuplicateVector();
         if (myParentSubILine != null) {
             if (this.isStartSegment()) {
                 ((Vector<Segment>)noDuplicateVector).addAll(this.getSegmentsFromIntersection(((SubILineBaseInterface)myParentSubILine).getStartIntersection()));
@@ -706,7 +706,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public boolean shouldCreateElevation() {
-        final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
+        final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
         return icdiLine == null || icdiLine.getVerticalChase() == null;
     }
     
@@ -796,14 +796,14 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
                 if (intersectionFactoryInterface instanceof ICDIntersectionFactory) {
                     final Iterator children = ((ICDIntersectionFactory)intersectionFactoryInterface).getChildren();
                     while (children.hasNext()) {
-                        final EntityObject entityObject = (EntityObject)children.next();
+                        final EntityObject entityObject = children.next();
                         if (entityObject instanceof ICDIntersection && ((ICDIntersection)entityObject).isNonBreakingIntersection()) {
                             final float n = 0.5f;
                             final ICDIntersection icdIntersection = (ICDIntersection)entityObject;
                             boolean b = false;
                             Point3f point3f = null;
                             vector.clear();
-                            final Iterator<IntersectionArmInterface> iterator2 = icdIntersection.getArmVector().iterator();
+                            final Iterator iterator2 = icdIntersection.getArmVector().iterator();
                             while (iterator2.hasNext()) {
                                 final Segment segment = iterator2.next().getSegment();
                                 if (this.equals(segment)) {
@@ -843,12 +843,12 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     public Collection<EntitySpaceCompareNodeWrapper> getSpaceCompareNodeWrappers() {
         final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
-        list.addAll(this.getJointsEntitySpaceCompare());
-        list.addAll(this.getTubesEntitySpaceCompare(false));
-        list.addAll(this.getTubesEntitySpaceCompare(true));
-        list.addAll(this.getTabsEntitySpaceCompare());
-        list.addAll(this.getSlotsEntitySpaceCompare());
-        final List childrenByClass = this.getChildrenByClass(ICDTile.class, true, true);
+        list.addAll((Collection<?>)this.getJointsEntitySpaceCompare());
+        list.addAll((Collection<?>)this.getTubesEntitySpaceCompare(false));
+        list.addAll((Collection<?>)this.getTubesEntitySpaceCompare(true));
+        list.addAll((Collection<?>)this.getTabsEntitySpaceCompare());
+        list.addAll((Collection<?>)this.getSlotsEntitySpaceCompare());
+        final List childrenByClass = this.getChildrenByClass((Class)ICDTile.class, true, true);
         if (childrenByClass.size() > 0) {
             list.add(new EntitySpaceCompareNodeWrapper((TransformableEntity)childrenByClass.get(0), (Collection)new ArrayList()));
         }
@@ -873,14 +873,14 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public HashSet<TypeableEntity> getAssembledChildrenForManReport() {
-        final HashSet<TypeableEntity> set = new HashSet<TypeableEntity>();
+        final HashSet<Object> set = (HashSet<Object>)new HashSet<TypeableEntity>();
         set.addAll(this.getAllBasicExtrusions(false));
         set.addAll(this.getAllBasicExtrusions(true));
-        set.addAll(this.getChildrenByClass(ICDHinge.class, true));
-        set.addAll(this.getChildrenByClass(ICDDoorstop.class, true));
-        set.addAll(this.getChildrenByClass(ICDLock.class, true));
-        set.addAll(this.getChildrenByClass(ICDMagneticCatch.class, true));
-        set.addAll(this.getChildrenByClass(ICDValetHandle.class, true));
+        set.addAll(this.getChildrenByClass((Class)ICDHinge.class, true));
+        set.addAll(this.getChildrenByClass((Class)ICDDoorstop.class, true));
+        set.addAll(this.getChildrenByClass((Class)ICDLock.class, true));
+        set.addAll(this.getChildrenByClass((Class)ICDMagneticCatch.class, true));
+        set.addAll(this.getChildrenByClass((Class)ICDValetHandle.class, true));
         set.addAll(this.getJointsAndChildrenForManufacturingReport());
         return (HashSet<TypeableEntity>)set;
     }
@@ -946,7 +946,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     public boolean shouldAssemble() {
-        return this.getAttributeValueAsBoolean("shouldAssemble", false) && !((ICDILine)this.getParent(ICDILine.class)).shouldILineAssemble();
+        return this.getAttributeValueAsBoolean("shouldAssemble", false) && !((ICDILine)this.getParent((Class)ICDILine.class)).shouldILineAssemble();
     }
     
     public void handleAttributeChange(final String s, final String s2) {
@@ -987,9 +987,9 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
                 final boolean doesTheArrayContain2 = ICDUtilities.doesTheArrayContain(array, ICDJoint.class);
                 final Iterator children = entityObject.getChildren();
                 while (children.hasNext()) {
-                    final Object next = (Object)children.next();
-                    if (next instanceof ICDSubInternalExtrusion && doesTheArrayContain && ((ICDSubInternalExtrusion)next).containsAttributeKey("isAssembled")) {
-                        final ICDSubInternalExtrusion e = (ICDSubInternalExtrusion)next;
+                    final ICDSubInternalExtrusion next = children.next();
+                    if (next instanceof ICDSubInternalExtrusion && doesTheArrayContain && next.containsAttributeKey("isAssembled")) {
+                        final ICDSubInternalExtrusion e = next;
                         final float n = e.getBasePoint3f().z + e.getZDimension() / 2.0f;
                         if ((float)this.extraHorizontalExtrusionSearchScope.first >= n || n >= (float)this.extraHorizontalExtrusionSearchScope.second) {
                             continue;
@@ -1033,7 +1033,7 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     
     public boolean isBottomTileNoFrame() {
         boolean b = false;
-        for (final ICDTile icdTile : this.getChildrenByClass(ICDTile.class, true)) {
+        for (final ICDTile icdTile : this.getChildrenByClass((Class)ICDTile.class, true)) {
             if (icdTile.isBottomTileInBasePanel() && icdTile.isNoFrameTile()) {
                 b = true;
             }
@@ -1063,6 +1063,6 @@ public class ICDSegment extends BasicSegment implements AssemblyPaintableRoot, A
     }
     
     static {
-        ICDSegment.logger = Logger.getLogger(ICDSegment.class);
+        ICDSegment.logger = Logger.getLogger((Class)ICDSegment.class);
     }
 }

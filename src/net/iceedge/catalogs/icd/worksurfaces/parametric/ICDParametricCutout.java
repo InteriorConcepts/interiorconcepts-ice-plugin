@@ -211,7 +211,7 @@ public abstract class ICDParametricCutout extends TransformableEntity implements
         this.setCutoutSnapPointIndex(-1);
         final Iterator breadthFirstEnumerationIterator = solution.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final EntityObject entityObject = (EntityObject)breadthFirstEnumerationIterator.next();
+            final EntityObject entityObject = breadthFirstEnumerationIterator.next();
             if (entityObject instanceof ICDParametricWorksurface) {
                 final ICDParametricWorksurface icdParametricWorksurface = (ICDParametricWorksurface)entityObject;
                 if (icdParametricWorksurface.getShapeWS() != null && icdParametricWorksurface.getShapeWS().size() > 0 && MathUtilities.shapeContainsPoint((List)icdParametricWorksurface.getShapeWS(), this.getBasePointWorldSpace())) {
@@ -443,6 +443,6 @@ public abstract class ICDParametricCutout extends TransformableEntity implements
         ICDParametricCutout.ICD_CIRCULAR_CUTOUT_TO_CUTOUT_OFFSET = 2.0f;
         ICDParametricCutout.ICD_RECTANGULAR_CUTOUT_TO_CUTOUT_OFFSET = 4.0f;
         ICDParametricCutout.ICD_CIRCULAR_CUTOUT_TO_EDGE_OFFSET = 0.9f;
-        ICDParametricCutout.logger = Logger.getLogger(ICDParametricCutout.class);
+        ICDParametricCutout.logger = Logger.getLogger((Class)ICDParametricCutout.class);
     }
 }

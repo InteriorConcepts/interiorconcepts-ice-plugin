@@ -37,7 +37,6 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Shape;
 import net.iceedge.icecore.basemodule.baseclasses.BasicIntersectionArm;
-import net.iceedge.icecore.basemodule.interfaces.ILineInterface;
 import net.iceedge.icecore.basemodule.interfaces.IntersectionArmInterface;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
@@ -82,7 +81,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static void appendInOrOut(final Point3f point3f, final ICDIntersection icdIntersection, final TransformableEntity obj, final Path2D.Float float1, final Line2D.Float float2, final Line2D.Float float3) {
-        final Vector<IntersectionArmInterface> armVector = icdIntersection.getArmVector();
+        final Vector armVector = icdIntersection.getArmVector();
         for (final IntersectionArmInterface intersectionArmInterface : armVector) {
             if (intersectionArmInterface.getSegment().equals(obj)) {
                 for (final IntersectionArmInterface intersectionArmInterface2 : armVector) {
@@ -167,7 +166,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static Collection<JointIntersectable> getAllIntersectables(final ICDJoint icdJoint) {
-        final Vector<JointIntersectable> vector = new Vector<JointIntersectable>();
+        final Vector<Object> vector = (Vector<Object>)new Vector<JointIntersectable>();
         if (icdJoint != null) {
             if (icdJoint.isUnderIntersection()) {
                 final ICDIntersection intersection = icdJoint.getIntersection();
@@ -261,7 +260,7 @@ public class ICDAssemblyElevationUtilities
                 }
             }
             if (icdSegment != null) {
-                final ICDPanel icdPanel = icdSegment.getChildrenByClass(ICDPanel.class, true).get(0);
+                final ICDPanel icdPanel = icdSegment.getChildrenByClass((Class)ICDPanel.class, true).get(0);
                 if (icdPanel != null) {
                     if (icdPanel.getCurrentOption().getId().equals("ICD_Panel_With_Chase_Side_A")) {
                         float1.append(float2, false);
@@ -312,10 +311,10 @@ public class ICDAssemblyElevationUtilities
     }
     
     private static void appendChaseDirection(final ICDSegment icdSegment, final TransformableEntity transformableEntity, final Path2D.Float float1, final Line2D.Float s) {
-        final List childrenByClass = icdSegment.getChildrenByClass(ICDPanel.class, true);
+        final List childrenByClass = icdSegment.getChildrenByClass((Class)ICDPanel.class, true);
         if (childrenByClass.size() > 0) {
             final Point3f point3f = new Point3f(transformableEntity.getBasePoint3f());
-            final ICDPanel icdPanel = (ICDPanel)childrenByClass.get(0);
+            final ICDPanel icdPanel = childrenByClass.get(0);
             if (icdPanel.hasChaseOnPointSide(MathUtilities.convertSpaces(new Point3f(), (EntityObject)transformableEntity, (EntityObject)icdPanel))) {
                 float1.append(s, false);
             }
@@ -323,11 +322,11 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static ICDILine getILineForEntity(final EntityObject entityObject) {
-        ICDILine icdiLine = (ICDILine)entityObject.getParent(ICDILine.class);
+        ICDILine icdiLine = (ICDILine)entityObject.getParent((Class)ICDILine.class);
         if (icdiLine == null) {
-            final Vector<ILineInterface> wallSetsFromArms = ((ICDIntersection)entityObject.getParent(ICDIntersection.class)).getWallSetsFromArms();
+            final Vector wallSetsFromArms = ((ICDIntersection)entityObject.getParent((Class)ICDIntersection.class)).getWallSetsFromArms();
             if (wallSetsFromArms.size() > 0) {
-                icdiLine = (ICDILine)wallSetsFromArms.firstElement();
+                icdiLine = wallSetsFromArms.firstElement();
             }
         }
         return icdiLine;

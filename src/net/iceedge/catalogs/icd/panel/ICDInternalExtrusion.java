@@ -454,11 +454,11 @@ public class ICDInternalExtrusion extends BasicInternalExtrusion implements Asse
     }
     
     public boolean hasSubExtrusion() {
-        return this.getChildByClass(ICDSubInternalExtrusion.class) != null;
+        return this.getChildByClass((Class)ICDSubInternalExtrusion.class) != null;
     }
     
     public boolean addTabbing(final int n) {
-        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
         if (icdPanel != null && icdPanel.isSuspendedChase()) {
             final ExtrusionPoint startPoint = this.getStartPoint();
             final ExtrusionPoint endPoint = this.getEndPoint();
@@ -484,7 +484,7 @@ public class ICDInternalExtrusion extends BasicInternalExtrusion implements Asse
         ICDInternalExtrusion icdInternalExtrusion = null;
         final EntityObject parentEntity = this.getParentEntity();
         if (parentEntity != null) {
-            for (final ICDInternalExtrusion icdInternalExtrusion2 : parentEntity.getChildrenByClass(ICDInternalExtrusion.class, false, true)) {
+            for (final ICDInternalExtrusion icdInternalExtrusion2 : parentEntity.getChildrenByClass((Class)ICDInternalExtrusion.class, false, true)) {
                 if (!icdInternalExtrusion2.equals(this)) {
                     icdInternalExtrusion = icdInternalExtrusion2;
                     break;
@@ -651,7 +651,7 @@ public class ICDInternalExtrusion extends BasicInternalExtrusion implements Asse
     private Vector<InnerExtrusionSetInterface> getInnerNeighbourExtrusions(final boolean b) {
         final Vector<InnerExtrusionSetInterface> vector = new Vector<InnerExtrusionSetInterface>();
         final Point3f calculateMidpoint = MathUtilities.calculateMidpoint(this.getStartPoint().getPoint(), this.getEndPoint().getPoint());
-        final EntityObject entityObject = (EntityObject)((IceNodeAspect)this.getAspect(IceNodeAspect.class)).getParent();
+        final EntityObject entityObject = (EntityObject)((IceNodeAspect)this.getAspect((Class)IceNodeAspect.class)).getParent();
         if (entityObject != null) {
             for (int i = 0; i < entityObject.getChildCount(); ++i) {
                 final EntityObject childEntity = entityObject.getChildEntityAt(i);
@@ -667,7 +667,7 @@ public class ICDInternalExtrusion extends BasicInternalExtrusion implements Asse
     }
     
     public void addToCutSolution(final Vector vector, final Vector vector2, final Solution solution, final boolean b) {
-        final Iterator<EntityObject> children = this.getChildren();
+        final Iterator children = this.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (vector.contains(entityObject)) {

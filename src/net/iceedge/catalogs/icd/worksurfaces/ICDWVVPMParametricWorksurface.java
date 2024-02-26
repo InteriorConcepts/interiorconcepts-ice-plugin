@@ -358,7 +358,7 @@ public class ICDWVVPMParametricWorksurface extends ICDParametricWorksurface
     }
     
     public void returnDepthGripChanged(final String s) {
-        //0.0f;
+        0.0f;
         this.getAttributeValueAsFloat("ICD_Parametric_Depth1");
         try {
             this.getValidDepth1(Float.parseFloat(s));

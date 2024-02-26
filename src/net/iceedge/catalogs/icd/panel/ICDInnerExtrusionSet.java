@@ -132,14 +132,14 @@ public class ICDInnerExtrusionSet extends BasicInnerExtrusionSet implements ICDH
     }
     
     public void populateDimensionForElevation(final TransformableEntity transformableEntity, final IceDimensionUpdater iceDimensionUpdater, final int n, final BitSet set, final float n2, final float n3) {
-        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent(ICDSubILine.class);
+        final ICDSubILine icdSubILine = (ICDSubILine)this.getParent((Class)ICDSubILine.class);
         if (icdSubILine == null) {
             return;
         }
         boolean b = false;
         final float z = this.getBasePointWorldSpace().z;
         float n4 = ICDPost.BIG_NEGATIVE;
-        final Vector<GeneralIntersectionInterface> intersections = icdSubILine.getIntersections();
+        final Vector intersections = icdSubILine.getIntersections();
         for (int i = 0; i < intersections.size(); ++i) {
             final GeneralIntersectionInterface generalIntersectionInterface = intersections.get(i);
             if (generalIntersectionInterface instanceof ICDIntersection) {
@@ -153,7 +153,7 @@ public class ICDInnerExtrusionSet extends BasicInnerExtrusionSet implements ICDH
         if (!b) {
             return;
         }
-        final ICDSegment icdSegment = (ICDSegment)this.getParent(ICDSegment.class);
+        final ICDSegment icdSegment = (ICDSegment)this.getParent((Class)ICDSegment.class);
         if (icdSegment != null) {
             icdSegment.isFlipped();
             if (!this.isVertical()) {
@@ -270,7 +270,7 @@ public class ICDInnerExtrusionSet extends BasicInnerExtrusionSet implements ICDH
     private Vector<InnerExtrusionSetInterface> getInnerNeighbourExtrusions(final boolean b) {
         final Vector<InnerExtrusionSetInterface> vector = new Vector<InnerExtrusionSetInterface>();
         final Point3f calculateMidpoint = MathUtilities.calculateMidpoint(this.getStartPoint().getPoint(), this.getEndPoint().getPoint());
-        final EntityObject entityObject = (EntityObject)((IceNodeAspect)this.getAspect(IceNodeAspect.class)).getParent();
+        final EntityObject entityObject = (EntityObject)((IceNodeAspect)this.getAspect((Class)IceNodeAspect.class)).getParent();
         if (entityObject != null) {
             for (int i = 0; i < entityObject.getChildCount(); ++i) {
                 final EntityObject childEntity = entityObject.getChildEntityAt(i);
@@ -286,7 +286,7 @@ public class ICDInnerExtrusionSet extends BasicInnerExtrusionSet implements ICDH
     }
     
     public void addToCutSolution(final Vector vector, final Vector vector2, final Solution solution, final boolean b) {
-        final Iterator<EntityObject> children = this.getChildren();
+        final Iterator children = this.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (vector.contains(entityObject)) {

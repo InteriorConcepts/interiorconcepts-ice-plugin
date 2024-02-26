@@ -235,7 +235,7 @@ public class ICDWVCRRParametricWorksurface extends ICDParametricWorksurface impl
     
     @Override
     public void width2GripChanged(final String s) {
-        //0.0f;
+        0.0f;
         this.getAttributeValueAsFloat("ICD_Parametric_Width");
         try {
             this.getValidWidth(Float.parseFloat(s));

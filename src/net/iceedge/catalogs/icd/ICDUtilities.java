@@ -112,8 +112,8 @@ public class ICDUtilities
     
     public static List<Pair<Float, Integer>> calculateBeamBreakLocations(final ICDHorizontalBreakableExtrusion icdHorizontalBreakableExtrusion) {
         final TransformableEntity transformableEntity = (TransformableEntity)icdHorizontalBreakableExtrusion;
-        final ICDSegment icdSegment = (ICDSegment)transformableEntity.getParent(ICDSegment.class);
-        final ArrayList<Pair<Float, Integer>> list = new ArrayList<Pair<Float, Integer>>();
+        final ICDSegment icdSegment = (ICDSegment)transformableEntity.getParent((Class)ICDSegment.class);
+        final ArrayList<Pair> list = (ArrayList<Pair>)new ArrayList<Pair<Float, Integer>>();
         if (icdSegment != null) {
             final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(0.0f, 0.0f, 0.0f), (EntityObject)transformableEntity, (EntityObject)icdSegment);
             for (final Pair<Point3f, Integer> pair : icdSegment.getJointLocationForBeam()) {
@@ -339,7 +339,7 @@ public class ICDUtilities
     
     public static void handleAttributeChange(final EntityObject entityObject, final String s, final String s2) {
         if (s.equalsIgnoreCase("TagName1")) {
-            final Iterator<EntityObject> iterator = entityObject.getChildrenByClass(EntityObject.class, true, true).iterator();
+            final Iterator<EntityObject> iterator = entityObject.getChildrenByClass((Class)EntityObject.class, true, true).iterator();
             while (iterator.hasNext()) {
                 iterator.next().applyChangesForAttribute(s, s2);
             }
@@ -382,6 +382,6 @@ public class ICDUtilities
     }
     
     static {
-        ICDUtilities.logger = Logger.getLogger(ICDUtilities.class);
+        ICDUtilities.logger = Logger.getLogger((Class)ICDUtilities.class);
     }
 }

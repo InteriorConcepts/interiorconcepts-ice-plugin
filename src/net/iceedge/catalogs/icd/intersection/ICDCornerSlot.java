@@ -126,11 +126,11 @@ public class ICDCornerSlot extends TransformableTriggerUser implements PlotPaint
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final List<IceOutputNode> list = new ArrayList<IceOutputNode>();
+        final ArrayList<IceOutputShapeNode> list = (ArrayList<IceOutputShapeNode>)new ArrayList<IceOutputNode>();
         if (this.arrowNode != null) {
             list.add(new IceOutputShapeNode(this.arrowNode.getArrowShape(), this.getEntWorldSpaceMatrix()));
         }
-        return list;
+        return (List<IceOutputNode>)list;
     }
     
     public ICDSubInternalExtrusion getParentTube() {

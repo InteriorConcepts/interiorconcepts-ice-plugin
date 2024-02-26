@@ -48,7 +48,7 @@ public class ICDParametricWorksurfaceLegacy extends BasicParametricWorksurface i
     }
     
     protected void getOverlappingIntersections(final Solution solution, final List<Point3f> list) {
-        for (final ICDIntersection icdIntersection : solution.getChildrenByClass(ICDIntersection.class, true, true)) {
+        for (final ICDIntersection icdIntersection : solution.getChildrenByClass((Class)ICDIntersection.class, true, true)) {
             if (this.getRealBounds(-1.0f).contains(new Point2D.Float(icdIntersection.getBasePointWorldSpace().x, icdIntersection.getBasePointWorldSpace().y))) {
                 list.add(this.convertPointToLocal(icdIntersection.getBasePointWorldSpace()));
             }

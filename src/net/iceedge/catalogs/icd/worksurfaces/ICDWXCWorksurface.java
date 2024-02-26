@@ -52,7 +52,7 @@ public class ICDWXCWorksurface extends ICDCornerWorksurface
         if (this.getYDimensionFromData() > 60.0f) {
             return 60.0f;
         }
-        return 96.0f;
+        return 144.0f;
     }
     
     @Override
@@ -60,7 +60,7 @@ public class ICDWXCWorksurface extends ICDCornerWorksurface
         if (this.getXDimensionFromData() > 60.0f) {
             return 60.0f;
         }
-        return 96.0f;
+        return 144.0f;
     }
     
     @Override

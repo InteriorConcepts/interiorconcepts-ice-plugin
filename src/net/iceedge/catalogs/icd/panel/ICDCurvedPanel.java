@@ -97,7 +97,7 @@ public class ICDCurvedPanel extends ICDPanel
         Segment segment = null;
         final ICDIntersection parentIntersection = this.getParentIntersection();
         if (parentIntersection != null) {
-            final Vector<IntersectionArmInterface> armsOrderedByIndex_WithoutCloning = parentIntersection.getArmsOrderedByIndex_WithoutCloning();
+            final Vector armsOrderedByIndex_WithoutCloning = parentIntersection.getArmsOrderedByIndex_WithoutCloning();
             if (armsOrderedByIndex_WithoutCloning != null && armsOrderedByIndex_WithoutCloning.size() > index) {
                 final IntersectionArmInterface intersectionArmInterface = armsOrderedByIndex_WithoutCloning.get(index);
                 if (intersectionArmInterface != null) {
@@ -117,12 +117,12 @@ public class ICDCurvedPanel extends ICDPanel
         this.tubings = icdVerticalExtrusion.getTubings();
         this.joints = icdVerticalExtrusion.getJoints();
         final float height = this.getHeight();
-        Vector<Float> splitLocation = null;
+        Vector<Comparable> splitLocation = null;
         float floatValue = 0.0f;
         final Segment adjacentSegment = this.getAdjacentSegment(n);
         if (adjacentSegment != null) {
             final float height2 = adjacentSegment.getHeight();
-            splitLocation = adjacentSegment.getSplitLocation(false);
+            splitLocation = (Vector<Comparable>)adjacentSegment.getSplitLocation(false);
             if (splitLocation.size() > 2 || height2 < height - 1.0f) {
                 b = true;
             }
@@ -171,7 +171,7 @@ public class ICDCurvedPanel extends ICDPanel
         final Vector<ICDMiddleJoint> joints = icdVerticalExtrusion.getJoints();
         tubings.clear();
         joints.clear();
-        final Iterator<EntityObject> children = icdVerticalExtrusion.getChildren();
+        final Iterator children = icdVerticalExtrusion.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (entityObject instanceof ICDMiddleJoint) {

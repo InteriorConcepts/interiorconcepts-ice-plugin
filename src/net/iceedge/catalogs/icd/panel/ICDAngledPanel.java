@@ -96,7 +96,7 @@ public class ICDAngledPanel extends ICDPanel
         Segment segment = null;
         final ICDIntersection parentIntersection = this.getParentIntersection();
         if (parentIntersection != null) {
-            final Vector<IntersectionArmInterface> armsOrderedByIndex_WithoutCloning = parentIntersection.getArmsOrderedByIndex_WithoutCloning();
+            final Vector armsOrderedByIndex_WithoutCloning = parentIntersection.getArmsOrderedByIndex_WithoutCloning();
             if (armsOrderedByIndex_WithoutCloning != null && armsOrderedByIndex_WithoutCloning.size() > index) {
                 final IntersectionArmInterface intersectionArmInterface = armsOrderedByIndex_WithoutCloning.get(index);
                 if (intersectionArmInterface != null) {
@@ -122,12 +122,12 @@ public class ICDAngledPanel extends ICDPanel
         this.tubings = icdVerticalExtrusion.getTubings();
         this.joints = icdVerticalExtrusion.getJoints();
         final float height = this.getHeight();
-        Vector<Float> splitLocation = null;
+        Vector<Comparable> splitLocation = null;
         float floatValue = 0.0f;
         final Segment adjacentSegment = this.getAdjacentSegment(n);
         if (adjacentSegment != null) {
             final float height2 = adjacentSegment.getHeight();
-            splitLocation = (Vector<Float>)adjacentSegment.getSplitLocation(false);
+            splitLocation = (Vector<Comparable>)adjacentSegment.getSplitLocation(false);
             if (splitLocation.size() > 2 || height2 < height - 1.0f) {
                 b = true;
             }
@@ -176,7 +176,7 @@ public class ICDAngledPanel extends ICDPanel
         final Vector<ICDMiddleJoint> joints = icdVerticalExtrusion.getJoints();
         tubings.clear();
         joints.clear();
-        final Iterator<EntityObject> children = icdVerticalExtrusion.getChildren();
+        final Iterator children = icdVerticalExtrusion.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (entityObject instanceof ICDMiddleJoint) {
@@ -355,7 +355,7 @@ public class ICDAngledPanel extends ICDPanel
     private Collection<ICDSubInternalExtrusion> getSortedSubInternalExtrusions(final ICDVerticalExtrusion icdVerticalExtrusion) {
         final TreeMap<Float, ICDSubInternalExtrusion> treeMap = new TreeMap<Float, ICDSubInternalExtrusion>();
         if (icdVerticalExtrusion instanceof ICDAngledEndExtrusion) {
-            for (final ICDSubInternalExtrusion value : ((ICDAngledEndExtrusion)icdVerticalExtrusion).getChildrenByClass(ICDSubInternalExtrusion.class, false, true)) {
+            for (final ICDSubInternalExtrusion value : ((ICDAngledEndExtrusion)icdVerticalExtrusion).getChildrenByClass((Class)ICDSubInternalExtrusion.class, false, true)) {
                 treeMap.put(new Float(value.getBasePointWorldSpace().z), value);
             }
         }
@@ -365,7 +365,7 @@ public class ICDAngledPanel extends ICDPanel
     private Collection<ICDMiddleJoint> getSortedMiddleJoints(final ICDVerticalExtrusion icdVerticalExtrusion) {
         final TreeMap<Float, ICDMiddleJoint> treeMap = new TreeMap<Float, ICDMiddleJoint>();
         if (icdVerticalExtrusion instanceof ICDAngledEndExtrusion) {
-            for (final ICDMiddleJoint value : ((ICDAngledEndExtrusion)icdVerticalExtrusion).getChildrenByClass(ICDMiddleJoint.class, false, true)) {
+            for (final ICDMiddleJoint value : ((ICDAngledEndExtrusion)icdVerticalExtrusion).getChildrenByClass((Class)ICDMiddleJoint.class, false, true)) {
                 treeMap.put(new Float(value.getBasePointWorldSpace().z), value);
             }
         }

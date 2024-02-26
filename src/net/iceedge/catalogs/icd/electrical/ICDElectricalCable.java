@@ -235,7 +235,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
     }
     
     public float getLongestJumperSize() {
-        return 96.0f;
+        return 144.0f;
     }
     
     public float getExtTubeWidth() {

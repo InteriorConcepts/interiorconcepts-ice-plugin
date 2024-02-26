@@ -34,7 +34,7 @@ public class AllAssemblyElevation2DAction extends IceAction
         final Vector<TransformableEntity> vector = new Vector<TransformableEntity>();
         final Iterator breadthFirstEnumerationIterator = solution.getBreadthFirstEnumerationIterator((Class)AssembleParent.class);
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final AssembleParent assembleParent = (AssembleParent)breadthFirstEnumerationIterator.next();
+            final AssembleParent assembleParent = breadthFirstEnumerationIterator.next();
             if (((EntityObject)assembleParent).getAttributeValueAsBoolean("shouldAssemble", false)) {
                 vector.add((TransformableEntity)assembleParent);
             }

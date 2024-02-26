@@ -54,7 +54,7 @@ public class AddIsometricAssemblyElevationCommand extends Command
         if (ElevationUtility.isSelectionSetValidForElevation(this.solution)) {
             final ArrayList<ICDILine> list = new ArrayList<ICDILine>();
             final ArrayList<TransformableEntity> list2 = new ArrayList<TransformableEntity>();
-            for (final TransformableEntity e : this.solution.getSelectedEntitiesByClass(TransformableEntity.class, true)) {
+            for (final TransformableEntity e : this.solution.getSelectedEntitiesByClass((Class)TransformableEntity.class, true)) {
                 if (e.shouldDrawSingleElevation()) {
                     list2.add(e);
                     if (!(e instanceof ICDILine)) {

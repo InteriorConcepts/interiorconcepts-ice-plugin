@@ -208,9 +208,9 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
             this.getNamedPointLocal("joint2BP").set(0.0f, n2, attributeValueAsFloat2 + 0.5f);
         }
         this.getNamedPointLocal("EXT_POS").set(0.0f, 0.25f, 0.0f);
-        final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent(ICDSubFrameSideContainer.class);
+        final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent((Class)ICDSubFrameSideContainer.class);
         if (icdSubFrameSideContainer != null) {
-            final ICDPanel icdPanel = (ICDPanel)icdSubFrameSideContainer.getParent(ICDPanel.class);
+            final ICDPanel icdPanel = (ICDPanel)icdSubFrameSideContainer.getParent((Class)ICDPanel.class);
             if (icdPanel != null && icdPanel.isSuspendedChase()) {
                 this.getNamedPointLocal("EXT_POS").set(0.0f, 0.0f, 0.0f);
             }
@@ -357,7 +357,7 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
     }
     
     private boolean shouldBuildSnappingRules() {
-        return this.getParentByClassRecursive(ICDSubFrameSideContainer.class) == null;
+        return this.getParentByClassRecursive((Class)ICDSubFrameSideContainer.class) == null;
     }
     
     public float getAttributeValueAsFloat(final String anObject) {
@@ -467,7 +467,7 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
         if (this.getCurrentOption().getId().contains("None") || this.isSpecialInternalExtrusion()) {
             return null;
         }
-        if (!MathUtilities.isSameFloat(MathUtilities.convertSpaces(new Point3f(), (EntityObject)this, (EntityObject)this.getParent(ICDILine.class)).y, 0.0f, 0.001f)) {
+        if (!MathUtilities.isSameFloat(MathUtilities.convertSpaces(new Point3f(), (EntityObject)this, (EntityObject)this.getParent((Class)ICDILine.class)).y, 0.0f, 0.001f)) {
             return null;
         }
         final Rectangle2D.Float float1 = new Rectangle2D.Float(0.0f, 0.0f, this.getZDimension(), this.getYDimension());
@@ -541,7 +541,7 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
         if (sku == null || sku.equals("")) {
             return false;
         }
-        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
         return (icdPanel == null || !icdPanel.isSlopedPanel()) && !this.isFakePart();
     }
     
@@ -600,11 +600,11 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
     }
     
     public boolean isChaseTube() {
-        return this.getParent(ICDSubFrame.class) != null;
+        return this.getParent((Class)ICDSubFrame.class) != null;
     }
     
     public boolean hasSubExtrusion() {
-        return this.getChildByClass(ICDSubInternalExtrusion.class) != null;
+        return this.getChildByClass((Class)ICDSubInternalExtrusion.class) != null;
     }
     
     public boolean addTabbing(final int n) {
@@ -625,7 +625,7 @@ public class ICDBottomExtrusion extends BasicBottomExtrusion implements Assembly
         ICDInternalExtrusion icdInternalExtrusion = null;
         final EntityObject parentEntity = this.getParentEntity();
         if (parentEntity != null) {
-            for (final ICDInternalExtrusion icdInternalExtrusion2 : parentEntity.getChildrenByClass(ICDInternalExtrusion.class, false, true)) {
+            for (final ICDInternalExtrusion icdInternalExtrusion2 : parentEntity.getChildrenByClass((Class)ICDInternalExtrusion.class, false, true)) {
                 if (!icdInternalExtrusion2.equals(this)) {
                     icdInternalExtrusion = icdInternalExtrusion2;
                     break;

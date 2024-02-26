@@ -83,7 +83,7 @@ public class ICDElectricalCableConnector extends BasicElectricalCableConnector i
             if (segmentBase != null) {
                 final List childrenByClass = ((EntityObject)segmentBase).getChildrenByClass((Class)ICDElectricalCable.class, true, true);
                 if (childrenByClass != null && childrenByClass.size() != 0) {
-                    final ICDElectricalCable icdElectricalCable2 = (ICDElectricalCable)childrenByClass.get(0);
+                    final ICDElectricalCable icdElectricalCable2 = childrenByClass.get(0);
                     if (icdElectricalCable2 != null) {
                         a += icdElectricalCable2.getConnectorExtensionWidth();
                     }

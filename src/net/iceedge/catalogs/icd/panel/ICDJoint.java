@@ -134,10 +134,10 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
             }
             ICDPost icdPost;
             if (icdPostHostInterface instanceof ICDIntersection) {
-                icdPost = (ICDPost)((ICDIntersection)icdPostHostInterface).getChildByClass(ICDPost.class);
+                icdPost = (ICDPost)((ICDIntersection)icdPostHostInterface).getChildByClass((Class)ICDPost.class);
             }
             else if (icdPostHostInterface instanceof ICDPanelToPanelConnectionHW) {
-                icdPost = (ICDPost)((ICDPanelToPanelConnectionHW)icdPostHostInterface).getChildByClass(ICDPost.class);
+                icdPost = (ICDPost)((ICDPanelToPanelConnectionHW)icdPostHostInterface).getChildByClass((Class)ICDPost.class);
             }
             else {
                 if (icdPostHostInterface instanceof ICDPostForSubPanel) {
@@ -257,7 +257,7 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
     
     protected void setBottomAndMiddleJointTypeForPost(final ICDPost icdPost, String s) {
         if (icdPost != null) {
-            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass(ICDChaseMidConnectorContainer.class);
+            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
             if (icdChaseMidConnectorContainer == null) {
                 this.setJoint(s);
             }
@@ -385,7 +385,7 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
         final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((TypeFilter)new ICDIntersectionFilter());
         final ICDPanelToPanelConnectionHW icdPanelToPanelConnectionHW = (ICDPanelToPanelConnectionHW)this.getParent((TypeFilter)new ICDPanelToPanelConnectionHWFilter());
         if (icdIntersection != null) {
-            final Vector<Segment> segmentsFromArms = icdIntersection.getSegmentsFromArms();
+            final Vector segmentsFromArms = icdIntersection.getSegmentsFromArms();
             final int numberOfConnectingSegments = this.getNumberOfConnectingSegments(segmentsFromArms, icdIntersection);
             final int connectedChaseCountToSegments = this.getConnectedChaseCountToSegments(segmentsFromArms);
             final int n = numberOfConnectingSegments + connectedChaseCountToSegments;
@@ -453,7 +453,7 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
     
     private int getConnectedExtrusionCount(final Vector<? extends Segment> vector) {
         int n = 0;
-        final HashSet<TypeableEntity> set = new HashSet<TypeableEntity>();
+        final HashSet<Object> set = new HashSet<Object>();
         final Iterator<? extends Segment> iterator = vector.iterator();
         while (iterator.hasNext()) {
             set.addAll(((ICDSegment)iterator.next()).getAllBasicExtrusions(false));
@@ -877,8 +877,8 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
         final Ice2DShapeNode e2 = new Ice2DShapeNode(this.getLayerName(), (TransformableEntity)this, this.getAssemblyElevationMatrix(transformableEntity, false), (Shape)float1);
         e2.setFillColor(Color.lightGray);
         e2.setStroke(stroke);
-        final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
-        vector.add(e2);
+        final Vector<ICD2DJointDirectionNode> vector = new Vector<ICD2DJointDirectionNode>();
+        vector.add((ICD2DJointDirectionNode)e2);
         vector.add(e);
         return (Vector<Ice2DPaintableNode>)vector;
     }
@@ -1158,7 +1158,7 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
     
     public void populateCompareNodeForICD(final CompareNode compareNode) {
         compareNode.addCompareValue("length", (Object)this.getLength());
-        final EntityObject childByClass = this.getChildByClass(BasicMaterialEntity.class);
+        final EntityObject childByClass = this.getChildByClass((Class)BasicMaterialEntity.class);
         if (childByClass != null) {
             compareNode.addCompareValue("finish", (Object)childByClass.getDescription());
         }
@@ -1275,7 +1275,7 @@ public class ICDJoint extends TransformableTriggerUser implements AssemblyPainta
             treeMap.put("SubType", this.getSubType());
         }
         treeMap.put("Description", this.getDescription());
-        final List<BasicMaterialEntity> childrenByClass = this.getChildrenByClass(BasicMaterialEntity.class, false);
+        final List childrenByClass = this.getChildrenByClass((Class)BasicMaterialEntity.class, false);
         if (childrenByClass != null) {
             for (int i = 0; i < childrenByClass.size(); ++i) {
                 final BasicMaterialEntity basicMaterialEntity = childrenByClass.get(i);

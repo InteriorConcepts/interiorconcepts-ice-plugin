@@ -109,8 +109,8 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
         final Point3f namedPointLocal = this.getNamedPointLocal("extEndPoint");
         this.getNamedPointLocal("TAB_CONT_LOCATION_B").set(namedPointLocal.x, namedPointLocal.y, namedPointLocal.z);
         if (this.isChaseTopExtrusion()) {
-            final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent(ICDSubFrameSideContainer.class);
-            final float chaseOffset = ((ICDPanel)icdSubFrameSideContainer.getParent(ICDPanel.class)).getChaseOffset(icdSubFrameSideContainer.getSide());
+            final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent((Class)ICDSubFrameSideContainer.class);
+            final float chaseOffset = ((ICDPanel)icdSubFrameSideContainer.getParent((Class)ICDPanel.class)).getChaseOffset(icdSubFrameSideContainer.getSide());
             final Point3f point3f = (Point3f)this.getNamedPointLocal("P2").clone();
             final Point3f point3f2 = (Point3f)this.getNamedPointLocal("P4").clone();
             final Point3f point3f3 = point3f;
@@ -162,7 +162,7 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
         if (this.isCurvedExtrusion()) {
             return new AdjustmentValue((OptionObject)null, -31.75f);
         }
-        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
         if (icdPanel != null && icdPanel.isUnderChase() && icdPanel.isCorePanel() && "ICD_InnerExtrusionSet".equals(anObject)) {
             return new AdjustmentValue((OptionObject)null, -38.1f);
         }
@@ -533,7 +533,7 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
         if (this.getCurrentOption().getId().contains("None") || this.isSpecialInternalExtrusion()) {
             return null;
         }
-        if (!MathUtilities.isSameFloat(MathUtilities.convertSpaces(new Point3f(), (EntityObject)this, (EntityObject)this.getParent(ICDILine.class)).y, 0.0f, 0.001f)) {
+        if (!MathUtilities.isSameFloat(MathUtilities.convertSpaces(new Point3f(), (EntityObject)this, (EntityObject)this.getParent((Class)ICDILine.class)).y, 0.0f, 0.001f)) {
             return null;
         }
         final Rectangle2D.Float float1 = new Rectangle2D.Float(0.0f, -this.getYDimension(), this.getZDimension(), this.getYDimension());
@@ -590,9 +590,9 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
     
     public boolean addTabbing(final int n) {
         if (ICDExtrusionUtilities.isPartOfChase((EntityObject)this)) {
-            final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent(ICDSubFrameSideContainer.class);
+            final ICDSubFrameSideContainer icdSubFrameSideContainer = (ICDSubFrameSideContainer)this.getParent((Class)ICDSubFrameSideContainer.class);
             if (icdSubFrameSideContainer != null) {
-                return ((ICDPanel)icdSubFrameSideContainer.getParent(ICDPanel.class)).hasChase(n) && icdSubFrameSideContainer.getSide() == n;
+                return ((ICDPanel)icdSubFrameSideContainer.getParent((Class)ICDPanel.class)).hasChase(n) && icdSubFrameSideContainer.getSide() == n;
             }
         }
         return super.validateTabs();
@@ -665,7 +665,7 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
         if (sku == null || sku.equals("")) {
             return false;
         }
-        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
         return (icdPanel == null || !icdPanel.isSlopedPanel()) && !this.getCurrentOption().getId().contains("None") && !this.isSpecialInternalExtrusion() && !ICDAssemblyElevationUtilities.isExtrusionOnChase((TransformableEntity)this);
     }
     
@@ -716,7 +716,7 @@ public class ICDTopExtrusion extends BasicTopExtrusion implements AssemblyPainta
     }
     
     public ICDSubInternalExtrusion getSubInternalExtrusion(final float n) {
-        for (final ICDSubInternalExtrusion icdSubInternalExtrusion : this.getChildrenByClass(ICDSubInternalExtrusion.class, false)) {
+        for (final ICDSubInternalExtrusion icdSubInternalExtrusion : this.getChildrenByClass((Class)ICDSubInternalExtrusion.class, false)) {
             final float z = icdSubInternalExtrusion.getBasePoint3f().z;
             if (n >= z && n < z + icdSubInternalExtrusion.getZDimension()) {
                 return icdSubInternalExtrusion;

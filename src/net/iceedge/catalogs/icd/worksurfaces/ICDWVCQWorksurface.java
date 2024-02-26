@@ -42,7 +42,7 @@ public class ICDWVCQWorksurface extends ICDBasicWorksurface
     
     @Override
     public float getMaxXDimension() {
-        return 96.0f;
+        return 144.0f;
     }
     
     @Override

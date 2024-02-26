@@ -20,7 +20,7 @@ public class ICDExtrusionUtilities
         final Vector<ICDCornerSlot> vector = new Vector<ICDCornerSlot>();
         final Iterator children = entityObject.getChildren();
         while (children.hasNext()) {
-            final EntityObject entityObject2 = (EntityObject)children.next();
+            final EntityObject entityObject2 = children.next();
             if (entityObject2 instanceof ICDCornerSlot) {
                 vector.add((ICDCornerSlot)entityObject2);
             }

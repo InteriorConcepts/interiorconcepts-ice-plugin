@@ -16,7 +16,6 @@ import net.iceedge.icebox.dataimport.sif.CatalogBroker;
 import java.io.IOException;
 import java.util.TreeSet;
 import net.dirtt.icelib.main.TableOfContents;
-import net.dirtt.icelib.main.TableOfContents.PartItem;
 import net.dirtt.icelib.main.Solution;
 import net.dirtt.icelib.main.Catalog;
 import java.util.SortedSet;
@@ -62,7 +61,7 @@ public class ICDPanelSKUGenerator implements SkuGeneratable
                             value2 = new TreeSet<Integer>();
                             ICDPanelSKUGenerator.panelTypeWidth.put(description, value2);
                         }
-                        final Iterator<PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
+                        final Iterator iterator3 = tableOfContents3.getPartItems().iterator();
                         while (iterator3.hasNext()) {
                             final Part part = broker.getPart(iterator3.next().getPartName());
                             final String attributeValue = part.getAttributeValue("Height", (String)null);
@@ -246,7 +245,7 @@ public class ICDPanelSKUGenerator implements SkuGeneratable
                     str = ((ICDTile)aTile).getFinishCodeForSkuGeneration();
                 }
                 if (!icdPanel.isCorePanel()) {
-                    final Vector<TileInterface> allTiles = icdPanel.getAllTiles();
+                    final Vector allTiles = icdPanel.getAllTiles();
                     if (allTiles != null) {
                         for (final TileInterface tileInterface : allTiles) {
                             if (tileInterface instanceof ICDTile && !((ICDTile)tileInterface).isNoFrameTile()) {

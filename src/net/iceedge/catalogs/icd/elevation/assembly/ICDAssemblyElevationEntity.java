@@ -103,7 +103,7 @@ public class ICDAssemblyElevationEntity extends CustomElevationEntity implements
     private List<AssemblyPaintable> gatherNodes(final AssemblyPaintableRoot assemblyPaintableRoot) {
         final Vector<AssemblyPaintable> vector = new Vector<AssemblyPaintable>();
         assemblyPaintableRoot.addAdditonalPaintableEntities(vector);
-        vector.addAll((Collection<AssemblyPaintable>)((TransformableEntity)assemblyPaintableRoot).getChildrenByClass(AssemblyPaintable.class, true, true));
+        vector.addAll((Collection<?>)((TransformableEntity)assemblyPaintableRoot).getChildrenByClass((Class)AssemblyPaintable.class, true, true));
         for (int i = 0; i < vector.size(); ++i) {
             final AssemblyPaintable assemblyPaintable = vector.get(i);
             if (assemblyPaintable.shouldDrawAssembly() && assemblyPaintable.isAssembled()) {
@@ -138,10 +138,10 @@ public class ICDAssemblyElevationEntity extends CustomElevationEntity implements
     }
     
     public List<IceEntity> getReferencedParents() {
-        final ArrayList<ICDILine> list = new ArrayList<ICDILine>();
+        final ArrayList<ICDILine> list = (ArrayList<ICDILine>)new ArrayList<IceEntity>();
         if (this.parentEntity instanceof ICDVerticalChase) {
-            list.add((ICDILine)((ICDVerticalChase)this.parentEntity).getChaseILines().get(0));
-            return new ArrayList<IceEntity>(list);
+            list.add((IceEntity)((ICDVerticalChase)this.parentEntity).getChaseILines().get(0));
+            return (List<IceEntity>)list;
         }
         return (List<IceEntity>)super.getReferencedParents();
     }

@@ -23,7 +23,7 @@ public class ICDAssemblyHandler implements SnapSetHandler
     
     private HashMap<EntityObject, Boolean> getAssemblyPartMap(final GeneralSnapSet set) {
         final HashMap<EntityObject, Boolean> hashMap = new HashMap<EntityObject, Boolean>();
-        for (final AssembleParent assembleParent : set.getChildrenByClass(AssembleParent.class, true, true)) {
+        for (final AssembleParent assembleParent : set.getChildrenByClass((Class)AssembleParent.class, true, true)) {
             this.collectAssemblyParts(hashMap, assembleParent);
             if (assembleParent instanceof ICDILine) {
                 final ICDVerticalChase verticalChase = ((ICDILine)assembleParent).getVerticalChase();
@@ -45,9 +45,9 @@ public class ICDAssemblyHandler implements SnapSetHandler
             shouldAssemble = assembleParent.shouldAssemble();
         }
         final HashSet<EntityObject> set = new HashSet<EntityObject>();
-        set.addAll(assembleParent.getDirectAssemblyParts());
+        set.addAll((Collection<?>)assembleParent.getDirectAssemblyParts());
         if (assembleParent.shouldAssemble()) {
-            set.addAll(assembleParent.getIndirectAssemblyParts());
+            set.addAll((Collection<?>)assembleParent.getIndirectAssemblyParts());
         }
         for (final EntityObject entityObject : set) {
             if (hashMap.get(entityObject) == null || shouldAssemble) {

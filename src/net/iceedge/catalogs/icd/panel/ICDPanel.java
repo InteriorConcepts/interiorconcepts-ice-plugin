@@ -203,7 +203,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     protected void validateChaseVerticalSplit() {
         if (!this.shouldBreakChaseVertically() && this.getPhysicalFrame() != null) {
             ICDInternalExtrusion icdInternalExtrusion = null;
-            for (final ICDInternalExtrusion icdInternalExtrusion2 : this.getChildrenByClass(ICDInternalExtrusion.class, true)) {
+            for (final ICDInternalExtrusion icdInternalExtrusion2 : this.getChildrenByClass((Class)ICDInternalExtrusion.class, true)) {
                 if (!icdInternalExtrusion2.isVertical() && icdInternalExtrusion2.getCurrentOption().getId().equals("ICD_Extrusion_Special_With_2Joints")) {
                     icdInternalExtrusion = icdInternalExtrusion2;
                     break;
@@ -435,7 +435,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     private void setAdjacentPanelsDirty() {
         final SnapSetEntity snapSetEntity = (SnapSetEntity)this.getParent((TypeFilter)new SnapSetEntityFilter());
         if (snapSetEntity != null) {
-            final TypeIterator typeIterator = new TypeIterator(snapSetEntity.breadthFirstEnumeration(), AssembleParent.class);
+            final TypeIterator typeIterator = new TypeIterator(snapSetEntity.breadthFirstEnumeration(), (Class)AssembleParent.class);
             while (typeIterator.hasNext()) {
                 final EntityObject entityObject = (EntityObject)typeIterator.next();
                 entityObject.setDirty();
@@ -499,10 +499,10 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public BasicFrame getSubFrame(final int n) {
-        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass(ICDSubFrameSideContainer.class, true, true)) {
+        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass((Class)ICDSubFrameSideContainer.class, true, true)) {
             final LightWeightTypeObject lwTypeCreated = icdSubFrameSideContainer.getLwTypeCreatedFrom();
             if (lwTypeCreated != null && (("ICD_Chase_Side_A_Type".equals(lwTypeCreated.getId()) && n == 0) || ("ICD_Chase_Side_B_Type".equals(lwTypeCreated.getId()) && n != 0))) {
-                final EntityObject childByClass = icdSubFrameSideContainer.getChildByClass(ICDSubFrame.class);
+                final EntityObject childByClass = icdSubFrameSideContainer.getChildByClass((Class)ICDSubFrame.class);
                 if (childByClass != null) {
                     return (BasicFrame)childByClass;
                 }
@@ -577,7 +577,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public TileInterface getATile() {
-        final Vector<TileInterface> allTiles = this.getAllTiles();
+        final Vector allTiles = this.getAllTiles();
         if (allTiles != null && allTiles.size() > 0) {
             return allTiles.firstElement();
         }
@@ -585,7 +585,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public TileInterface getBottomTile() {
-        final Vector<TileInterface> allTiles = this.getAllTiles();
+        final Vector allTiles = this.getAllTiles();
         if (allTiles != null) {
             while (allTiles.size() > 0) {
                 final TileInterface o = allTiles.lastElement();
@@ -599,7 +599,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public TileInterface getTopTile() {
-        final Vector<TileInterface> allTiles = this.getAllTiles();
+        final Vector allTiles = this.getAllTiles();
         if (allTiles != null) {
             while (allTiles.size() > 0) {
                 final TileInterface o = allTiles.lastElement();
@@ -613,7 +613,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public TileInterface getMiddleTile() {
-        final Vector<TileInterface> allTiles = this.getAllTiles();
+        final Vector allTiles = this.getAllTiles();
         if (allTiles != null) {
             allTiles.remove(this.getTopTile());
             allTiles.remove(this.getBottomTile());
@@ -631,7 +631,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     protected boolean panelHasElectrical() {
-        final Iterator<ICDElectricalCable> iterator = this.getChildrenByClass(ICDElectricalCable.class, true, true).iterator();
+        final Iterator<ICDElectricalCable> iterator = this.getChildrenByClass((Class)ICDElectricalCable.class, true, true).iterator();
         while (iterator.hasNext()) {
             if (iterator.next().calculateCableType().equalsIgnoreCase("harness")) {
                 return true;
@@ -704,9 +704,9 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
         super.handleWarnings();
         boolean b = true;
         if (this.isStackPanel()) {
-            final Iterator<ICDTileGroup> iterator = (Iterator<ICDTileGroup>)this.getChildrenByClass(ICDTileGroup.class, true, true).iterator();
+            final Iterator<ICDTileGroup> iterator = (Iterator<ICDTileGroup>)this.getChildrenByClass((Class)ICDTileGroup.class, true, true).iterator();
             while (iterator.hasNext()) {
-                if (iterator.next().getChildCountByClass(ICDTile.class) > 2) {
+                if (iterator.next().getChildCountByClass((Class)ICDTile.class) > 2) {
                     b = false;
                 }
             }
@@ -733,7 +733,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
             final Vector<ILineInterface> connectedILines = this.getConnectedILines();
             for (final ILineInterface o : generalSnapSet.getAllILines()) {
                 if (connectedILines == null || !connectedILines.contains(o)) {
-                    for (final ICDSubFrameSideContainer e : ((EntityObject)o).getChildrenByClass(ICDSubFrameSideContainer.class, true)) {
+                    for (final ICDSubFrameSideContainer e : ((EntityObject)o).getChildrenByClass((Class)ICDSubFrameSideContainer.class, true)) {
                         final Line2D.Float line = e.getLine();
                         if (line != null && (MathUtilities.isSamePoint(line.getP1(), (Point2D)float1, 0.001f) || MathUtilities.isSamePoint(line.getP2(), (Point2D)float1, 0.001f))) {
                             vector.add(e);
@@ -799,7 +799,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     public void breakTileByChaseVertical(final float n, final boolean b) {
         if (this.shouldBreakChaseVertically() && this.getPhysicalFrame() != null) {
             ICDInternalExtrusion icdInternalExtrusion = null;
-            for (final ICDInternalExtrusion icdInternalExtrusion2 : this.getChildrenByClass(ICDInternalExtrusion.class, true)) {
+            for (final ICDInternalExtrusion icdInternalExtrusion2 : this.getChildrenByClass((Class)ICDInternalExtrusion.class, true)) {
                 if (!icdInternalExtrusion2.isVertical() && icdInternalExtrusion2.getCurrentOption().getId().equals("ICD_Extrusion_Special_With_2Joints")) {
                     icdInternalExtrusion = icdInternalExtrusion2;
                     break;
@@ -848,11 +848,11 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
         final ICDSegment icdSegment = (ICDSegment)this.getParent((TypeFilter)new ICDSegmentFilter());
         final GeneralIntersectionInterface intersectionForSegment = icdSegment.getIntersectionForSegment(b);
         if (intersectionForSegment != null) {
-            final Iterator<IntersectionArmInterface> iterator = intersectionForSegment.getArmVector().iterator();
+            final Iterator iterator = intersectionForSegment.getArmVector().iterator();
             while (iterator.hasNext()) {
                 final ICDSegment obj = (ICDSegment)iterator.next().getSegment();
                 if (!icdSegment.equals(obj)) {
-                    for (final ICDSubFrameSideContainer icdSubFrameSideContainer : obj.getChildrenByClass(ICDSubFrameSideContainer.class, true)) {
+                    for (final ICDSubFrameSideContainer icdSubFrameSideContainer : obj.getChildrenByClass((Class)ICDSubFrameSideContainer.class, true)) {
                         if (icdSubFrameSideContainer.requiresBreak(this)) {
                             return true;
                         }
@@ -939,7 +939,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public void handleDynamicAttributes() {
-        final HashMap<String, Attribute> attributeList = this.currentCatalogOption.getAttributeList();
+        final HashMap attributeList = this.currentCatalogOption.getAttributeList();
         if (attributeList != null) {
             for (final String str : attributeList.keySet()) {
                 final Attribute attribute = (Attribute)attributeList.get(str);
@@ -1029,8 +1029,8 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     
     public List<EntityObject> getChildrenForReport() {
         if (this.isStackPanel()) {
-            final ArrayList<EntityObject> list = new ArrayList<EntityObject>();
-            final Iterator<ICDTile> iterator = this.getChildrenByClass(ICDTile.class, true).iterator();
+            final ArrayList<ICDTile> list = (ArrayList<ICDTile>)new ArrayList<EntityObject>();
+            final Iterator<ICDTile> iterator = this.getChildrenByClass((Class)ICDTile.class, true).iterator();
             while (iterator.hasNext()) {
                 list.add((EntityObject)iterator.next());
             }
@@ -1273,7 +1273,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     public void addOnTheFlyAttribute() {
         super.addOnTheFlyAttribute();
         if (!this.isCorePanel()) {
-            final OptionAttributeProxy optionAttributeProxy = (OptionAttributeProxy)Solution.getWorldAttributeProxy().get("ICD_Sloped_Visible");
+            final OptionAttributeProxy optionAttributeProxy = Solution.getWorldAttributeProxy().get("ICD_Sloped_Visible");
             optionAttributeProxy.getPossibleValues().clear();
             optionAttributeProxy.addPossibleValue("No");
             if (this.isValidSize()) {
@@ -1282,7 +1282,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
             this.createNewAttribute("ICD_Sloped_Visible", this.getAttributeValueAsString("ICD_Sloped_Panel"));
         }
         else {
-            final OptionAttributeProxy optionAttributeProxy2 = (OptionAttributeProxy)Solution.getWorldAttributeProxy().get("ICD_Door_Visible");
+            final OptionAttributeProxy optionAttributeProxy2 = Solution.getWorldAttributeProxy().get("ICD_Door_Visible");
             optionAttributeProxy2.getPossibleValues().clear();
             optionAttributeProxy2.addPossibleValue("No");
             if (this.isValidSize()) {
@@ -1310,12 +1310,12 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     
     public void removeOnTheFlyAttribute() {
         super.removeOnTheFlyAttribute();
-        final OptionAttributeProxy optionAttributeProxy = (OptionAttributeProxy)Solution.getWorldAttributeProxy().get("ICD_Sloped_Visible");
+        final OptionAttributeProxy optionAttributeProxy = Solution.getWorldAttributeProxy().get("ICD_Sloped_Visible");
         if (optionAttributeProxy != null) {
             optionAttributeProxy.setPossibleValues(new Vector());
         }
         this.removeAttribute("ICD_Sloped_Visible");
-        final OptionAttributeProxy optionAttributeProxy2 = (OptionAttributeProxy)Solution.getWorldAttributeProxy().get("ICD_Door_Visible");
+        final OptionAttributeProxy optionAttributeProxy2 = Solution.getWorldAttributeProxy().get("ICD_Door_Visible");
         if (optionAttributeProxy2 != null) {
             optionAttributeProxy2.setPossibleValues(new Vector());
         }
@@ -1332,7 +1332,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     
     public ICDSubFrameSideContainer getChase(final int n) {
         ICDSubFrameSideContainer icdSubFrameSideContainer = null;
-        for (final ICDSubFrameSideContainer icdSubFrameSideContainer2 : this.getChildrenByClass(ICDSubFrameSideContainer.class, false)) {
+        for (final ICDSubFrameSideContainer icdSubFrameSideContainer2 : this.getChildrenByClass((Class)ICDSubFrameSideContainer.class, false)) {
             if (icdSubFrameSideContainer2.getSide() == n) {
                 icdSubFrameSideContainer = icdSubFrameSideContainer2;
             }
@@ -1515,7 +1515,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
         final ICDPanelSubILine icdPanelSubILine = (ICDPanelSubILine)this.getParent((TypeFilter)new ICDPanelSubILineFilter());
         final float z = this.getBasePointWorldSpace().z;
         if (icdPanelSubILine != null) {
-            for (final ICDPanel icdPanel : icdPanelSubILine.getChildrenFirstAppearance(ICDPanel.class, true)) {
+            for (final ICDPanel icdPanel : icdPanelSubILine.getChildrenFirstAppearance((Class)ICDPanel.class, true)) {
                 if (!icdPanel.equals(this) && icdPanel.getBasePointWorldSpace().z < z) {
                     ++n;
                 }
@@ -1551,7 +1551,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final ArrayList<IceOutputNode> list = new ArrayList<IceOutputNode>();
+        final ArrayList<IceOutputTextNode> list = (ArrayList<IceOutputTextNode>)new ArrayList<IceOutputNode>();
         final ICadTextNode cadOutputTextNode = this.getCadOutputTextNode(null);
         if (cadOutputTextNode != null) {
             final Matrix4f matrix4f = new Matrix4f();
@@ -1708,7 +1708,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     public void setVerticalExtrusionsModified() {
-        for (final ICDVerticalExtrusion icdVerticalExtrusion : this.getChildrenByClass(ICDVerticalExtrusion.class, true, true)) {
+        for (final ICDVerticalExtrusion icdVerticalExtrusion : this.getChildrenByClass((Class)ICDVerticalExtrusion.class, true, true)) {
             if (icdVerticalExtrusion instanceof ICDStartExtrusion) {
                 ((ICDStartExtrusion)icdVerticalExtrusion).setModified(true);
             }
@@ -1737,7 +1737,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
         ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = null;
         final ICDPost fakePostAtLocation = this.getFakePostAtLocation(point3f);
         if (fakePostAtLocation != null) {
-            icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)fakePostAtLocation.getChildByClass(ICDChaseMidConnectorContainer.class);
+            icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)fakePostAtLocation.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
         }
         return icdChaseMidConnectorContainer;
     }
@@ -1758,7 +1758,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
         List<ICDPost> childrenByClass = null;
         final ICDPost post = this.getPost();
         if (post != null) {
-            childrenByClass = (List<ICDPost>)post.getChildrenByClass(ICDPost.class, false);
+            childrenByClass = (List<ICDPost>)post.getChildrenByClass((Class)ICDPost.class, false);
         }
         return childrenByClass;
     }
@@ -1829,7 +1829,7 @@ public class ICDPanel extends BasicPanel implements AssemblyPaintableRoot, Assem
     }
     
     static {
-        ICDPanel.logger = Logger.getLogger(ICDPanel.class);
+        ICDPanel.logger = Logger.getLogger((Class)ICDPanel.class);
         ICDPanel.SLOPED_STACK_ANGLEDX_42 = 44.05f;
         ICDPanel.SLOPED_STACK_SHORTY_42 = 4.8f;
         ICDPanel.SLOPED_STACK_ANGLEDX_24 = 24.23f;
