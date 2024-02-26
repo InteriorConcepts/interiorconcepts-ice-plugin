@@ -11,7 +11,7 @@
 	"java.configuration.runtimes": [
 		{
 				"name": "JavaSE-1.8",
-				"path": "C:/Program Files/Java/jdk1.8.0_261/",
+				"path": "C:\\Program Files\\Java\\jdk1.8.0_261\\",
 				"default": true,
 		}
 ],
