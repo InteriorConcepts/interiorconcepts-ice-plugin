@@ -2,7 +2,7 @@
 *.class
 
 # Library Dependencies
-lib/
+lib/javacef/
 
 # Log file
 *.log
@@ -14,7 +14,7 @@ lib/
 .mtj.tmp/
 
 # Package Files #
-*.jar
+/*.jar
 *.war
 *.nar
 *.ear
