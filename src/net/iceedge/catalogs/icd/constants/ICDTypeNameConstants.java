@@ -1,0 +1,91 @@
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
+package net.iceedge.catalogs.icd.constants;
+
+public interface ICDTypeNameConstants
+{
+    public static final String ICD_1WAY_INTERSECTION_TYPE = "ICD_OneWayIntersectionType";
+    public static final String ICD_2WAY_INTERSECTION_TYPE = "ICD_TwoWayIntersectionType";
+    public static final String ICD_3WAY_INTERSECTION_TYPE = "ICD_ThreeWayIntersectionType";
+    public static final String ICD_4WAY_INTERSECTION_TYPE = "ICD_FourWayIntersectionType";
+    public static final String ICD_INTERSECTIONFACTORY_TYPE = "ICD_IntersectionFactoryType";
+    public static final String ICD_ILINE_TYPE = "ICD_ILine_Type";
+    public static final String ICD_VERTICAL_CHASE_TYPE = "ICD_Vertical_Chase_Type";
+    public static final String ICD_INNEX_EXTRUSIONSET_TYPE = "ICD_InnerExtrusionSet_Type";
+    public static final String ICD_SUB1_INNEREXTRUSION_TYPE = "ICD_Sub1_InnerExtrusion_Type";
+    public static final String ICD_SUB2_INNEREXTRUSION_TYPE = "ICD_Sub2_InnerExtrusion_Type";
+    public static final String ICD_SUB3_INNEREXTRUSION_TYPE = "ICD_Sub3_InnerExtrusion_Type";
+    public static final String ICD_SPECIAL_JOINT_TYPE = "ICD_Special_Joint_Type";
+    public static final String ICD_SPECIAL_JOINT2_TYPE = "ICD_Special_Joint2_Type";
+    public static final String ICD_JOINT_TYPE = "ICD_Joint_Type";
+    public static final String CHASE_SIDE_A_TYPE = "ICD_Chase_Side_A_Type";
+    public static final String CHASE_SIDE_B_TYPE = "ICD_Chase_Side_B_Type";
+    public static final String ICD_CABLE_SOLVER_TYPE = "ICD_Electrical_Cable_Solver_Type";
+    public static final String ICD_UNDERCHASE_ILINE_TYPE = "ICD_UnderChase_ILine_Type";
+    public static final String HANDLE_ENTITY = "ICD_Valet_Door_Handle_Type";
+    public static final String ICD_WVVFM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVVFM_Parametric_Worksurface_Type";
+    public static final String ICD_WVCCL_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCCL_Parametric_Worksurface_Type";
+    public static final String ICD_WVCEM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCEM_Parametric_Worksurface_Type";
+    public static final String ICD_WVCFM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCFM_Parametric_Worksurface_Type";
+    public static final String ICD_WVCPM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCPM_Parametric_Worksurface_Type";
+    public static final String ICD_WVSEM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVSEM_Parametric_Worksurface_Type";
+    public static final String ICD_WVVEM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVVEM_Parametric_Worksurface_Type";
+    public static final String ICD_WVSAM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVSAM_Parametric_Worksurface_Type";
+    public static final String ICD_WVCRL_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCRL_Parametric_Worksurface_Type";
+    public static final String ICD_WVCRR_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCRR_Parametric_Worksurface_Type";
+    public static final String ICD_WVCA_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCA_Parametric_Worksurface_Type";
+    public static final String ICD_WVCQ_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVCQ_Parametric_Worksurface_Type";
+    public static final String ICD_WVVQ_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVVQ_Parametric_Worksurface_Type";
+    public static final String ICD_WVVR_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVVR_Parametric_Worksurface_Type";
+    public static final String ICD_WVVPM_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WVVPM_Parametric_Worksurface_Type";
+    public static final String ICD_CCC_PARAMETRIC_WORKSURFACE_TYPE = "ICD_CCC_Parametric_Worksurface_Type";
+    public static final String ICD_WCA_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WCA_Parametric_Worksurface_Type";
+    public static final String ICD_WCF_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WCF_Parametric_Worksurface_Type";
+    public static final String ICD_WCL_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WCL_Parametric_Worksurface_Type";
+    public static final String ICD_WSA_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSA_Parametric_Worksurface_Type";
+    public static final String ICD_WSF_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSF_Parametric_Worksurface_Type";
+    public static final String ICD_WSB_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSB_Parametric_Worksurface_Type";
+    public static final String ICD_WSC_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSC_Parametric_Worksurface_Type";
+    public static final String ICD_WSD_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSD_Parametric_Worksurface_Type";
+    public static final String ICD_WSE_PARAMETRIC_WORKSURFACE_TYPE = "ICD_WSE_Parametric_Worksurface_Type";
+    public static final String ICD_WIRE_DIP_TYPE = "ICD_WireDip_Type";
+    public static final String ICD_RECTANGULAR_CUTOUT_TYPE = "ICD_Parametric_Rectangle_Cutout_Type";
+    public static final String ICD_CIRCULAR_CUTOUT_TYPE = "ICD_Parametric_Circle_Cutout_Type";
+    public static final String ICD_TAB_CONTAINER_TYPE = "ICD_TabContainer";
+    public static final String ICD_TAB_CONTAINER_FLIP_TYPE = "ICD_TabContainer_Flip";
+    public static final String ICD_TwoWayPostType = "ICD_TwoWayPostType";
+    public static final String ICD_TwoWayCurvedPostType = "ICD_TwoWayCurvedPostType";
+    public static final String ICD_COLUMN_SUPPORT_TYPE = "ICD_Column_Support_Type";
+    public static final String ICD_CURVED_INNEREXTRUSIONSET_TYPE = "ICD_Curved_InnerExtrusionSet_Type";
+    public static final String ICD_CURVED_START_EXTRUSION_TYPE = "ICD_Curved_Start_Extrusion_Type";
+    public static final String ICD_CURVED_END_EXTRUSION_TYPE = "ICD_Curved_End_Extrusion_Type";
+    public static final String ICD_SUB1_INNEREXTRUSION_VERTICAL_TYPE = "ICD_Sub1_InnerExtrusion_Vertical_Type";
+    public static final String ICD_SUB2_INNEREXTRUSION_VERTICAL_TYPE = "ICD_Sub2_InnerExtrusion_Vertical_Type";
+    public static final String ICD_CURVED_FAKE_POST_1 = "Curved_Fake_Post_1";
+    public static final String ICD_CURVED_FAKE_POST_2 = "Curved_Fake_Post_2";
+    public static final String ICD_NOTCH_TYPE = "ICD_Notch_Type";
+    public static final String ICD_BOTTOMJOINT_FOR_SUSPENDEDCHASE_TYPE = "ICD_BottomJoint_For_SuspendedChase_Type";
+    public static final String ICD_DECK_UNDERSUSPENDEDCHASE_SIDEB_TYPE = "ICD_Deck_UnderSuspendedChase_SideB_Type";
+    public static final String ICD_CHASE_MID_SUSPENDED_CHASE_VERTICAL_SUPPORT_TYPE = "ICD_Chase_Mid_Suspended_Chase_Vertical_Support_Type";
+    public static final String ICD_CHASE_MID_SUSPENDED_CHASE_VERTICAL_SUPPORT_B_TYPE = "ICD_Chase_Mid_Suspended_Chase_Vertical_Support_B_Type";
+    public static final String ICD_CHASE_BOTTOM_SUSPENDED_CHASE_SUPPORT_TYPE = "ICD_Chase_Bottom_Suspended_Chase_Support_Type";
+    public static final String ICD_CHASE_BOTTOM_SUSPENDED_CHASE_SUPPORT_B_TYPE = "ICD_Chase_Bottom_Suspended_Chase_Support_B_Type";
+    public static final String ICD_BEAMILINE_TYPE = "ICD_BeamILine_Type";
+    public static final String ICD_TwoWayAngledPostType = "ICD_TwoWayAngledPostType";
+    public static final String ICD_ANGLED_INNEREXTRUSIONSET_TYPE = "ICD_Angled_InnerExtrusionSet_Type";
+    public static final String ICD_ANGLED_START_EXTRUSION_TYPE = "ICD_Angled_Start_Extrusion_Type";
+    public static final String ICD_ANGLED_END_EXTRUSION_TYPE = "ICD_Angled_End_Extrusion_Type";
+    public static final String ICD_ANGLED_2_START_EXTRUSION_TYPE = "ICD_Angled_2_Start_Extrusion_Type";
+    public static final String ICD_ANGLED_2_END_EXTRUSION_TYPE = "ICD_Angled_2_End_Extrusion_Type";
+    public static final String ICD_ANGLED_2_TOP_EXTRUSION_TYPE = "ICD_Angled_2_Top_Extrusion_Type";
+    public static final String ICD_VALET_DOORSTOP_HORIZONTAL_TYPE = "ICD_Valet_Doorstop_Horizontal_Type";
+    public static final String ICD_LEFT_VALET_DOOR_HINGE_TYPE = "ICD_Left_Valet_Door_Hinge_Type";
+    public static final String ICD_RIGHT_VALET_DOOR_HINGE_TYPE = "ICD_Right_Valet_Door_Hinge_Type";
+    public static final Object ICD_VALET_DOORSTOP_VERTICAL_TYPE = "ICD_Valet_Doorstop_Vertical_Type";
+    public static final Object ICD_VALET_DOOR_LH_TYPE = "ICD_Valet_Door_LH_Tile_Type";
+    public static final Object ICD_Tile_Sliding_Door_RH = "ICD_Tile_Sliding_Door_RH_Type";
+    public static final String ICD_DECK_UNDER_SUSPENDED_CHASE_TYPE = "ICD_Deck_UnderSuspendedChase_Type";
+    public static final String ICD_SOLUTION = "ICD_Solution";
+}
