@@ -2,7 +2,7 @@
 *.class
 
 # Library Dependencies
-lib/javacef/
+lib/
 
 # Log file
 *.log
