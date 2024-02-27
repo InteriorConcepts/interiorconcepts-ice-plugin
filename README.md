@@ -27,6 +27,7 @@ Interior Concepts Plugin for IceEdge Software
 
 ## VSCode, Visual Studio Code (editor)
 - Download VSCode from the official site [here](https://code.visualstudio.com/)
+- Durring installation, be sure enable the option for "Open in Code" context menu for windows explorer to be added
 - After setup installation, open the program if it didn't already automatically
 - Click the Extensions icon (4 boxes, 3 in an L shape) on the left side
 - Search for "vscjava.vscode-java-pack", select it in the search results below, and click install in the top-middle of the screen
