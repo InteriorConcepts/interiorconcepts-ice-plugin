@@ -46,7 +46,7 @@ Interior Concepts Plugin for IceEdge Software
 
 ## VSCode Interface Rundown
 - This process is indicated in the bottom status bar of the program and looks like this: ![image](https://github.com/InteriorConcepts/interiorconcepts-ice-plugin/assets/45998846/1a7f2204-8238-4f10-9480-cc55d236b0dc)
-- Status bar information from left to right is:
+- Status bar information from left to right (hovering over each gives info in the tooltip as well):
   - Remote Window button (green), ignore this
   - Git Branch name, as well as a number next to a circle arrow that indicates the amount of changes pushed by others that isn't pulled into your local copy of the code, and an up arrow with a the amount of local changes that haven't been pushed yet
   - Port Forwarding, ignore this also
