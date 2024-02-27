@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package icd.warnings;
 
 import net.dirtt.icelib.warnings.AutoFixableWarning;

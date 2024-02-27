@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package com.iceedge.icd.rendering;
 
 import net.dirtt.icebox.canvas2d.Ice2DUtilities;

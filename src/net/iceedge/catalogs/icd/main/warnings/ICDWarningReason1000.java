@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package net.iceedge.catalogs.icd.main.warnings;
 
 import net.iceedge.catalogs.icd.intersection.ICDPost;

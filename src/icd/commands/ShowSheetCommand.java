@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package icd.commands;
 
 import net.dirtt.icelib.main.commandmodules.exception.CommandException;

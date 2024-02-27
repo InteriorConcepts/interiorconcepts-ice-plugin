@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package net.dirtt.icelib.report.generalquote.icd;
 
 import net.dirtt.icelib.main.EntityObject;

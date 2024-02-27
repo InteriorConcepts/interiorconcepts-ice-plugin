@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package com.iceedge.icd.plugin;
 
 import net.iceedge.icecore.plugin.annotation.IcePluginInit;

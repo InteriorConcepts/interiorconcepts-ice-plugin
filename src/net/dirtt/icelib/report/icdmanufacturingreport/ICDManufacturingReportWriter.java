@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package net.dirtt.icelib.report.icdmanufacturingreport;
 
 import java.util.Enumeration;

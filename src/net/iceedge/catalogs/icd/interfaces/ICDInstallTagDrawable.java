@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package net.iceedge.catalogs.icd.interfaces;
 
 import net.dirtt.icelib.main.SolutionSetting;

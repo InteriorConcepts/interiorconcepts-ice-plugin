@@ -1,7 +1,3 @@
-// 
-// Decompiled by Procyon v0.5.36
-// 
-
 package com.iceedge.icd.adapters;
 
 import net.dirtt.icelib.report.generalquote.icd.ICDQuote;
