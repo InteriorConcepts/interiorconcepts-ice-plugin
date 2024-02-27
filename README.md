@@ -20,8 +20,7 @@ Interior Concepts Plugin for IceEdge Software
 - How to use GitHub Desktop will not be covered in these setup instructions
 
 ## JDK, Java Development Kit (instuctions-set to debug and compile)
-- Download the installer for JDK version 8u261 build 12 from [this direct-download link](https://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe&BHost=javadl.sun.com&File=jdk-8u261-windows-x64.exe&AuthParam=1708433732_0ec20e882f223082cf61b163205277af&ext=.exe)
-  (it isn't visible on Oracle's website b/c they don't maintain it anymore as it is older, however the direct download link still works)
+- Download the installer for JDK version 8u261 build 12 from ~[this direct-download link](https://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe&BHost=javadl.sun.com&File=jdk-8u261-windows-x64.exe&AuthParam=1708433732_0ec20e882f223082cf61b163205277af&ext=.exe)~ (link broke, run from "H:\IceEdge\IceDevelopment\Setup Files\" instead)
 - Run the installer, and ensure that it installs at `C:\Program Files\Java\` into a folder named `jdk1.8.0_261` (this exact path is used in the VSCode settings files in the repo for compiling)
 - Download the installer for another JDK, this time version 17  (they go 1.8, 1.9, 10, ..., 17) from [this direct-download link](https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe)
 - Run the installer, and ensure that it inalls at `C:\Program Files\Java\` into a folder named `JDK-17` (for the same reason as the other one)
