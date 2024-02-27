@@ -7,7 +7,7 @@ Interior Concepts Plugin for IceEdge Software
    
 # Development Setup:
 ## GitHub Desktop (file versioning and change management)
-- Download GitHub Desktop from the official site [here](https://desktop.github.com/)
+- Download GitHub Desktop from the official site [here](https://desktop.github.com/) and install it
 - Sign in using ICC GitHub account
 - Clone the repository
   - On the main page for the repo in the browser, click the Code button > HTTPS > Copy Url in input box
