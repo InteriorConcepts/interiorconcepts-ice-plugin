@@ -68,18 +68,18 @@ public class ICDTopJoint extends ICDJoint
     
     @Override
     protected void validateIndicator() {
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null) {
             if (icdPost.isCurvedPost()) {
-                if (this.getParent((Class)ICDChaseConnectorExtrusion.class) != null) {
-                    this.setJointTypeForVerticalConnector(((ICDPostHostInterface)this.getParent((Class)ICDPostHostInterface.class)).getBottomJointType());
+                if (this.getParent(ICDChaseConnectorExtrusion.class) != null) {
+                    this.setJointTypeForVerticalConnector(((ICDPostHostInterface)this.getParent(ICDPostHostInterface.class)).getBottomJointType());
                 }
                 else {
                     this.createNewAttribute("Joint_Type", ICDJoint.JOINT_TYPE[0]);
                 }
             }
-            else if (this.getParent((Class)ICDChaseConnectorExtrusion.class) != null) {
-                this.setJointTypeForVerticalConnector(((ICDPostHostInterface)this.getParent((Class)ICDPostHostInterface.class)).getBottomJointType());
+            else if (this.getParent(ICDChaseConnectorExtrusion.class) != null) {
+                this.setJointTypeForVerticalConnector(((ICDPostHostInterface)this.getParent(ICDPostHostInterface.class)).getBottomJointType());
             }
             else {
                 this.setTopJointTypeForPost(icdPost, icdPost.getJointTypeAtLocation(this.getBasePointWorldSpace()));
@@ -89,7 +89,7 @@ public class ICDTopJoint extends ICDJoint
     
     private void setTopJointTypeForPost(final ICDPost icdPost, String s) {
         if (icdPost != null) {
-            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
+            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass(ICDChaseMidConnectorContainer.class);
             if (icdChaseMidConnectorContainer == null) {
                 this.createNewAttribute("Joint_Type", s);
             }
@@ -143,7 +143,7 @@ public class ICDTopJoint extends ICDJoint
     
     @Override
     public Vector<Ice2DPaintableNode> getAssemblyIcons(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         if (icdIntersection != null && icdIntersection.getVerticalChase() != null) {
             return null;
         }
@@ -155,8 +155,8 @@ public class ICDTopJoint extends ICDJoint
         }
         final Ice2DShapeNode e2 = new Ice2DShapeNode(this.getLayerName(), (TransformableEntity)this, this.getAssemblyElevationMatrix(transformableEntity, false), (Shape)float1);
         e2.setStroke(stroke);
-        final Vector<ICD2DJointDirectionNode> vector = new Vector<ICD2DJointDirectionNode>();
-        vector.add((ICD2DJointDirectionNode)e2);
+        final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
+        vector.add(e2);
         vector.add(e);
         return (Vector<Ice2DPaintableNode>)vector;
     }
@@ -184,7 +184,7 @@ public class ICDTopJoint extends ICDJoint
             float1.append(s3, false);
         }
         else if (this.getCurrentOption().getId().equals("ICD_J103C")) {
-            if (MathUtilities.convertSpaces(new Point3f(this.getBasePointWorldSpace()), ((ICDILine)this.getParent((Class)ICDILine.class)).getEntWorldSpaceMatrix()).y > 0.0f) {
+            if (MathUtilities.convertSpaces(new Point3f(this.getBasePointWorldSpace()), ((ICDILine)this.getParent(ICDILine.class)).getEntWorldSpaceMatrix()).y > 0.0f) {
                 float1.append(s4, false);
             }
             else {
@@ -222,13 +222,13 @@ public class ICDTopJoint extends ICDJoint
             matrix4f2.mul(matrix4f7);
             final int n2 = -1;
             final int n3 = 1;
-            final Point3f convertSpaces2 = MathUtilities.convertSpaces(new Point3f(this.getBasePointWorldSpace()), ((ICDILine)this.getParent((Class)ICDILine.class)).getEntWorldSpaceMatrix());
+            final Point3f convertSpaces2 = MathUtilities.convertSpaces(new Point3f(this.getBasePointWorldSpace()), ((ICDILine)this.getParent(ICDILine.class)).getEntWorldSpaceMatrix());
             int n4 = n2;
             if (convertSpaces2.y > 0.0f) {
                 n4 = n3;
             }
             boolean b = false;
-            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)this.getParent((Class)ICDChaseMidConnectorContainer.class);
+            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)this.getParent(ICDChaseMidConnectorContainer.class);
             if (icdChaseMidConnectorContainer != null && icdChaseMidConnectorContainer.getRotationVector3f().z == 0.0f) {
                 final Matrix4f matrix4f8 = new Matrix4f();
                 matrix4f8.setIdentity();
@@ -236,7 +236,7 @@ public class ICDTopJoint extends ICDJoint
                 matrix4f2.mul(matrix4f8);
                 b = true;
             }
-            final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion = (ICDChaseConnectorExtrusion)this.getParent((Class)ICDChaseConnectorExtrusion.class);
+            final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion = (ICDChaseConnectorExtrusion)this.getParent(ICDChaseConnectorExtrusion.class);
             if (icdChaseConnectorExtrusion != null) {
                 final float verticalSkewOffset = ICDAssemblyElevationUtilities.getVerticalSkewOffset(icdChaseConnectorExtrusion.getBasePoint3f().y);
                 if (n4 == n2) {

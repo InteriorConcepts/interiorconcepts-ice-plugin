@@ -211,7 +211,7 @@ public class ICDEndExtrusion extends BasicEndExtrusion implements ICDVerticalExt
     }
     
     public boolean isSlopePanel() {
-        final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
         return icdPanel != null && icdPanel.isSlopedPanel();
     }
     

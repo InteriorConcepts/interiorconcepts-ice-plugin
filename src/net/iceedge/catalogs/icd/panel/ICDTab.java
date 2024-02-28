@@ -105,15 +105,15 @@ public class ICDTab extends TransformableTriggerUser implements AssemblyPaintabl
         final Attribute attributeObject = this.getAttributeObject("ICD_Tab_Behind_Chase_Indicator");
         if (attributeObject != null) {
             boolean b = false;
-            final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
-            final ICDTopExtrusion icdTopExtrusion = (ICDTopExtrusion)this.getParent((Class)ICDTopExtrusion.class);
+            final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
+            final ICDTopExtrusion icdTopExtrusion = (ICDTopExtrusion)this.getParent(ICDTopExtrusion.class);
             Label_0223: {
                 if (icdTopExtrusion == null || !icdTopExtrusion.isChaseTopExtrusion()) {
-                    final Iterator iterator = icdiLine.getIntersections().iterator();
+                    final Iterator<GeneralIntersectionInterface> iterator = icdiLine.getIntersections().iterator();
                     while (iterator.hasNext()) {
-                        final Iterator iterator2 = iterator.next().getWallSetsFromArms().iterator();
+                        final Iterator<ILineInterface> iterator2 = iterator.next().getWallSetsFromArms().iterator();
                         while (iterator2.hasNext()) {
-                            for (final ICDTopExtrusion icdTopExtrusion2 : iterator2.next().getChildrenByClass((Class)ICDTopExtrusion.class, true, true)) {
+                            for (final ICDTopExtrusion icdTopExtrusion2 : iterator2.next().getChildrenByClass(ICDTopExtrusion.class, true, true)) {
                                 if (icdTopExtrusion2.isChaseTopExtrusion() && MathUtilities.isPointWithinCube(this.convertPointToLocal(icdTopExtrusion2.getNamedPointWorld("P2")), this.convertPointToLocal(icdTopExtrusion2.getNamedPointWorld("PANEL_P4")), new Point3f(), 0.1f)) {
                                     b = true;
                                     break Label_0223;
@@ -243,11 +243,11 @@ public class ICDTab extends TransformableTriggerUser implements AssemblyPaintabl
     }
     
     public ICDTabContainer getContainer() {
-        return (ICDTabContainer)this.getParent((Class)ICDTabContainer.class);
+        return (ICDTabContainer)this.getParent(ICDTabContainer.class);
     }
     
     public BasicExtrusion getExtrusion() {
-        return (BasicExtrusion)this.getParentByClassRecursive((Class)BasicExtrusion.class);
+        return (BasicExtrusion)this.getParentByClassRecursive(BasicExtrusion.class);
     }
     
     public Vector<Ice2DPaintableNode> getAssemblyIcons(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
@@ -261,8 +261,8 @@ public class ICDTab extends TransformableTriggerUser implements AssemblyPaintabl
         matrix4f2.mul(matrix4f3);
         final Ice2DShapeNode e = new Ice2DShapeNode(this.getLayerName(), (TransformableEntity)this, matrix4f2, (Shape)new Rectangle2D.Float(this.getBasePoint().getX(), this.getBasePoint().getY() - n2, 2.0f, 3.0f));
         e.setFillColor(Color.black);
-        final Vector<Ice2DShapeNode> vector = (Vector<Ice2DShapeNode>)new Vector<Ice2DPaintableNode>();
-        vector.add((Ice2DPaintableNode)e);
+        final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
+        vector.add(e);
         if (this.isInverted()) {
             final Matrix4f matrix4f4 = new Matrix4f();
             matrix4f4.setIdentity();
@@ -321,7 +321,7 @@ public class ICDTab extends TransformableTriggerUser implements AssemblyPaintabl
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final ArrayList<IceOutputShapeNode> list = (ArrayList<IceOutputShapeNode>)new ArrayList<IceOutputNode>();
+        final ArrayList<IceOutputNode> list = new ArrayList<IceOutputNode>();
         if (this.boxNode != null) {
             list.add(new IceOutputShapeNode(this.boxNode.getShape(), this.getEntWorldSpaceMatrix()));
         }

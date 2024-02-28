@@ -219,11 +219,11 @@ public class ICDChaseExtrusion extends TransformableTriggerUser implements ICDMa
         final Vector<ICDPanel> vector = new Vector<ICDPanel>();
         final Solution mainSolution = this.getMainSolution();
         if (mainSolution != null) {
-            final EnumerationIterator enumerationIterator = new EnumerationIterator(mainSolution.breadthFirstEnumeration());
-            while (((Iterator)enumerationIterator).hasNext()) {
-                final ICDPanel next = ((Iterator<ICDPanel>)enumerationIterator).next();
+            final EnumerationIterator<Object> enumerationIterator = new EnumerationIterator(mainSolution.breadthFirstEnumeration());
+            while (enumerationIterator.hasNext()) {
+                final Object next = enumerationIterator.next();
                 if (next instanceof ICDPanel) {
-                    vector.add(next);
+                    vector.add((ICDPanel) next);
                 }
             }
         }

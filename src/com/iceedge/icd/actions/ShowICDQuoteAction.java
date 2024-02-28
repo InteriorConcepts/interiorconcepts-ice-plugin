@@ -35,6 +35,6 @@ public class ShowICDQuoteAction extends IceAction
     }
     
     static {
-        ShowICDQuoteAction.logger = Logger.getLogger((Class)ShowICDQuoteAction.class);
+        ShowICDQuoteAction.logger = Logger.getLogger(ShowICDQuoteAction.class);
     }
 }

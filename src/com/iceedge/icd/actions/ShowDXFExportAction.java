@@ -25,6 +25,6 @@ public class ShowDXFExportAction extends SolutionSettingIceCheckBox
     }
     
     static {
-        ShowDXFExportAction.logger = Logger.getLogger((Class)ShowDXFExportAction.class);
+        ShowDXFExportAction.logger = Logger.getLogger(ShowDXFExportAction.class);
     }
 }

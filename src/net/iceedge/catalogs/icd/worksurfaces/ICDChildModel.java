@@ -210,8 +210,8 @@ public class ICDChildModel extends TransformableEntity implements ICDManufacturi
     }
     
     public List<TypeableEntity> getFinishRoots() {
-        final LinkedList<ICDChildModel> list = new LinkedList<ICDChildModel>();
-        list.addAll((Collection<?>)((TypeableEntity)this.getParent((Class)TypeableEntity.class)).getFinishRoots());
+        final LinkedList<TypeableEntity> list = new LinkedList<TypeableEntity>();
+        list.addAll(this.getParent(TypeableEntity.class).getFinishRoots());
         list.add(this);
         return (List<TypeableEntity>)list;
     }

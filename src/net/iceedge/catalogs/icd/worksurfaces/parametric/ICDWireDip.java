@@ -84,7 +84,7 @@ public class ICDWireDip extends TransformableEntity implements Ice2DDirectPainta
         this.setSnapPointIndex(-1);
         final Iterator breadthFirstEnumerationIterator = solution.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final EntityObject entityObject = breadthFirstEnumerationIterator.next();
+            final Object entityObject = breadthFirstEnumerationIterator.next();
             if (entityObject instanceof ICDParametricWorksurface) {
                 final ICDParametricWorksurface icdParametricWorksurface = (ICDParametricWorksurface)entityObject;
                 if (icdParametricWorksurface.getShapeWS() != null && icdParametricWorksurface.getShapeWS().size() > 0 && MathUtilities.shapeContainsPoint((List)icdParametricWorksurface.getShapeWS(), this.getBasePointWorldSpace())) {

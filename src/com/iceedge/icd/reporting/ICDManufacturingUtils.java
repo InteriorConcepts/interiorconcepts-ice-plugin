@@ -47,8 +47,8 @@ public class ICDManufacturingUtils
     
     public static void populateCompareNodeForManufacturing(final Class clazz, final CompareNode compareNode, final TypeValidatorEntity typeValidatorEntity) {
         compareNode.addCompareValue("length", (Object)Math.round(typeValidatorEntity.getLength()));
-        if (typeValidatorEntity.getChildByClass((Class)BasicMaterialEntity.class) != null) {
-            compareNode.addCompareValue("finish", (Object)((BasicMaterialEntity)typeValidatorEntity.getChildByClass((Class)BasicMaterialEntity.class)).getDescription());
+        if (typeValidatorEntity.getChildByClass(BasicMaterialEntity.class) != null) {
+            compareNode.addCompareValue("finish", (Object)((BasicMaterialEntity)typeValidatorEntity.getChildByClass(BasicMaterialEntity.class)).getDescription());
         }
         compareNode.addCompareValue("description", (Object)typeValidatorEntity.getDescription());
         final ICDJoint icdJoint = (ICDJoint)typeValidatorEntity.getParent((TypeFilter)new ICDJointTypeFilter());

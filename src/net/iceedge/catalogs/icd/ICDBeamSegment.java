@@ -36,7 +36,7 @@ public class ICDBeamSegment extends ICDSegment
     }
     
     public float getTubeLocation() {
-        final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChild((Class)ICDHorizontalBeam.class, false);
+        final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChild(ICDHorizontalBeam.class, false);
         if (icdHorizontalBeam != null) {
             return icdHorizontalBeam.getBasePoint3f().z;
         }
@@ -60,7 +60,7 @@ public class ICDBeamSegment extends ICDSegment
         super.applyChangesForAttribute(s, s2, b, b2, b3);
         if (s.equals(this.getSegmentHeighKeytAttributeName())) {
             final float attributeValueAsFloat = this.getAttributeValueAsFloat(s);
-            final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChildByClass((Class)ICDHorizontalBeam.class);
+            final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChildByClass(ICDHorizontalBeam.class);
             if (icdHorizontalBeam != null && !MathUtilities.isSameFloat(icdHorizontalBeam.getAttributeValueAsFloat("ICD_Mount_Height"), attributeValueAsFloat, 0.05f)) {
                 icdHorizontalBeam.modifyAttributeValue("ICD_Mount_Height", s2);
             }
@@ -78,7 +78,7 @@ public class ICDBeamSegment extends ICDSegment
     public void setSelected(final boolean selected) {
         super.setSelected(selected);
         if (selected) {
-            final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChild((Class)ICDHorizontalBeam.class, false);
+            final ICDHorizontalBeam icdHorizontalBeam = (ICDHorizontalBeam)this.getChild(ICDHorizontalBeam.class, false);
             if (icdHorizontalBeam != null && !icdHorizontalBeam.isSelected()) {
                 icdHorizontalBeam.setSelected(true);
             }
@@ -86,6 +86,6 @@ public class ICDBeamSegment extends ICDSegment
     }
     
     static {
-        ICDBeamSegment.logger = Logger.getLogger((Class)ICDBeamSegment.class);
+        ICDBeamSegment.logger = Logger.getLogger(ICDBeamSegment.class);
     }
 }

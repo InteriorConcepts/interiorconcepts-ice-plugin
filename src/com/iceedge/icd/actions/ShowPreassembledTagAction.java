@@ -52,6 +52,6 @@ public class ShowPreassembledTagAction extends SolutionSettingIceCheckBox
     }
     
     static {
-        ShowPreassembledTagAction.logger = Logger.getLogger((Class)ShowPreassembledTagAction.class);
+        ShowPreassembledTagAction.logger = Logger.getLogger(ShowPreassembledTagAction.class);
     }
 }

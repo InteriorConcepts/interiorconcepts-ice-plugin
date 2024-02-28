@@ -77,7 +77,7 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
     private void validateUserTag() {
         final String userTagNameAttribute = this.getUserTagNameAttribute("TagName1");
         if (userTagNameAttribute != null) {
-            for (final TypeableEntity typeableEntity : this.getChildrenByClass((Class)TypeableEntity.class, true, true)) {
+            for (final TypeableEntity typeableEntity : this.getChildrenByClass(TypeableEntity.class, true, true)) {
                 final Attribute attributeObject = typeableEntity.getAttributeObject("TagName1");
                 if (attributeObject != null && attributeObject.getValueAsString().equals("")) {
                     attributeObject.setCurrentValueAsString(userTagNameAttribute);
@@ -96,10 +96,10 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
     private void validateTabbedTubing() {
         final BasicExtrusion parentExtrusion = this.getParentExtrusion();
         if (parentExtrusion != null && parentExtrusion.addTabbing(this.getSide())) {
-            final List childrenByClass = this.getChildrenByClass((Class)ICDTab.class, false);
+            final List<ICDTab> childrenByClass = this.getChildrenByClass(ICDTab.class, false);
             final boolean b = false;
             final int calculateNeededTabs = this.calculateNeededTabs(parentExtrusion.getLength());
-            final LinkedList list = new LinkedList<ICDTab>();
+            final LinkedList<ICDTab> list = new LinkedList<ICDTab>();
             list.addAll(childrenByClass);
             final int n = calculateNeededTabs - list.size();
             for (int i = 0; i < n; ++i) {
@@ -118,11 +118,11 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
     }
     
     public BasicExtrusion getParentExtrusion() {
-        return (BasicExtrusion)this.getParent((Class)BasicExtrusion.class);
+        return (BasicExtrusion)this.getParent(BasicExtrusion.class);
     }
     
     public TypeObject getTabType() {
-        final LightWeightTypeObject lwType = this.getCurrentOption().getLWType((Class)ICDTab.class);
+        final LightWeightTypeObject lwType = this.getCurrentOption().getLWType(ICDTab.class);
         if (lwType != null) {
             return lwType.getType();
         }
@@ -184,7 +184,7 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
                 icdTab3.setPositionOffset(parentExtrusion.getLength() / 2.0f);
                 list.add(icdTab3);
             }
-            final Iterator<Object> iterator = list.iterator();
+            final Iterator<? extends EntityObject> iterator = list.iterator();
             while (iterator.hasNext()) {
                 this.addToTree((EntityObject)iterator.next());
             }
@@ -232,7 +232,7 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
         final BasicExtrusion parentExtrusion = this.getParentExtrusion();
         String string = "";
         if (parentExtrusion != null) {
-            final List childrenByClass = parentExtrusion.getChildrenByClass((Class)ICDTabContainer.class, false);
+            final List<ICDTabContainer> childrenByClass = parentExtrusion.getChildrenByClass(ICDTabContainer.class, false);
             boolean b = false;
             int i = 0;
             for (final ICDTabContainer icdTabContainer : childrenByClass) {
@@ -261,20 +261,20 @@ public class ICDTabContainer extends TransformableTriggerUser implements ICDManu
     public List<ICDTab> getTabs(final boolean b) {
         List<ICDTab> childrenByClass = new LinkedList<ICDTab>();
         if (b) {
-            for (final ICDTab icdTab : this.getChildrenByClass((Class)ICDTab.class, false)) {
+            for (final ICDTab icdTab : this.getChildrenByClass(ICDTab.class, false)) {
                 if (icdTab.shouldDrawAssembly()) {
                     childrenByClass.add(icdTab);
                 }
             }
         }
         else {
-            childrenByClass = (List<ICDTab>)this.getChildrenByClass((Class)ICDTab.class, false);
+            childrenByClass = (List<ICDTab>)this.getChildrenByClass(ICDTab.class, false);
         }
         return childrenByClass;
     }
     
     public ICDPanel getPanel() {
-        return (ICDPanel)this.getParent((Class)ICDPanel.class);
+        return (ICDPanel)this.getParent(ICDPanel.class);
     }
     
     public int getSide() {

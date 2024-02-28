@@ -80,7 +80,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
         this.getNamedPointLocal("EndMolding_ElevationIP").set(0.0f, 0.0f, -0.25f);
         this.getNamedPointLocal("TopMolding_ElevationIP").set(0.0f, 0.0f, -1.0f);
         this.getNamedPointLocal("BottomMolding_ElevationIP").set(-0.75f, 0.0f, -0.25f);
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         if (icdTile != null && icdTile.isBottomTile()) {
             this.getNamedPointLocal("TopMolding_POS").set((Tuple3f)new Point3f(0.85f, attributeValueAsFloat2, this.getLength() / 2.0f - 1.0f));
             this.getNamedPointLocal("BottomMolding_POS").set((Tuple3f)new Point3f(-0.4f, attributeValueAsFloat2, n));
@@ -95,7 +95,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
     
     private void calculateOffset(final String s, final String s2, final boolean b) {
         if (s2 != null) {
-            final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+            final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
             if (icdTile != null) {
                 final Point3f namedPointWorld = icdTile.getNamedPointWorld(s2);
                 if (namedPointWorld != null) {
@@ -116,7 +116,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
         this.getNamedScaleLocal("BottomMolding_SCL").set((Tuple3f)new Vector3f(this.getLength(), 1.0f, 1.0f));
         this.getNamedScaleLocal("EndMolding_SCL").set((Tuple3f)new Vector3f(this.getLength(), 1.0f, 1.0f));
         this.getNamedScaleLocal("StartMolding_SCL").set((Tuple3f)new Vector3f(this.getLength(), 1.0f, 1.0f));
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         if (icdTile != null && icdTile.isSlopedTile()) {
             this.getNamedScaleLocal("StartMolding_SCL").set((Tuple3f)new Vector3f(this.getLength() * 1.02f, 1.0f, 1.0f));
             this.getNamedScaleLocal("EndMolding_SCL").set((Tuple3f)new Vector3f(this.getLength() * 1.1f, 1.0f, 1.0f));
@@ -135,7 +135,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
         if (this.isSlopedTileMoulding()) {
             this.getNamedRotationLocal("TopMolding_ROT").set((Tuple3f)new Vector3f(1.57f, 0.003f, 1.947f));
         }
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         if (icdTile != null && icdTile instanceof ICDCurvedTile) {
             this.getNamedRotationLocal("StartMolding_ROT").set((Tuple3f)new Vector3f(1.57f, 1.57f, -1.57f));
         }
@@ -150,7 +150,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
             }
             return zDimension;
         }
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         if (this.isVertical()) {
             return icdTile.getCutLength();
         }
@@ -160,7 +160,7 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
     protected void calculateDimensions() {
         super.calculateDimensions();
         this.setZDimension((float)Math.round(Math.abs(this.getBasePoint().getZ() + this.getNamedPointLocal(ICDInnerExtrusion.END_POINT).z)));
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         if (icdTile != null) {
             this.setYDimension(icdTile.getThickness());
             if (this.isStickExtrusion()) {
@@ -230,12 +230,12 @@ public class ICDInnerExtrusion extends BasicExtrusion implements JointIntersecta
     }
     
     private boolean isSlopedTileMoulding() {
-        final ICDTile icdTile = (ICDTile)this.getParent((Class)ICDTile.class);
+        final ICDTile icdTile = (ICDTile)this.getParent(ICDTile.class);
         return icdTile != null && icdTile.isSlopedTile();
     }
     
     public boolean isMolding() {
-        return this.getParent((Class)ICDTile.class) != null;
+        return this.getParent(ICDTile.class) != null;
     }
     
     public boolean doesParticipateInJointIntersection() {

@@ -1,6 +1,7 @@
 package net.iceedge.catalogs.icd.panel;
 
 import net.dirtt.icelib.main.CatalogManager;
+import net.dirtt.icelib.main.EntityObject;
 import net.iceedge.icebox.ui.catalogChooser.Manufacturer;
 import net.dirtt.icelib.main.OptionObject;
 import java.util.Vector;
@@ -57,7 +58,7 @@ public class ICDPanelSKUGenerator implements SkuGeneratable
                             value2 = new TreeSet<Integer>();
                             ICDPanelSKUGenerator.panelTypeWidth.put(description, value2);
                         }
-                        final Iterator iterator3 = tableOfContents3.getPartItems().iterator();
+                        final Iterator<TableOfContents.PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
                         while (iterator3.hasNext()) {
                             final Part part = broker.getPart(iterator3.next().getPartName());
                             final String attributeValue = part.getAttributeValue("Height", (String)null);
@@ -241,7 +242,7 @@ public class ICDPanelSKUGenerator implements SkuGeneratable
                     str = ((ICDTile)aTile).getFinishCodeForSkuGeneration();
                 }
                 if (!icdPanel.isCorePanel()) {
-                    final Vector allTiles = icdPanel.getAllTiles();
+                    final Vector<TileInterface> allTiles = icdPanel.getAllTiles();
                     if (allTiles != null) {
                         for (final TileInterface tileInterface : allTiles) {
                             if (tileInterface instanceof ICDTile && !((ICDTile)tileInterface).isNoFrameTile()) {

@@ -28,10 +28,10 @@ public class AllAssemblyElevation2DAction extends IceAction
         AllAssemblyElevation2DAction.logger.info((Object)("Executing action: " + this.getActionInfo()));
         final Solution solution = appView.getSolution();
         final Vector<TransformableEntity> vector = new Vector<TransformableEntity>();
-        final Iterator breadthFirstEnumerationIterator = solution.getBreadthFirstEnumerationIterator((Class)AssembleParent.class);
+        final Iterator breadthFirstEnumerationIterator = solution.getBreadthFirstEnumerationIterator(AssembleParent.class);
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final AssembleParent assembleParent = breadthFirstEnumerationIterator.next();
-            if (((EntityObject)assembleParent).getAttributeValueAsBoolean("shouldAssemble", false)) {
+            final EntityObject assembleParent = (EntityObject) breadthFirstEnumerationIterator.next();
+            if ((assembleParent).getAttributeValueAsBoolean("shouldAssemble", false)) {
                 vector.add((TransformableEntity)assembleParent);
             }
         }
@@ -39,6 +39,6 @@ public class AllAssemblyElevation2DAction extends IceAction
     }
     
     static {
-        AllAssemblyElevation2DAction.logger = Logger.getLogger((Class)AllAssemblyElevation2DAction.class);
+        AllAssemblyElevation2DAction.logger = Logger.getLogger(AllAssemblyElevation2DAction.class);
     }
 }

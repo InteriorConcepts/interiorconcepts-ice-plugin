@@ -73,7 +73,7 @@ public class ICDCurvedTile extends ICDTile
     @Override
     public List<String> getCodeList() {
         final ArrayList<String> list = new ArrayList<String>();
-        for (final BasicMaterialEntity basicMaterialEntity : this.getChildrenByClass((Class)BasicMaterialEntity.class, false)) {
+        for (final BasicMaterialEntity basicMaterialEntity : this.getChildrenByClass(BasicMaterialEntity.class, false)) {
             for (int i = 1; i <= 2; ++i) {
                 final String attributeValueAsString = basicMaterialEntity.getAttributeValueAsString("CURVE_TILE_FINISH_SIDE_" + i + "_POSTION_" + this.getVerticalLocation());
                 if (attributeValueAsString != null && attributeValueAsString.length() > 0) {
@@ -106,7 +106,7 @@ public class ICDCurvedTile extends ICDTile
     
     public void handleCadSelection() {
         super.handleCadSelection();
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null) {
             icdPost.setSelected(true);
         }

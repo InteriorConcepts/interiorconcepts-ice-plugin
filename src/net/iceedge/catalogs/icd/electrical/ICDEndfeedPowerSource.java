@@ -50,7 +50,7 @@ public class ICDEndfeedPowerSource extends ICDElectricalReceptacle
         if (parentEntity != null && parentEntity instanceof ICDIntersection) {
             for (final Segment segment : ((ICDIntersection)parentEntity).getSegmentsFromArms()) {
                 if (segment instanceof ICDSegment && segmentHasChase((ICDSegment)segment)) {
-                    final List childrenByClass = segment.getChildrenByClass((Class)BasicElectricalCable.class, true, true);
+                    final List<BasicElectricalCable> childrenByClass = segment.getChildrenByClass(BasicElectricalCable.class, true, true);
                     if (!childrenByClass.isEmpty()) {
                         childrenByClass.get(0).setHasToBeHarness(true);
                         return childrenByClass.get(0);

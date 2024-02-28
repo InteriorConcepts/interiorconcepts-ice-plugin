@@ -20,6 +20,6 @@ public class ShowICDSheetAction extends IceAction
     }
     
     static {
-        ShowICDSheetAction.logger = Logger.getLogger((Class)ShowICDSheetAction.class);
+        ShowICDSheetAction.logger = Logger.getLogger(ShowICDSheetAction.class);
     }
 }

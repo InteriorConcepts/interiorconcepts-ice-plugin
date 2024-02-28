@@ -141,7 +141,7 @@ public class ICDSubInternalExtrusion extends BasicExtrusion implements AssemblyP
     }
     
     public boolean draw2D() {
-        return super.draw2D() && this.getParent((Class)ICDBottomExtrusion.class) != null;
+        return super.draw2D() && this.getParent(ICDBottomExtrusion.class) != null;
     }
     
     protected void calculateNamedRotations() {
@@ -232,11 +232,11 @@ public class ICDSubInternalExtrusion extends BasicExtrusion implements AssemblyP
     }
     
     private ICDIntersection getIntersection() {
-        return (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        return (ICDIntersection)this.getParent(ICDIntersection.class);
     }
     
     private ICDPanelToPanelConnectionHW getPanelConnectingHW() {
-        return (ICDPanelToPanelConnectionHW)this.getParent((Class)ICDPanelToPanelConnectionHW.class);
+        return (ICDPanelToPanelConnectionHW)this.getParent(ICDPanelToPanelConnectionHW.class);
     }
     
     private void hackRotationOutOfEntityWorldSpaceMatrixToFixAssemblyElevationRotation(final Matrix4f matrix4f) {
@@ -277,7 +277,7 @@ public class ICDSubInternalExtrusion extends BasicExtrusion implements AssemblyP
         matrix4f3.mul(matrix4f6);
         Object e = null;
         int n2 = 1;
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null) {
             n2 = (icdPost.isCurvedPost() ? 0 : 1);
         }
@@ -304,7 +304,7 @@ public class ICDSubInternalExtrusion extends BasicExtrusion implements AssemblyP
         matrix4f8.mul(matrix4f7);
         matrix4f8.mul(matrix4f11);
         final Ice2DTextNode e2 = new Ice2DTextNode(this.getLayerName(), (TransformableEntity)this, matrix4f8, Math.round(this.getZDimension()) + "", 3);
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         if (icdIntersection != null && icdIntersection.getVerticalChase() != null) {
             e = null;
         }
@@ -439,7 +439,7 @@ public class ICDSubInternalExtrusion extends BasicExtrusion implements AssemblyP
     }
     
     public boolean isFakePart() {
-        final ICDInternalExtrusion icdInternalExtrusion = (ICDInternalExtrusion)this.getParent((Class)ICDInternalExtrusion.class);
+        final ICDInternalExtrusion icdInternalExtrusion = (ICDInternalExtrusion)this.getParent(ICDInternalExtrusion.class);
         if (icdInternalExtrusion != null) {
             return icdInternalExtrusion.isFakePart();
         }

@@ -47,7 +47,7 @@ public class ICDPanelSegment extends BasicPanelSegment implements ICDManufacturi
     
     public void setSelected(final boolean b, final Solution solution) {
         super.setSelected(b, solution);
-        final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
+        final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
         if (icdiLine != null) {
             final ICDVerticalChase verticalChase = icdiLine.getVerticalChase();
             if (verticalChase != null) {

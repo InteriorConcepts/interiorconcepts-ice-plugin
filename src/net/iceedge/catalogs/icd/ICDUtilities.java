@@ -108,14 +108,15 @@ public class ICDUtilities
     
     public static List<Pair<Float, Integer>> calculateBeamBreakLocations(final ICDHorizontalBreakableExtrusion icdHorizontalBreakableExtrusion) {
         final TransformableEntity transformableEntity = (TransformableEntity)icdHorizontalBreakableExtrusion;
-        final ICDSegment icdSegment = (ICDSegment)transformableEntity.getParent((Class)ICDSegment.class);
-        final ArrayList<Pair> list = (ArrayList<Pair>)new ArrayList<Pair<Float, Integer>>();
-        if (icdSegment != null) {
-            final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(0.0f, 0.0f, 0.0f), (EntityObject)transformableEntity, (EntityObject)icdSegment);
-            for (final Pair<Point3f, Integer> pair : icdSegment.getJointLocationForBeam()) {
-                if (MathUtilities.isSameFloat(convertSpaces.z, ((Point3f)pair.first).z, 1.4f)) {
-                    list.add(new Pair((Object)(((Point3f)pair.first).x - transformableEntity.getBasePoint3f().x), pair.second));
-                }
+        final ICDSegment icdSegment = (ICDSegment)transformableEntity.getParent(ICDSegment.class);
+        final ArrayList<Pair<Float, Integer>> list = new ArrayList<>();
+        if (icdSegment == null) {
+            return list;
+        }
+        final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(0.0f, 0.0f, 0.0f), (EntityObject)transformableEntity, (EntityObject)icdSegment);
+        for (final Pair<Point3f, Integer> pair : icdSegment.getJointLocationForBeam()) {
+            if (MathUtilities.isSameFloat(convertSpaces.z, (pair.first).z, 1.4f)) {
+                list.add(new Pair<>(pair.first.x - transformableEntity.getBasePoint3f().x, pair.second));
             }
         }
         return (List<Pair<Float, Integer>>)list;
@@ -148,26 +149,24 @@ public class ICDUtilities
         else if (icdHorizontalBreakableExtrusion instanceof ICDInnerExtrusionSet) {
             internalExtrusion = ((ICDInnerExtrusionSet)icdHorizontalBreakableExtrusion).getInternalExtrusion(0);
         }
-        if (internalExtrusion != null) {
-            if ("No".equals(((TransformableEntity)internalExtrusion).getCurrentOption().getAttributeValueAsString("specialInternalExtrusion"))) {
-                return list;
+        if (internalExtrusion == null) {
+            return list;
+        }
+        TransformableEntity transformEntity = (TransformableEntity) internalExtrusion;
+        if ("No".equals(transformEntity.getCurrentOption().getAttributeValueAsString("specialInternalExtrusion"))) {
+            return list;
+        }
+        final int attributeValueAsInt = transformEntity.getAttributeValueAsInt("NumberOfJoints");
+        if (attributeValueAsInt == 1 || attributeValueAsInt == 2) {
+            final float attributeValueAsFloat = transformEntity.getAttributeValueAsFloat("breakLocation");
+            if (attributeValueAsFloat > 0.01f) {
+                list.add(attributeValueAsFloat);
             }
-            final int attributeValueAsInt = ((TransformableEntity)internalExtrusion).getAttributeValueAsInt("NumberOfJoints");
-            if (attributeValueAsInt == 1) {
-                final float attributeValueAsFloat = ((TransformableEntity)internalExtrusion).getAttributeValueAsFloat("breakLocation");
-                if (attributeValueAsFloat > 0.01f) {
-                    list.add(attributeValueAsFloat);
-                }
-            }
-            else if (attributeValueAsInt == 2) {
-                final float attributeValueAsFloat2 = ((TransformableEntity)internalExtrusion).getAttributeValueAsFloat("breakLocation");
-                if (attributeValueAsFloat2 > 0.01f) {
-                    list.add(attributeValueAsFloat2);
-                }
-                final float attributeValueAsFloat3 = ((TransformableEntity)internalExtrusion).getAttributeValueAsFloat("breakLocation2");
-                if (attributeValueAsFloat3 > 0.01f) {
-                    list.add(attributeValueAsFloat3);
-                }
+        }
+        if (attributeValueAsInt == 2) {
+            final float attributeValueAsFloat3 = transformEntity.getAttributeValueAsFloat("breakLocation2");
+            if (attributeValueAsFloat3 > 0.01f) {
+                list.add(attributeValueAsFloat3);
             }
         }
         return list;
@@ -334,22 +333,24 @@ public class ICDUtilities
     }
     
     public static void handleAttributeChange(final EntityObject entityObject, final String s, final String s2) {
-        if (s.equalsIgnoreCase("TagName1")) {
-            final Iterator<EntityObject> iterator = entityObject.getChildrenByClass((Class)EntityObject.class, true, true).iterator();
-            while (iterator.hasNext()) {
-                iterator.next().applyChangesForAttribute(s, s2);
-            }
+        if (!(s.equalsIgnoreCase("TagName1"))) {
+            return;
+        }
+        final Iterator<EntityObject> iterator = entityObject.getChildrenByClass(EntityObject.class, true, true).iterator();
+        while (iterator.hasNext()) {
+            iterator.next().applyChangesForAttribute(s, s2);
         }
     }
     
     public static boolean doesTheArrayContain(final Class<EntityObject>[] array, final Class clazz) {
         boolean b = false;
-        if (array != null) {
-            for (int i = 0; i < array.length; ++i) {
-                if (array[i].isAssignableFrom(clazz)) {
-                    b = true;
-                    break;
-                }
+        if (array == null) {
+            return b;
+        }
+        for (int i = 0; i < array.length; ++i) {
+            if (array[i].isAssignableFrom(clazz)) {
+                b = true;
+                break;
             }
         }
         return b;
@@ -378,6 +379,6 @@ public class ICDUtilities
     }
     
     static {
-        ICDUtilities.logger = Logger.getLogger((Class)ICDUtilities.class);
+        ICDUtilities.logger = Logger.getLogger(ICDUtilities.class);
     }
 }

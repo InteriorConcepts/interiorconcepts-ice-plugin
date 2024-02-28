@@ -71,7 +71,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
     
     protected void calculateNamedPoints() {
         super.calculateNamedPoints();
-        final ICDPanel icdPanel = (ICDPanel)this.getParentByClassRecursive((Class)ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParentByClassRecursive(ICDPanel.class);
         if (icdPanel != null) {
             float n;
             if (icdPanel.hasChase(0)) {
@@ -177,9 +177,9 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
     
     private boolean hasConnectingChase(final BasicElectricalCable basicElectricalCable) {
         if (basicElectricalCable != null) {
-            final ICDPanel icdPanel = (ICDPanel)basicElectricalCable.getParent((Class)ICDPanel.class);
+            final ICDPanel icdPanel = (ICDPanel)basicElectricalCable.getParent(ICDPanel.class);
             if (icdPanel != null) {
-                final ICDPanel icdPanel2 = (ICDPanel)this.getParent((Class)ICDPanel.class);
+                final ICDPanel icdPanel2 = (ICDPanel)this.getParent(ICDPanel.class);
                 for (int i = 0; i <= 1; ++i) {
                     final ICDSubFrameSideContainer subFrameSideContainer = icdPanel2.getSubFrameSideContainer(i);
                     if (subFrameSideContainer != null) {
@@ -250,7 +250,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
         this.isHarnessValid = true;
         String s = "0";
         if (this.isHarness()) {
-            final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
+            final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
             ICDSubFrameSideContainer icdSubFrameSideContainer = icdPanel.getSubFrameSideContainer(0);
             if (icdSubFrameSideContainer == null) {
                 icdSubFrameSideContainer = icdPanel.getSubFrameSideContainer(1);
@@ -275,7 +275,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
         }
         if (calculateExtraTubeWidth != this.extTubeWidth) {
             this.extTubeWidth = calculateExtraTubeWidth;
-            final Iterator<ICDHarnessExtensionTubing> iterator2 = (Iterator<ICDHarnessExtensionTubing>)this.getChildrenByClass((Class)ICDHarnessExtensionTubing.class, false).iterator();
+            final Iterator<ICDHarnessExtensionTubing> iterator2 = (Iterator<ICDHarnessExtensionTubing>)this.getChildrenByClass(ICDHarnessExtensionTubing.class, false).iterator();
             while (iterator2.hasNext()) {
                 iterator2.next().setModified(true);
             }
@@ -308,7 +308,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
         final boolean harness = this.isHarness();
         super.modifyCurrentOption();
         if (harness != this.isHarness()) {
-            final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
+            final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
             if (icdPanel != null) {
                 icdPanel.setModified(true);
                 icdPanel.solve();
@@ -321,8 +321,8 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
         if (!hasInfeed && this.getSegment() != null) {
             final GeneralIntersectionInterface intersectionForSegment = this.getSegment().getIntersectionForSegment(true);
             final GeneralIntersectionInterface intersectionForSegment2 = this.getSegment().getIntersectionForSegment(false);
-            final boolean b = intersectionForSegment != null && intersectionForSegment.getChildrenByClass((Class)BasicEndfeedPowerSourceIntent.class, false, true).size() > 0;
-            final boolean b2 = intersectionForSegment2 != null && intersectionForSegment2.getChildrenByClass((Class)BasicEndfeedPowerSourceIntent.class, false, true).size() > 0;
+            final boolean b = intersectionForSegment != null && intersectionForSegment.getChildrenByClass(BasicEndfeedPowerSourceIntent.class, false, true).size() > 0;
+            final boolean b2 = intersectionForSegment2 != null && intersectionForSegment2.getChildrenByClass(BasicEndfeedPowerSourceIntent.class, false, true).size() > 0;
             hasInfeed = (b || b2);
         }
         return hasInfeed;
@@ -342,7 +342,7 @@ public class ICDElectricalCable extends BasicElectricalCable implements OptionOv
             float n = 0.0f;
             float width = -1.0f;
             float n2 = 0.0f;
-            final ICDPanel icdPanel = (ICDPanel)this.getParent((Class)ICDPanel.class);
+            final ICDPanel icdPanel = (ICDPanel)this.getParent(ICDPanel.class);
             if (icdPanel != null) {
                 width = icdPanel.getWidth();
                 n = icdPanel.getSplitLocation() + 1.0f;

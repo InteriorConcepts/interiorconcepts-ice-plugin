@@ -50,6 +50,6 @@ public class ICDBeamILine extends ICDILine
     }
     
     static {
-        ICDBeamILine.logger = Logger.getLogger((Class)ICDBeamILine.class);
+        ICDBeamILine.logger = Logger.getLogger(ICDBeamILine.class);
     }
 }

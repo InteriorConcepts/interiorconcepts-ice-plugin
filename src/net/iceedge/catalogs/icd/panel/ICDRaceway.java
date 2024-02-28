@@ -83,7 +83,7 @@ public class ICDRaceway extends BasicRaceway implements ICDExtrusionInterface, I
         if (icdSubILine != null) {
             for (final GeneralIntersectionInterface generalIntersectionInterface : icdSubILine.getIntersections()) {
                 if (generalIntersectionInterface != null && "ICD_TwoWay90Intersection".equals(((EntityObject)generalIntersectionInterface).getCurrentOption().getId())) {
-                    final Vector armsOrderedByIndex = ((BasicIntersection)generalIntersectionInterface).getArmsOrderedByIndex();
+                    final Vector<IntersectionArmInterface> armsOrderedByIndex = ((BasicIntersection)generalIntersectionInterface).getArmsOrderedByIndex();
                     if (armsOrderedByIndex.size() != 2 || armsOrderedByIndex.get(1).getSegment() != parentSegment) {
                         continue;
                     }

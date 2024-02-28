@@ -56,7 +56,7 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
                             value2 = new TreeSet<Integer>();
                             ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.put(description, value2);
                         }
-                        final Iterator iterator3 = tableOfContents3.getPartItems().iterator();
+                        final Iterator<TableOfContents.PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
                         while (iterator3.hasNext()) {
                             final Part part = broker.getPart(iterator3.next().getPartName());
                             final String attributeValue = part.getAttributeValue("Depth", (String)null);

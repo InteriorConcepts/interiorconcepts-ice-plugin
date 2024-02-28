@@ -136,9 +136,9 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
             ICDIntersection.addLocation(vector, this.seg1.getSplitLocation(false));
             ICDIntersection.addLocation(vector, this.seg2.getSplitLocation(true));
         }
-        final ICDPost icdPost = (ICDPost)this.getChildByClass((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getChildByClass(ICDPost.class);
         if (icdPost != null) {
-            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
+            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass(ICDChaseMidConnectorContainer.class);
             if (icdChaseMidConnectorContainer != null && icdChaseMidConnectorContainer.isSuspendedContainer()) {
                 final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion = (ICDChaseConnectorExtrusion)icdChaseMidConnectorContainer.getChildByLWType("ICD_Chase_Mid_Bottom_Connector_Type");
                 if (icdChaseConnectorExtrusion != null) {
@@ -167,7 +167,7 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
             if (generalIntersectionContainer != null) {
                 final GeneralIntersectionInterface intersection = generalIntersectionContainer.getIntersectionAt(this.getBasePointWorldSpace());
                 if (intersection != null && intersection.isNonBreakingIntersection()) {
-                    final Iterator iterator = intersection.getArmVector().iterator();
+                    final Iterator<IntersectionArmInterface> iterator = intersection.getArmVector().iterator();
                     while (iterator.hasNext()) {
                         final Segment segment = iterator.next().getSegment();
                         if (segment != null && segment instanceof ICDBeamSegment) {
@@ -188,7 +188,7 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
             if (generalIntersectionContainer != null) {
                 final GeneralIntersectionInterface intersection = generalIntersectionContainer.getIntersectionAt(this.getBasePointWorldSpace());
                 if (intersection != null && intersection.isNonBreakingIntersection()) {
-                    final Iterator iterator = intersection.getArmVector().iterator();
+                    final Iterator<IntersectionArmInterface> iterator = intersection.getArmVector().iterator();
                     while (iterator.hasNext()) {
                         final Segment segment = iterator.next().getSegment();
                         if (segment != null && segment instanceof ICDSegment) {
@@ -267,7 +267,7 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
     public void setModified(final boolean b) {
         super.setModified(b);
         if (b) {
-            final ICDPost icdPost = (ICDPost)this.getChildByClass((Class)ICDPost.class);
+            final ICDPost icdPost = (ICDPost)this.getChildByClass(ICDPost.class);
             if (icdPost != null) {
                 icdPost.setModified(b);
             }
@@ -277,14 +277,14 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
     public Vector<ICDPanel> getCorePanelsVector() {
         final Vector<ICDPanel> vector = new Vector<ICDPanel>();
         if (this.seg1 != null) {
-            for (final ICDPanel e : this.seg1.getChildrenByClass((Class)ICDPanel.class, true, true)) {
+            for (final ICDPanel e : this.seg1.getChildrenByClass(ICDPanel.class, true, true)) {
                 if (e.isCorePanel()) {
                     vector.add(e);
                 }
             }
         }
         if (this.seg2 != null) {
-            for (final ICDPanel e2 : this.seg2.getChildrenByClass((Class)ICDPanel.class, true, true)) {
+            for (final ICDPanel e2 : this.seg2.getChildrenByClass(ICDPanel.class, true, true)) {
                 if (e2.isCorePanel()) {
                     vector.add(e2);
                 }
@@ -304,12 +304,12 @@ public class ICDPanelToPanelConnectionHW extends BasicFrameToFrameConnectionHW i
     }
     
     public Collection<JointIntersectable> getAllIntersectables() {
-        final Vector<Object> vector = new Vector<Object>();
-        final EnumerationIterator enumerationIterator = new EnumerationIterator(this.breadthFirstEnumeration());
-        while (((Iterator)enumerationIterator).hasNext()) {
-            final JointIntersectable next = ((Iterator<JointIntersectable>)enumerationIterator).next();
-            if (next instanceof JointIntersectable && next.doesParticipateInJointIntersection()) {
-                vector.add(next);
+        final Vector<JointIntersectable> vector = new Vector<JointIntersectable>();
+        final EnumerationIterator<Object> enumerationIterator = new EnumerationIterator(this.breadthFirstEnumeration());
+        while (enumerationIterator.hasNext()) {
+            final Object next = enumerationIterator.next();
+            if (next instanceof JointIntersectable && ((JointIntersectable) next).doesParticipateInJointIntersection()) {
+                vector.add((JointIntersectable) next);
             }
         }
         if (this.seg1 instanceof ICDSegment) {

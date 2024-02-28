@@ -71,7 +71,7 @@ public class ICDHarnessExtensionTubing extends TransformableEntity implements IC
     }
     
     private ICDElectricalCable getParentCable() {
-        return (ICDElectricalCable)this.getParentByClassRecursive((Class)ICDElectricalCable.class);
+        return (ICDElectricalCable)this.getParentByClassRecursive(ICDElectricalCable.class);
     }
     
     public boolean isQuoteable(final String s) {

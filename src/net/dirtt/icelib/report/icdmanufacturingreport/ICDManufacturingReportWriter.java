@@ -75,9 +75,9 @@ public class ICDManufacturingReportWriter extends ReportWriter
     }
     
     private void writeAssembledChildren(final AssembleParent assembleParent, final String value, final int n) throws IOException {
-        final HashSet assembledChildrenForManReport = assembleParent.getAssembledChildrenForManReport();
+        final HashSet<TypeableEntity> assembledChildrenForManReport = assembleParent.getAssembledChildrenForManReport();
         if (assembledChildrenForManReport.size() > 0) {
-            final HashMap<Object, Integer> hashMap = new HashMap<Object, Integer>();
+            final HashMap<TreeMap<String, String>, Integer> hashMap = new HashMap<TreeMap<String, String>, Integer>();
             for (final TypeableEntity typeableEntity : assembledChildrenForManReport) {
                 final TreeMap<String, String> key = new TreeMap<String, String>();
                 typeableEntity.getManufacturingInfo((TreeMap)key);
@@ -86,7 +86,7 @@ public class ICDManufacturingReportWriter extends ReportWriter
                 if (hashMap.containsKey(key)) {
                     intValue = hashMap.get(key);
                     ++intValue;
-                    if (assembleParent instanceof ICDILine && ((ICDILine)assembleParent).isVerticalChase() && typeableEntity.getParent((Class)ICDPost.class) != null) {
+                    if (assembleParent instanceof ICDILine && ((ICDILine)assembleParent).isVerticalChase() && typeableEntity.getParent(ICDPost.class) != null) {
                         intValue /= 2;
                     }
                 }
@@ -139,7 +139,7 @@ public class ICDManufacturingReportWriter extends ReportWriter
     }
     
     public Vector<ReportNode> getReportNodes() {
-        final Enumeration breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
+        final Enumeration<ReportNode> breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
         final Vector<ReportNode> vector = new Vector<ReportNode>();
         while (breadthFirstEnumeration.hasMoreElements()) {
             final ReportNode e = breadthFirstEnumeration.nextElement();

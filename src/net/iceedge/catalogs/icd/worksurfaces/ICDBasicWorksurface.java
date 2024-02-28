@@ -141,7 +141,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     }
     
     protected void refreshNamedPoints() {
-        for (int i = this.getChildrenByClass((Class)ICDChildModel.class, false, true).size(); i > 0; --i) {
+        for (int i = this.getChildrenByClass(ICDChildModel.class, false, true).size(); i > 0; --i) {
             if (this.getNamedScaleLocal("SCL" + i) == null) {
                 this.addNamedScale("SCL" + i, new Vector3f(1.0f, 1.0f, 1.0f));
             }
@@ -270,7 +270,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
         }
         final EntityObject bestSnapHost = this.iLinesnapper.findBestSnapHost(yDimension / 2.0f + 0.51f);
         if (bestSnapHost != null && bestSnapHost.getParent() != null && !bestSnapHost.getParent().equals(this.getParent())) {
-            final GeneralSnapSet set = (GeneralSnapSet)bestSnapHost.getParent((Class)GeneralSnapSet.class);
+            final GeneralSnapSet set = (GeneralSnapSet)bestSnapHost.getParent(GeneralSnapSet.class);
             this.cutTriggers();
             if (set != null) {
                 set.addToTree((EntityObject)this);
@@ -328,7 +328,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
                     final Vector3f namedScaleLocal = this.getNamedScaleLocal("SCL" + s);
                     final Point3f namedPointLocal = this.getNamedPointLocal("POS" + s);
                     if (namedScaleLocal != null && namedPointLocal != null) {
-                        for (final ICDChildModel icdChildModel : this.getChildrenByClass((Class)ICDChildModel.class, false, true)) {
+                        for (final ICDChildModel icdChildModel : this.getChildrenByClass(ICDChildModel.class, false, true)) {
                             if (s.equals(icdChildModel.getModelNumber())) {
                                 icdChildModel.scaleModels(namedScaleLocal, oldWidth, oldDepth);
                             }
@@ -514,7 +514,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     }
     
     public void moveChildren(final char c, final float n) {
-        for (final ICDChildModel icdChildModel : this.getChildrenByClass((Class)ICDChildModel.class, false, true)) {
+        for (final ICDChildModel icdChildModel : this.getChildrenByClass(ICDChildModel.class, false, true)) {
             final Point3f namedPointLocal = icdChildModel.getNamedPointLocal("SVG_POS");
             final Point3f namedPointLocal2 = icdChildModel.getNamedPointLocal("ASE_POS");
             if (namedPointLocal != null && namedPointLocal2 != null) {
@@ -575,7 +575,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     }
     
     public void handleDynamicAttributes() {
-        final HashMap attributeList = this.currentCatalogOption.getAttributeList();
+        final HashMap<String, Attribute> attributeList = this.currentCatalogOption.getAttributeList();
         if (attributeList != null) {
             for (final String str : attributeList.keySet()) {
                 final Attribute attribute = (Attribute)attributeList.get(str);
@@ -769,10 +769,10 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     }
     
     public List<TypeableEntity> getFinishRoots() {
-        final LinkedList<ICDBasicWorksurface> list = new LinkedList<ICDBasicWorksurface>();
-        final TypeableEntity typeableEntity = (TypeableEntity)this.getParent((Class)TypeableEntity.class);
+        final LinkedList<TypeableEntity> list = new LinkedList<TypeableEntity>();
+        final TypeableEntity typeableEntity = (TypeableEntity)this.getParent(TypeableEntity.class);
         if (typeableEntity != null) {
-            list.addAll((Collection<?>)typeableEntity.getFinishRoots());
+            list.addAll(typeableEntity.getFinishRoots());
         }
         list.add(this);
         return (List<TypeableEntity>)list;
@@ -847,7 +847,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
         final GeneralSnapSet generalSnapSet = this.getGeneralSnapSet();
         if (generalSnapSet != null) {
             final BoundingCube worldBoundingCube = this.getWorldBoundingCube();
-            for (final ICDPanel icdPanel : generalSnapSet.getChildrenByClass((Class)ICDPanel.class, true)) {
+            for (final ICDPanel icdPanel : generalSnapSet.getChildrenByClass(ICDPanel.class, true)) {
                 if (worldBoundingCube.intersect(icdPanel.getWorldBoundingCube())) {
                     final Point3f convertPointToOtherLocalSpace = MathUtilities.convertPointToOtherLocalSpace((EntityObject)icdPanel, this.getBasePointWorldSpace());
                     if (!icdPanel.hasChaseOnPointSide(convertPointToOtherLocalSpace)) {
@@ -904,37 +904,37 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     }
     
     private Collection<? extends EntitySpaceCompareNodeWrapper> getDipEntitySpaceCompare() {
-        final List childrenByClass = this.getChildrenByClass((Class)ICDWireDip.class, false, true);
-        if (childrenByClass != null) {
-            final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
-            for (final ICDWireDip icdWireDip : childrenByClass) {
-                final ArrayList<Point3f> list2 = new ArrayList<Point3f>();
-                final Point3f point3f = new Point3f(icdWireDip.getAttributeValueAsFloat("ICD_WireDip_Distance"), 0.0f, 0.0f);
-                if (point3f != null) {
-                    list2.add(point3f);
-                }
-                list.add(new EntitySpaceCompareNodeWrapper((TransformableEntity)icdWireDip, (Collection)list2));
-            }
-            return list;
+        final List<ICDWireDip> childrenByClass = this.getChildrenByClass(ICDWireDip.class, false, true);
+        if (childrenByClass == null) {
+            return null;
         }
-        return null;
+        final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
+        for (final ICDWireDip icdWireDip : childrenByClass) {
+            final ArrayList<Point3f> list2 = new ArrayList<Point3f>();
+            final Point3f point3f = new Point3f(icdWireDip.getAttributeValueAsFloat("ICD_WireDip_Distance"), 0.0f, 0.0f);
+            if (point3f != null) {
+                list2.add(point3f);
+            }
+            list.add(new EntitySpaceCompareNodeWrapper((TransformableEntity)icdWireDip, list2));
+        }
+        return list;
     }
     
     private Collection<? extends EntitySpaceCompareNodeWrapper> getCutOutEntitySpaceCompare() {
-        final List childrenByClass = this.getChildrenByClass((Class)ICDParametricCutout.class, false, true);
-        if (childrenByClass != null) {
-            final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
-            for (final ICDParametricCutout icdParametricCutout : childrenByClass) {
-                final ArrayList<Point3f> list2 = new ArrayList<Point3f>();
-                final Point3f point3f = new Point3f(icdParametricCutout.getAttributeValueAsFloat("ICD_Parametric_Cutout_Distance_X"), icdParametricCutout.getAttributeValueAsFloat("ICD_Parametric_Cutout_Distance_Y"), 0.0f);
-                if (point3f != null) {
-                    list2.add(point3f);
-                }
-                list.add(new EntitySpaceCompareNodeWrapper((TransformableEntity)icdParametricCutout, (Collection)list2));
-            }
-            return list;
+        final List<ICDParametricCutout> childrenByClass = this.getChildrenByClass(ICDParametricCutout.class, false, true);
+        if (childrenByClass == null) {
+            return null;
         }
-        return null;
+        final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
+        for (final ICDParametricCutout icdParametricCutout : childrenByClass) {
+            final ArrayList<Point3f> list2 = new ArrayList<Point3f>();
+            final Point3f point3f = new Point3f(icdParametricCutout.getAttributeValueAsFloat("ICD_Parametric_Cutout_Distance_X"), icdParametricCutout.getAttributeValueAsFloat("ICD_Parametric_Cutout_Distance_Y"), 0.0f);
+            if (point3f != null) {
+                list2.add(point3f);
+            }
+            list.add(new EntitySpaceCompareNodeWrapper((TransformableEntity)icdParametricCutout, list2));
+        }
+        return list;
     }
     
     public void getManufacturingInfo(final TreeMap<String, String> treeMap) {
@@ -959,24 +959,25 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     
     private Vector<String> gatherFinishes() {
         final Vector<String> vector = new Vector<String>();
-        final List childrenByClass = this.getChildrenByClass((Class)BasicMaterialEntity.class, false);
-        if (childrenByClass != null) {
-            for (int i = 0; i < childrenByClass.size(); ++i) {
-                final BasicMaterialEntity basicMaterialEntity = childrenByClass.get(i);
-                String e = "";
-                if (basicMaterialEntity.getChildCount() > 0) {
-                    if (basicMaterialEntity.getChildAt(0) instanceof BasicMaterialEntity) {
-                        final BasicMaterialEntity basicMaterialEntity2 = (BasicMaterialEntity)basicMaterialEntity.getChildAt(0);
-                        if (basicMaterialEntity2.getAttributeValueAsString("Material_ID") != null) {
-                            e = basicMaterialEntity2.getAttributeValueAsString("Material_ID");
-                        }
+        final List<BasicMaterialEntity> childrenByClass = this.getChildrenByClass(BasicMaterialEntity.class, false);
+        if (childrenByClass == null) {
+            return vector;
+        }
+        for (int i = 0; i < childrenByClass.size(); ++i) {
+            final BasicMaterialEntity basicMaterialEntity = childrenByClass.get(i);
+            String e = "";
+            if (basicMaterialEntity.getChildCount() > 0) {
+                if (basicMaterialEntity.getChildAt(0) instanceof BasicMaterialEntity) {
+                    final BasicMaterialEntity basicMaterialEntity2 = (BasicMaterialEntity)basicMaterialEntity.getChildAt(0);
+                    if (basicMaterialEntity2.getAttributeValueAsString("Material_ID") != null) {
+                        e = basicMaterialEntity2.getAttributeValueAsString("Material_ID");
                     }
                 }
-                else if (basicMaterialEntity.getAttributeValueAsString("Material_ID") != null) {
-                    e = basicMaterialEntity.getAttributeValueAsString("Material_ID");
-                }
-                vector.add(e);
             }
+            else if (basicMaterialEntity.getAttributeValueAsString("Material_ID") != null) {
+                e = basicMaterialEntity.getAttributeValueAsString("Material_ID");
+            }
+            vector.add(e);
         }
         return vector;
     }
@@ -1273,7 +1274,7 @@ public class ICDBasicWorksurface extends TransformableTriggerUser implements Bas
     
     static {
         ICDBasicWorksurface.skuGenerator = null;
-        ICDBasicWorksurface.logger = Logger.getLogger((Class)ICDBasicWorksurface.class);
+        ICDBasicWorksurface.logger = Logger.getLogger(ICDBasicWorksurface.class);
     }
     
     private class WidthGripListener implements GripListener

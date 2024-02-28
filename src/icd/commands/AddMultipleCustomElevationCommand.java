@@ -43,7 +43,7 @@ public class AddMultipleCustomElevationCommand extends Command
         if (point2 == null) {
             return false;
         }
-        final boolean addMultipleCustomElevationDoCommand = CommandModuleWork.addMultipleCustomElevationDoCommand((Vector)this.entities, this.solution, this.side, point, point, point2, (Class)this.parentEntityClass, (Class)this.elevationClass);
+        final boolean addMultipleCustomElevationDoCommand = CommandModuleWork.addMultipleCustomElevationDoCommand((Vector)this.entities, this.solution, this.side, point, point, point2, this.parentEntityClass, this.elevationClass);
         this.solution.solve();
         this.solution.fireModelEvents();
         return addMultipleCustomElevationDoCommand;

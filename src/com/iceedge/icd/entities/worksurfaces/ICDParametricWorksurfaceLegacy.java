@@ -44,7 +44,8 @@ public class ICDParametricWorksurfaceLegacy extends BasicParametricWorksurface i
     }
     
     protected void getOverlappingIntersections(final Solution solution, final List<Point3f> list) {
-        for (final ICDIntersection icdIntersection : solution.getChildrenByClass((Class)ICDIntersection.class, true, true)) {
+        List<ICDIntersection> intersections = solution.getChildrenByClass(ICDIntersection.class, true, true);
+        for (final ICDIntersection icdIntersection : intersections) {
             if (this.getRealBounds(-1.0f).contains(new Point2D.Float(icdIntersection.getBasePointWorldSpace().x, icdIntersection.getBasePointWorldSpace().y))) {
                 list.add(this.convertPointToLocal(icdIntersection.getBasePointWorldSpace()));
             }
@@ -64,11 +65,11 @@ public class ICDParametricWorksurfaceLegacy extends BasicParametricWorksurface i
     
     public Collection<ICDChaseExtrusion> getChaseExtrusions() {
         final Vector<ICDChaseExtrusion> vector = new Vector<ICDChaseExtrusion>();
-        final EnumerationIterator enumerationIterator = new EnumerationIterator(this.breadthFirstEnumeration());
-        while (((Iterator)enumerationIterator).hasNext()) {
-            final ICDChaseExtrusion next = ((Iterator<ICDChaseExtrusion>)enumerationIterator).next();
+        final EnumerationIterator<Object> enumerationIterator = new EnumerationIterator(this.breadthFirstEnumeration());
+        while (enumerationIterator.hasNext()) {
+            final Object next = enumerationIterator.next();
             if (next instanceof ICDChaseExtrusion) {
-                vector.add(next);
+                vector.add((ICDChaseExtrusion) next);
             }
         }
         return vector;

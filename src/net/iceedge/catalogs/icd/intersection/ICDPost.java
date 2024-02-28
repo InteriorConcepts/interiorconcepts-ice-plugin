@@ -177,7 +177,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         }
         final GeneralIntersectionInterface parentIntersection = this.getParentIntersection();
         if (parentIntersection != null && parentIntersection.getIntersectionType() == 2 && "ICD_TwoWayCurvedPostType".equals(this.getCurrentType().getId())) {
-            final Vector armVector = parentIntersection.getArmVector();
+            final Vector<IntersectionArmInterface> armVector = parentIntersection.getArmVector();
             if (armVector != null && armVector.size() > 0) {
                 final IntersectionArmInterface intersectionArmInterface = armVector.get(0);
                 if (intersectionArmInterface != null) {
@@ -229,7 +229,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     private void collectTubingAndJoints() {
         this.tubings.clear();
         this.joints.clear();
-        final Iterator children = this.getChildren();
+        final Iterator<EntityObject> children = this.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (entityObject instanceof ICDMiddleJoint) {
@@ -249,8 +249,8 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         if (postHostInterface != null) {
             final Vector<Float> splitLocations = postHostInterface.getSplitLocations();
             if (splitLocations != null && splitLocations.size() >= 2) {
-                final TypeObject childType = this.getChildTypeFor((Class)ICDSubInternalExtrusion.class);
-                final TypeObject childType2 = this.getChildTypeFor((Class)ICDMiddleJoint.class);
+                final TypeObject childType = this.getChildTypeFor(ICDSubInternalExtrusion.class);
+                final TypeObject childType2 = this.getChildTypeFor(ICDMiddleJoint.class);
                 final Point3f basePoint = new Point3f();
                 final Point3f basePoint2 = new Point3f();
                 float floatValue = splitLocations.get(0);
@@ -368,7 +368,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     protected ICDPostHostInterface getPostHostInterface() {
-        return (ICDPostHostInterface)this.getParent((Class)ICDPostHostInterface.class);
+        return (ICDPostHostInterface)this.getParent(ICDPostHostInterface.class);
     }
     
     public boolean isSubFramePost() {
@@ -381,21 +381,21 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         float n3 = this.getChaseTopHeight();
         float n4 = this.getChaseTopHeight();
         float n5 = 0.0f;
-        final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)this.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
+        final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)this.getChildByClass(ICDChaseMidConnectorContainer.class);
         final Vector<ICDPanel> vector = new Vector<ICDPanel>();
         if (icdChaseMidConnectorContainer != null) {
-            final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+            final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
             if (icdIntersection != null) {
-                final Iterator iterator = icdIntersection.getSegmentsFromArms().iterator();
+                final Iterator<Segment> iterator = icdIntersection.getSegmentsFromArms().iterator();
                 while (iterator.hasNext()) {
-                    for (final ICDPanel e : iterator.next().getChildrenByClass((Class)ICDPanel.class, true, true)) {
+                    for (final ICDPanel e : iterator.next().getChildrenByClass(ICDPanel.class, true, true)) {
                         if (e.isCorePanel()) {
                             vector.add(e);
                         }
                     }
                 }
             }
-            else if (this.getParentByClassRecursive((Class)ICDSubILine.class) != null) {
+            else if (this.getParentByClassRecursive(ICDSubILine.class) != null) {
                 final EntityObject parentEntity = this.getParentEntity();
                 if (parentEntity != null && parentEntity instanceof ICDPanelToPanelConnectionHW) {
                     vector.addAll(((ICDPanelToPanelConnectionHW)parentEntity).getCorePanelsVector());
@@ -581,18 +581,18 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public void setModified(final boolean modified) {
         super.setModified(modified);
-        for (final ICDPost icdPost : this.getChildrenByClass((Class)ICDPost.class, false, false)) {
+        for (final ICDPost icdPost : this.getChildrenByClass(ICDPost.class, false, false)) {
             if (icdPost.isFakePost()) {
                 icdPost.setModified(true);
             }
         }
-        final ICDPostHostInterface icdPostHostInterface = (ICDPostHostInterface)this.getParent((Class)ICDPostHostInterface.class);
+        final ICDPostHostInterface icdPostHostInterface = (ICDPostHostInterface)this.getParent(ICDPostHostInterface.class);
         if (icdPostHostInterface != null && icdPostHostInterface instanceof ICDPanelToPanelConnectionHW) {
-            final Iterator<ICDJoint> iterator2 = this.getChildrenByClass((Class)ICDJoint.class, false, true).iterator();
+            final Iterator<ICDJoint> iterator2 = this.getChildrenByClass(ICDJoint.class, false, true).iterator();
             while (iterator2.hasNext()) {
                 iterator2.next().setModified(modified);
             }
-            final Iterator<ICDCornerSlot> iterator3 = this.getChildrenByClass((Class)ICDCornerSlot.class, true, false).iterator();
+            final Iterator<ICDCornerSlot> iterator3 = this.getChildrenByClass(ICDCornerSlot.class, true, false).iterator();
             while (iterator3.hasNext()) {
                 iterator3.next().setModified(modified);
             }
@@ -714,7 +714,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private void setContainerSuspendedHeight(final float n, final float n2, final float n3, final float n4) {
-        final EntityObject childByClass = this.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
+        final EntityObject childByClass = this.getChildByClass(ICDChaseMidConnectorContainer.class);
         if (childByClass != null) {
             ((ICDChaseMidConnectorContainer)childByClass).refreshContainer(n, n2, this.getChaseTopHeight(), this.getChaseBottomHeight(), n3, n4);
         }
@@ -835,7 +835,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     public HashSet<EntityObject> getDirectAssemblyParts() {
-        final HashSet<Object> set = (HashSet<Object>)new HashSet<ICDPost>();
+        final HashSet<EntityObject> set = new HashSet<EntityObject>();
         final String id = this.getCurrentOption().getId();
         if ("ICD_Angled_Panel".equals(id)) {
             this.addAssemblyPartsForCurvedOrAngledPanel((HashSet<EntityObject>)set);
@@ -844,7 +844,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             this.addAssemblyPartsForCurvedOrAngledPanel((HashSet<EntityObject>)set);
         }
         else {
-            for (final EntityObject e : this.getChildrenByClass((Class)EntityObject.class, false, true)) {
+            for (final EntityObject e : this.getChildrenByClass(EntityObject.class, false, true)) {
                 if (e.containsAttributeKey("isAssembled")) {
                     set.add(e);
                 }
@@ -852,14 +852,14 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             this.addChildrenOfBoltOnJoint((EntityObject)this, (HashSet<EntityObject>)set);
         }
         set.add(this);
-        set.addAll(this.getChildrenByClass((Class)ICDCornerSlot.class, true, true));
+        set.addAll(this.getChildrenByClass(ICDCornerSlot.class, true, true));
         return (HashSet<EntityObject>)set;
     }
     
     private void addChildrenOfBoltOnJoint(final EntityObject entityObject, final HashSet<EntityObject> set) {
-        final EntityObject childByClass = entityObject.getChildByClass((Class)ICDMiddleJoint.class);
+        final EntityObject childByClass = entityObject.getChildByClass(ICDMiddleJoint.class);
         if (childByClass != null && ((ICDMiddleJoint)childByClass).isBoltOnJoint()) {
-            for (final ICDTypeValidatorEntity e : childByClass.getChildrenByClass((Class)ICDTypeValidatorEntity.class, true)) {
+            for (final ICDTypeValidatorEntity e : childByClass.getChildrenByClass(ICDTypeValidatorEntity.class, true)) {
                 if (e.containsAttributeKey("isAssembled")) {
                     set.add((EntityObject)e);
                 }
@@ -870,7 +870,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     public HashSet<EntityObject> getIndirectAssemblyParts() {
         final HashSet<EntityObject> set = new HashSet<EntityObject>();
         if ("ICD_Angled_Panel".equals(this.getCurrentOption().getId())) {
-            final Iterator<ICDPost> iterator = this.getChildrenByClass((Class)ICDPost.class, false, true).iterator();
+            final Iterator<ICDPost> iterator = this.getChildrenByClass(ICDPost.class, false, true).iterator();
             while (iterator.hasNext()) {
                 iterator.next().addAssemblyPartsFromChaseMidConnectorContainer(set);
             }
@@ -886,9 +886,9 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private void addAssemblyPartsFromChaseMidConnectorContainer(final HashSet<EntityObject> set) {
-        final Iterator<ICDChaseMidConnectorContainer> iterator = this.getChildrenByClass((Class)ICDChaseMidConnectorContainer.class, false, true).iterator();
+        final Iterator<ICDChaseMidConnectorContainer> iterator = this.getChildrenByClass(ICDChaseMidConnectorContainer.class, false, true).iterator();
         while (iterator.hasNext()) {
-            for (final EntityObject e : iterator.next().getChildrenByClass((Class)EntityObject.class, true, true)) {
+            for (final EntityObject e : iterator.next().getChildrenByClass(EntityObject.class, true, true)) {
                 if (e.containsAttributeKey("isAssembled")) {
                     set.add(e);
                 }
@@ -919,7 +919,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public boolean hasMiddleJoint() {
         boolean b = false;
-        final EntityObject childByClass = this.getChildByClass((Class)ICDMiddleJoint.class);
+        final EntityObject childByClass = this.getChildByClass(ICDMiddleJoint.class);
         if (childByClass != null && "Yes".equals(((ICDMiddleJoint)childByClass).getAttributeValueAsString("Joint_BoltOn"))) {
             b = true;
         }
@@ -928,7 +928,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public boolean hasBoltOnJointOnHeight(final float n) {
         boolean b = false;
-        final EntityObject childByClass = this.getChildByClass((Class)ICDMiddleJoint.class);
+        final EntityObject childByClass = this.getChildByClass(ICDMiddleJoint.class);
         if (childByClass != null && "Yes".equals(((ICDMiddleJoint)childByClass).getAttributeValueAsString("Joint_BoltOn"))) {
             final Point3f basePointWorldSpace = childByClass.getBasePointWorldSpace();
             if (basePointWorldSpace != null && MathUtilities.isSameFloat(n, basePointWorldSpace.z, 1.0f)) {
@@ -940,7 +940,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public float getBoltOnJointHeight(final float n) {
         float big_NEGATIVE = ICDPost.BIG_NEGATIVE;
-        final EntityObject childByClass = this.getChildByClass((Class)ICDMiddleJoint.class);
+        final EntityObject childByClass = this.getChildByClass(ICDMiddleJoint.class);
         if (childByClass != null && "Yes".equals(((ICDMiddleJoint)childByClass).getAttributeValueAsString("Joint_BoltOn"))) {
             final Point3f basePointWorldSpace = childByClass.getBasePointWorldSpace();
             if (basePointWorldSpace != null) {
@@ -1018,7 +1018,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         final GeneralIntersectionInterface parentIntersection = this.getParentIntersection();
         if (parentIntersection != null && parentIntersection.getIntersectionType() == 2 && "ICD_TwoWayCurvedPostType".equals(this.getCurrentType().getId())) {
             float n = 1.0f;
-            final Vector armVector = parentIntersection.getArmVector();
+            final Vector<IntersectionArmInterface> armVector = parentIntersection.getArmVector();
             if (armVector != null && armVector.size() == 2) {
                 for (int i = 0; i < 2; ++i) {
                     final IntersectionArmInterface intersectionArmInterface = armVector.get(i);
@@ -1056,7 +1056,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
         ICDPost icdPost = null;
         ICDPost icdPost2 = null;
-        for (final ICDPost icdPost3 : this.getChildrenFirstAppearance((Class)ICDPost.class, true)) {
+        for (final ICDPost icdPost3 : this.getChildrenFirstAppearance(ICDPost.class, true)) {
             final LightWeightTypeObject lwTypeCreated = icdPost3.getLwTypeCreatedFrom();
             if (lwTypeCreated != null) {
                 if (lwTypeCreated.getId().equals("Curved_Fake_Post_2")) {
@@ -1096,7 +1096,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             }
             final Vector3f vector3f = new Vector3f(1.5707964f, 0.0f, 0.0f);
             float n2 = 0.0f;
-            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : icdPost.getChildrenFirstAppearance((Class)ICDChaseConnectorExtrusion.class, true)) {
+            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : icdPost.getChildrenFirstAppearance(ICDChaseConnectorExtrusion.class, true)) {
                 if (!icdChaseConnectorExtrusion.isVertical()) {
                     n2 = icdChaseConnectorExtrusion.getYDimension();
                 }
@@ -1116,7 +1116,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
                     vector.add((Ice2DPaintableNode)assemblyDimensionTextNode3);
                 }
             }
-            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion2 : icdPost2.getChildrenFirstAppearance((Class)ICDChaseConnectorExtrusion.class, true)) {
+            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion2 : icdPost2.getChildrenFirstAppearance(ICDChaseConnectorExtrusion.class, true)) {
                 if (!icdChaseConnectorExtrusion2.isVertical()) {
                     n2 = icdChaseConnectorExtrusion2.getYDimension();
                 }
@@ -1158,7 +1158,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     private void validateCurvedPanelStyle() {
         ICDPost icdPost = null;
         ICDPost icdPost2 = null;
-        for (final ICDPost icdPost3 : this.getChildrenFirstAppearance((Class)ICDPost.class, true)) {
+        for (final ICDPost icdPost3 : this.getChildrenFirstAppearance(ICDPost.class, true)) {
             final LightWeightTypeObject lwTypeCreated = icdPost3.getLwTypeCreatedFrom();
             if (lwTypeCreated != null) {
                 if (lwTypeCreated.getId().equals("Curved_Fake_Post_2")) {
@@ -1200,7 +1200,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
                 point3f4 = icdPost2.getNamedPointWorld("Spot3");
                 point3f5 = icdPost2.getNamedPointWorld("Spot1");
             }
-            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : icdPost.getChildrenFirstAppearance((Class)ICDChaseConnectorExtrusion.class, true)) {
+            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : icdPost.getChildrenFirstAppearance(ICDChaseConnectorExtrusion.class, true)) {
                 if (icdChaseConnectorExtrusion.isVertical()) {
                     final Point3f basePointWorldSpace3 = icdChaseConnectorExtrusion.getBasePointWorldSpace();
                     if (point3f2.distance(basePointWorldSpace3) < point3f3.distance(basePointWorldSpace3)) {
@@ -1211,7 +1211,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
                     }
                 }
             }
-            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion2 : icdPost2.getChildrenFirstAppearance((Class)ICDChaseConnectorExtrusion.class, true)) {
+            for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion2 : icdPost2.getChildrenFirstAppearance(ICDChaseConnectorExtrusion.class, true)) {
                 if (icdChaseConnectorExtrusion2.isVertical()) {
                     final Point3f basePointWorldSpace4 = icdChaseConnectorExtrusion2.getBasePointWorldSpace();
                     if (point3f4.distance(basePointWorldSpace4) < point3f5.distance(basePointWorldSpace4)) {
@@ -1224,7 +1224,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             }
         }
         boolean equals = false;
-        final Iterator<ICDPanel> iterator4 = this.getChildrenFirstAppearance((Class)ICDPanel.class, true).iterator();
+        final Iterator<ICDPanel> iterator4 = this.getChildrenFirstAppearance(ICDPanel.class, true).iterator();
         if (iterator4.hasNext()) {
             equals = "Yes".equals(iterator4.next().getAttributeValueAsString("With_Horizontal_InnerExtrusion"));
         }
@@ -1252,7 +1252,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public Collection<ICDSubInternalExtrusion> getAllSubInternalTubes() {
         final Vector<ICDSubInternalExtrusion> vector = new Vector<ICDSubInternalExtrusion>();
-        final Iterator children = this.getChildren();
+        final Iterator<EntityObject> children = this.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (entityObject instanceof ICDSubInternalExtrusion) {
@@ -1264,7 +1264,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     protected void validateBoltOnJoints() {
         boolean b = false;
-        final Iterator<ICDJoint> iterator = (Iterator<ICDJoint>)this.getChildrenByClass((Class)ICDMiddleJoint.class, false, true).iterator();
+        final Iterator<? extends ICDJoint> iterator = (Iterator<? extends ICDJoint>)this.getChildrenByClass(ICDMiddleJoint.class, false, true).iterator();
         while (iterator.hasNext()) {
             if ("Yes".equals(iterator.next().getAttributeValueAsString("Joint_BoltOn"))) {
                 b = true;
@@ -1291,7 +1291,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     private ICDSubInternalExtrusion getLowestExtrusion() {
         ICDSubInternalExtrusion icdSubInternalExtrusion = null;
         float z = 999.0f;
-        for (final ICDSubInternalExtrusion icdSubInternalExtrusion2 : this.getChildrenByClass((Class)ICDSubInternalExtrusion.class, false, true)) {
+        for (final ICDSubInternalExtrusion icdSubInternalExtrusion2 : this.getChildrenByClass(ICDSubInternalExtrusion.class, false, true)) {
             if (icdSubInternalExtrusion2.getBasePointWorldSpace().z < z) {
                 z = icdSubInternalExtrusion2.getBasePointWorldSpace().z;
                 icdSubInternalExtrusion = icdSubInternalExtrusion2;
@@ -1310,7 +1310,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     public boolean shouldCreateElevation() {
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         return (icdIntersection == null || icdIntersection.getVerticalChase() == null) && super.shouldCreateElevation();
     }
     
@@ -1320,7 +1320,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private boolean isSplit() {
-        final Iterator<ICDAngledPanel> iterator = this.getChildrenFirstAppearance((Class)ICDAngledPanel.class, true).iterator();
+        final Iterator<ICDAngledPanel> iterator = this.getChildrenFirstAppearance(ICDAngledPanel.class, true).iterator();
         while (iterator.hasNext()) {
             if (iterator.next().getAttributeValueAsString("With_Horizontal_InnerExtrusion", "No").equals("Yes")) {
                 return true;
@@ -1330,7 +1330,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private float getWorksurfaceHeight() {
-        for (final ICDAngledPanel icdAngledPanel : this.getChildrenFirstAppearance((Class)ICDAngledPanel.class, true)) {
+        for (final ICDAngledPanel icdAngledPanel : this.getChildrenFirstAppearance(ICDAngledPanel.class, true)) {
             if (icdAngledPanel.getAttributeValueAsString("With_Horizontal_InnerExtrusion", "No").equals("Yes")) {
                 return icdAngledPanel.getAttributeValueAsFloat("ICD_Height_From_Floor", 0.0f);
             }
@@ -1399,7 +1399,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     private Vector<ICDJoint> getJoints() {
         final Vector<ICDJoint> vector = new Vector<ICDJoint>();
-        final List childrenByClass = this.getChildrenByClass((Class)ICDJoint.class, true, true);
+        final List<ICDJoint> childrenByClass = this.getChildrenByClass(ICDJoint.class, true, true);
         if (this.needExtraIndirectAssemblyParts()) {
             this.getExtraIndirectJoints(childrenByClass);
         }
@@ -1427,7 +1427,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
                     list2.add(namedPointLocal2);
                 }
                 int n = 0;
-                final Iterator iterator2 = transformableEntity.getChildrenByClass((Class)ICDCornerSlot.class, false).iterator();
+                final Iterator<ICDCornerSlot> iterator2 = transformableEntity.getChildrenByClass(ICDCornerSlot.class, false).iterator();
                 while (iterator2.hasNext()) {
                     if (iterator2.next().isSlotted()) {
                         ++n;
@@ -1444,9 +1444,9 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private Vector<TransformableEntity> getTubes() {
-        final Vector<BasicExtrusion> vector = (Vector<BasicExtrusion>)new Vector<TransformableEntity>();
-        final List childrenByClass = this.getChildrenByClass((Class)BasicExtrusion.class, true, true);
-        final List childrenByClass2 = this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, true, true);
+        final Vector<TransformableEntity> vector = new Vector<TransformableEntity>();
+        final List<BasicExtrusion> childrenByClass = this.getChildrenByClass(BasicExtrusion.class, true, true);
+        final List<ICDChaseConnectorExtrusion> childrenByClass2 = this.getChildrenByClass(ICDChaseConnectorExtrusion.class, true, true);
         if (this.needExtraIndirectAssemblyParts()) {
             this.getExtraIndirectTubes(childrenByClass);
         }
@@ -1484,7 +1484,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public Vector<ICDCornerSlot> getSlots() {
         final Vector<ICDCornerSlot> vector = new Vector<ICDCornerSlot>();
-        for (final ICDCornerSlot e : this.getChildrenByClass((Class)ICDCornerSlot.class, true)) {
+        for (final ICDCornerSlot e : this.getChildrenByClass(ICDCornerSlot.class, true)) {
             if (e.isSlotted()) {
                 vector.add(e);
             }
@@ -1493,7 +1493,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     public Collection<EntitySpaceCompareNodeWrapper> getSpaceCompareNodeWrappers() {
-        final LinkedList<Object> list = (LinkedList<Object>)new LinkedList<EntitySpaceCompareNodeWrapper>();
+        final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
         list.addAll(this.getJointsEntitySpaceCompare());
         list.addAll(this.getTubesEntitySpaceCompare());
         list.addAll(this.getSlotsEntitySpaceCompare());
@@ -1513,7 +1513,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public HashSet<TypeableEntity> getAssembledChildrenForManReport() {
         final HashSet<TypeableEntity> set = new HashSet<TypeableEntity>();
-        final HashSet<Object> set2 = new HashSet<Object>();
+        final HashSet<EntityObject> set2 = new HashSet<EntityObject>();
         set2.addAll(this.getDirectAssemblyParts());
         set2.addAll(this.getIndirectAssemblyParts());
         for (final EntityObject entityObject : set2) {
@@ -1575,7 +1575,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         boolean b = false;
         final GeneralIntersectionInterface parentIntersection = this.getParentIntersection();
         if (parentIntersection != null) {
-            final Iterator iterator = parentIntersection.getArmVector().iterator();
+            final Iterator<IntersectionArmInterface> iterator = parentIntersection.getArmVector().iterator();
             while (iterator.hasNext()) {
                 b = ((ICDILine)iterator.next().getWallSet()).shouldILineAssemble();
                 if (b) {
@@ -1584,18 +1584,18 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             }
         }
         else {
-            b = ((ICDILine)this.getParent((Class)ICDILine.class)).shouldILineAssemble();
+            b = ((ICDILine)this.getParent(ICDILine.class)).shouldILineAssemble();
         }
         return b;
     }
     
     private boolean needExtraIndirectAssemblyParts() {
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         return icdIntersection != null && icdIntersection.needExtraIndirectAssemblyParts(this);
     }
     
     private HashSet<EntityObject> collectExtraIndirectAssemblyParts(final HashSet<EntityObject> set, final boolean b, final Class... array) {
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         if (icdIntersection != null) {
             icdIntersection.collectExtraIndirectAssemblyParts(set, b, this.assemblyIncludeExtraTubes, this.assemblyIncludeExtraStepReturnTubes, (Class<EntityObject>[])array);
         }
@@ -1603,11 +1603,11 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private List<? extends ICDJoint> getExtraIndirectJoints(final List<ICDJoint> list) {
-        return this.getExtraIndirectTubesOrJoints((List<? extends ICDJoint>)list, (Class<? extends ICDJoint>)ICDJoint.class);
+        return this.getExtraIndirectTubesOrJoints(list, ICDJoint.class);
     }
     
     private List<? extends BasicExtrusion> getExtraIndirectTubes(final List<BasicExtrusion> list) {
-        return this.getExtraIndirectTubesOrJoints((List<? extends BasicExtrusion>)list, (Class<? extends BasicExtrusion>)BasicExtrusion.class);
+        return this.getExtraIndirectTubesOrJoints(list, BasicExtrusion.class);
     }
     
     private <E> List<E> getExtraIndirectTubesOrJoints(final List<E> list, final Class<E> clazz) {
@@ -1640,7 +1640,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     private void addAssemblyPartsForCurvedOrAngledPanel(final HashSet<EntityObject> set) {
-        for (final EntityObject e : this.getChildrenByClass((Class)EntityObject.class, true, true)) {
+        for (final EntityObject e : this.getChildrenByClass(EntityObject.class, true, true)) {
             if (e.containsAttributeKey("isAssembled")) {
                 if (e instanceof ICDInstallTagDrawable) {
                     e.modifyAttributeValue("isAssembled", "false");
@@ -1681,7 +1681,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     
     public void addOnTheFlyAttribute() {
         super.addOnTheFlyAttribute();
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         if (icdIntersection != null) {
             if (icdIntersection.allowUserControlPostAssembly()) {
                 this.createNewAttribute("ICD_IncludeExtraChaseTubes", this.assemblyIncludeExtraTubes ? "Yes" : "No", true, false);
@@ -1746,7 +1746,7 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
     }
     
     static {
-        ICDPost.logger = Logger.getLogger((Class)ICDPost.class);
+        ICDPost.logger = Logger.getLogger(ICDPost.class);
         ICDPost.BIG_NEGATIVE = -10001.0f;
         ICDPost.MAX_ALLOWED_OVERHEAD_NUMBER = 3;
     }

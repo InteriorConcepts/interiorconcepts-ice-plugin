@@ -49,11 +49,11 @@ public class ICDElectricalCableSolver extends BasicElectricalCableSolver impleme
         final Vector<BasicPowerIntent> vector = new Vector<BasicPowerIntent>();
         final GeneralSnapSet generalSnapSet = this.getGeneralSnapSet();
         if (generalSnapSet != null) {
-            final EnumerationIterator enumerationIterator = new EnumerationIterator(((EntityObject)generalSnapSet).breadthFirstEnumeration());
-            while (((Iterator)enumerationIterator).hasNext()) {
-                final BasicPowerIntent next = ((Iterator<BasicPowerIntent>)enumerationIterator).next();
-                if (next instanceof BasicPowerIntent && next.getRealEntity() != null) {
-                    vector.add(next);
+            final EnumerationIterator<Object> enumerationIterator = new EnumerationIterator(generalSnapSet.breadthFirstEnumeration());
+            while (enumerationIterator.hasNext()) {
+                final Object next = enumerationIterator.next();
+                if (next instanceof BasicPowerIntent && ((BasicPowerIntent) next).getRealEntity() != null) {
+                    vector.add((BasicPowerIntent) next);
                 }
             }
         }

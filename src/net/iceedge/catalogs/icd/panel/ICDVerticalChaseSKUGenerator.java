@@ -57,7 +57,7 @@ public class ICDVerticalChaseSKUGenerator implements SkuGeneratable
                             value2 = new TreeSet<Integer>();
                             ICDVerticalChaseSKUGenerator.panelTypeWidth.put(description, value2);
                         }
-                        final Iterator iterator3 = tableOfContents3.getPartItems().iterator();
+                        final Iterator<TableOfContents.PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
                         while (iterator3.hasNext()) {
                             final Part part = broker.getPart(iterator3.next().getPartName());
                             final String attributeValue = part.getAttributeValue("Height", (String)null);
@@ -123,7 +123,7 @@ public class ICDVerticalChaseSKUGenerator implements SkuGeneratable
     
     private int getParametricVerticalChaseHeight(final ICDVerticalChase icdVerticalChase) {
         final float n = (float)Math.round(icdVerticalChase.getAttributeValueAsFloat("ICD_Vertical_Chase_Height", 0.0f));
-        final Vector possibleValues = Solution.getWorldAttributeProxy().get("ICD_Vertical_Chase_Height").getPossibleValues();
+        final Vector<OptionProxyValue> possibleValues = ((OptionAttributeProxy) Solution.getWorldAttributeProxy().get("ICD_Vertical_Chase_Height")).getPossibleValues();
         float float1 = Float.parseFloat(possibleValues.get(possibleValues.size() - 1).getValue());
         final Iterator<OptionProxyValue> iterator = possibleValues.iterator();
         while (iterator.hasNext()) {
@@ -168,7 +168,7 @@ public class ICDVerticalChaseSKUGenerator implements SkuGeneratable
                     str = ((ICDTile)aTile).getFinishCodeForSkuGeneration();
                 }
                 if (!icdPanel.isCorePanel()) {
-                    final Vector allTiles = icdPanel.getAllTiles();
+                    final Vector<TileInterface> allTiles = icdPanel.getAllTiles();
                     if (allTiles != null) {
                         for (final TileInterface tileInterface : allTiles) {
                             if (tileInterface instanceof ICDTile && !((ICDTile)tileInterface).isNoFrameTile()) {

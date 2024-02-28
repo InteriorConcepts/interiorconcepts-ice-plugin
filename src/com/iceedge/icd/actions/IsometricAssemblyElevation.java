@@ -34,6 +34,6 @@ public class IsometricAssemblyElevation extends IceCadAction
     }
     
     static {
-        IsometricAssemblyElevation.logger = Logger.getLogger((Class)IsometricAssemblyElevation.class);
+        IsometricAssemblyElevation.logger = Logger.getLogger(IsometricAssemblyElevation.class);
     }
 }

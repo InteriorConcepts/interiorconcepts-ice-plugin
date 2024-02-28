@@ -70,7 +70,7 @@ public class ICDElectricalIntersectionArea extends BasicElectricalIntersectionAr
     
     public Collection<ElectricalGraphConnectorEdge> getEdges(final BasicElectricalCableSolver basicElectricalCableSolver) {
         final Vector<ElectricalGraphConnectorEdge> vector = new Vector<ElectricalGraphConnectorEdge>();
-        final Vector<ICDPanel> panelsFromArms = this.getPanelsFromArms((ICDIntersection)this.getParent((Class)ICDIntersection.class));
+        final Vector<ICDPanel> panelsFromArms = this.getPanelsFromArms((ICDIntersection)this.getParent(ICDIntersection.class));
         for (final ICDPanel icdPanel : panelsFromArms) {
             if (icdPanel.hasChase()) {
                 final int indexNumberUsingPanel = this.getIndexNumberUsingPanel(icdPanel);
@@ -152,7 +152,7 @@ public class ICDElectricalIntersectionArea extends BasicElectricalIntersectionAr
     
     private BasicElectricalCable getCableFromPanel(final ICDPanel icdPanel) {
         BasicElectricalCable electricCable = null;
-        final ICDSegment icdSegment = (ICDSegment)icdPanel.getParent((Class)ICDSegment.class);
+        final ICDSegment icdSegment = (ICDSegment)icdPanel.getParent(ICDSegment.class);
         if (icdSegment != null) {
             final RacewayInterface raceWay = icdSegment.getRaceWay();
             if (raceWay != null) {
@@ -167,7 +167,7 @@ public class ICDElectricalIntersectionArea extends BasicElectricalIntersectionAr
         if (icdIntersection != null) {
             final Iterator<Segment> iterator = icdIntersection.getSegmentsFromArms().iterator();
             while (iterator.hasNext()) {
-                for (final ICDPanel e : iterator.next().getChildrenByClass((Class)ICDPanel.class, true, true)) {
+                for (final ICDPanel e : iterator.next().getChildrenByClass(ICDPanel.class, true, true)) {
                     if (e.isCorePanel()) {
                         vector.add(e);
                     }

@@ -20,7 +20,7 @@ public class AssemblyElevationAction extends IceCadAction
     
     public void actionPerformed(final AppView appView) {
         AssemblyElevationAction.logger.info((Object)("Executing action: " + this.getActionInfo()));
-        CommandModule.getInstance(appView.getSolution()).executeAddCustomElevationCommand(appView, (Class)ICDAssemblyElevationEntity.class, (Class)AssemblyPaintableRoot.class, false);
+        CommandModule.getInstance(appView.getSolution()).executeAddCustomElevationCommand(appView, ICDAssemblyElevationEntity.class, AssemblyPaintableRoot.class, false);
     }
     
     public void cadActionPerformed(final ICadIceDocumentListener cadIceDocumentListener) {
@@ -32,6 +32,6 @@ public class AssemblyElevationAction extends IceCadAction
     }
     
     static {
-        AssemblyElevationAction.logger = Logger.getLogger((Class)AssemblyElevationAction.class);
+        AssemblyElevationAction.logger = Logger.getLogger(AssemblyElevationAction.class);
     }
 }

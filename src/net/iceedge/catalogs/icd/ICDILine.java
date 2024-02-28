@@ -145,11 +145,11 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public void flip() {
-        final Vector breakingIntersections = this.getBreakingIntersections();
+        final Vector<GeneralIntersectionInterface> breakingIntersections = this.getBreakingIntersections();
         for (int i = 0; i < breakingIntersections.size(); ++i) {
-            final Iterator iterator = breakingIntersections.get(i).getSegmentsFromArms().iterator();
+            final Iterator<Segment> iterator = breakingIntersections.get(i).getSegmentsFromArms().iterator();
             while (iterator.hasNext()) {
-                final Iterator iterator2 = ((BasicILine)iterator.next().getMyParentILine()).getChildrenByClass((Class)ICDSubFrameSideContainer.class, true, true).iterator();
+                final Iterator<ICDSubFrameSideContainer> iterator2 = iterator.next().getMyParentILine().getChildrenByClass(ICDSubFrameSideContainer.class, true, true).iterator();
                 while (iterator2.hasNext()) {
                     iterator2.next().removeAllBreaks();
                 }
@@ -190,9 +190,9 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     private void addIsVerticalChaseAttOnTheFly() {
-        final List selectedEntitiesByClass = this.getSolution().getSelectedEntitiesByClass((Class)ICDILine.class, true);
+        final List selectedEntitiesByClass = this.getSolution().getSelectedEntitiesByClass(ICDILine.class, true);
         if (selectedEntitiesByClass != null) {
-            final OptionAttributeProxy optionAttributeProxy = Solution.getWorldAttributeProxy().get("ICD_is_Vertical_Chase");
+            final OptionAttributeProxy optionAttributeProxy = (OptionAttributeProxy) Solution.getWorldAttributeProxy().get("ICD_is_Vertical_Chase");
             optionAttributeProxy.getPossibleValues().clear();
             optionAttributeProxy.addPossibleValue("No");
             if (this.isValidSelectionForChase(selectedEntitiesByClass)) {
@@ -330,13 +330,13 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     public void setVerticalChase(final ICDVerticalChase icdVerticalChase) {
         final IntersectionFactoryInterface intersectionFactory = this.getIntersectionFactory();
         if (intersectionFactory != null) {
-            for (final ICDIntersection icdIntersection : ((EntityObject)intersectionFactory).getChildrenByClass((Class)ICDIntersection.class, true, true)) {
+            for (final ICDIntersection icdIntersection : ((EntityObject)intersectionFactory).getChildrenByClass(ICDIntersection.class, true, true)) {
                 final Vector segmentsFromArms = icdIntersection.getSegmentsFromArms();
                 if (segmentsFromArms.size() == 2) {
                     boolean b = true;
                     final Iterator<Segment> iterator2 = segmentsFromArms.iterator();
                     while (iterator2.hasNext()) {
-                        final ICDILine icdiLine = (ICDILine)iterator2.next().getParent((Class)ICDILine.class);
+                        final ICDILine icdiLine = (ICDILine)iterator2.next().getParent(ICDILine.class);
                         if (icdiLine != null && !icdiLine.isVerticalChase()) {
                             b = false;
                             break;
@@ -360,12 +360,12 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     private void applyChangesForIsVerticalChaseFromEditor(final String s, final PossibleValue possibleValue) {
         if (s.equals("ICD_is_Vertical_Chase")) {
             this.isVerticalChase = possibleValue.getValue();
-            final ICDVerticalChase andValidateVerticalChase = ((ICDVerticalChaseGroup)this.getSolution().getMiscItemsBucket().getChildByClass((Class)ICDVerticalChaseGroup.class)).getAndValidateVerticalChase(this.getChaseILines(this.getSolution().getSelectedEntitiesByClass((Class)ICDILine.class, true)), this, this.isVerticalChase());
+            final ICDVerticalChase andValidateVerticalChase = ((ICDVerticalChaseGroup)this.getSolution().getMiscItemsBucket().getChildByClass(ICDVerticalChaseGroup.class)).getAndValidateVerticalChase(this.getChaseILines(this.getSolution().getSelectedEntitiesByClass(ICDILine.class, true)), this, this.isVerticalChase());
             this.setVerticalChase(andValidateVerticalChase);
             if (this.isVerticalChase()) {
                 final Iterator<ICDILine> iterator = andValidateVerticalChase.getChaseILines().iterator();
                 while (iterator.hasNext()) {
-                    final Iterator iterator2 = iterator.next().getChildrenFirstAppearance((Class)ICDPanel.class, true).iterator();
+                    final Iterator<ICDPanel> iterator2 = iterator.next().getChildrenFirstAppearance(ICDPanel.class, true).iterator();
                     while (iterator2.hasNext()) {
                         iterator2.next().destroyCad();
                     }
@@ -416,7 +416,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     
     private List<ChaseAndPanel> createChaseAndPanelList() {
         final ArrayList<ChaseAndPanel> list = new ArrayList<ChaseAndPanel>();
-        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass((Class)ICDSubFrameSideContainer.class, true)) {
+        for (final ICDSubFrameSideContainer icdSubFrameSideContainer : this.getChildrenByClass(ICDSubFrameSideContainer.class, true)) {
             list.add(new ChaseAndPanel(icdSubFrameSideContainer, icdSubFrameSideContainer.getPanel(true), icdSubFrameSideContainer.getPanel(false)));
         }
         return list;
@@ -449,9 +449,9 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
         if (verticalChase && this.verticalChase == null) {
             final MiscItemsBucket miscItemsBucket = this.getSolution().getMiscItemsBucket();
             if (miscItemsBucket != null) {
-                final ICDVerticalChaseGroup icdVerticalChaseGroup = (ICDVerticalChaseGroup)miscItemsBucket.getChildByClass((Class)ICDVerticalChaseGroup.class);
+                final ICDVerticalChaseGroup icdVerticalChaseGroup = (ICDVerticalChaseGroup)miscItemsBucket.getChildByClass(ICDVerticalChaseGroup.class);
                 if (icdVerticalChaseGroup != null) {
-                    this.verticalChase = icdVerticalChaseGroup.getAndValidateVerticalChase(this.getChaseILines(((GeneralSnapSet)this.getParent((Class)GeneralSnapSet.class)).getChildrenByClass((Class)ICDILine.class, false)), this, verticalChase);
+                    this.verticalChase = icdVerticalChaseGroup.getAndValidateVerticalChase(this.getChaseILines(((GeneralSnapSet)this.getParent(GeneralSnapSet.class)).getChildrenByClass(ICDILine.class, false)), this, verticalChase);
                 }
             }
         }
@@ -540,8 +540,8 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public HashSet<AssembleParent> getExternalAssemblyParts() {
-        final HashSet<ICDSegment> set = (HashSet<ICDSegment>)new HashSet<AssembleParent>();
-        for (final ICDSegment e : this.getChildrenFirstAppearance((Class)ICDSegment.class, true)) {
+        final HashSet<AssembleParent> set = new HashSet<>();
+        for (final ICDSegment e : this.getChildrenFirstAppearance(ICDSegment.class, true)) {
             if (!e.isSegmentExcludedFromIlineAssemly()) {
                 set.add((AssembleParent)e);
             }
@@ -577,7 +577,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public Collection<EntitySpaceCompareNodeWrapper> getSpaceCompareNodeWrappers() {
-        final LinkedList<Object> list = (LinkedList<Object>)new LinkedList<EntitySpaceCompareNodeWrapper>();
+        final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             list.addAll(iterator.next().getSpaceCompareNodeWrappers());
@@ -592,7 +592,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     public HashSet<TypeableEntity> getAssembledChildrenForManReport() {
-        final HashSet<Object> set = (HashSet<Object>)new HashSet<TypeableEntity>();
+        final HashSet<TypeableEntity> set = new HashSet<>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             set.addAll(iterator.next().getAssembledChildrenForManReport());
@@ -678,7 +678,7 @@ public class ICDILine extends BasicILine implements AssemblyPaintableRoot, Assem
     }
     
     static {
-        ICDILine.logger = Logger.getLogger((Class)ICDILine.class);
+        ICDILine.logger = Logger.getLogger(ICDILine.class);
     }
     
     private class ChaseAndPanel

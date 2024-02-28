@@ -122,7 +122,7 @@ public class ICDCornerSlot extends TransformableTriggerUser implements PlotPaint
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final ArrayList<IceOutputShapeNode> list = (ArrayList<IceOutputShapeNode>)new ArrayList<IceOutputNode>();
+        final ArrayList<IceOutputNode> list = new ArrayList<IceOutputNode>();
         if (this.arrowNode != null) {
             list.add(new IceOutputShapeNode(this.arrowNode.getArrowShape(), this.getEntWorldSpaceMatrix()));
         }
@@ -389,7 +389,7 @@ public class ICDCornerSlot extends TransformableTriggerUser implements PlotPaint
     }
     
     static {
-        logger = Logger.getLogger((Class)ICDCornerSlot.class);
+        logger = Logger.getLogger(ICDCornerSlot.class);
         ICDCornerSlot.ARROW_STROKE_WIDTH = 5.0f;
         ICDCornerSlot.ARROW_COLOR = Color.GREEN;
         ICDCornerSlot.ARROW_LENGTH = 2.0f;

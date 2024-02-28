@@ -50,7 +50,7 @@ public class AddIsometricAssemblyElevationCommand extends Command
         if (ElevationUtility.isSelectionSetValidForElevation(this.solution)) {
             final ArrayList<ICDILine> list = new ArrayList<ICDILine>();
             final ArrayList<TransformableEntity> list2 = new ArrayList<TransformableEntity>();
-            for (final TransformableEntity e : this.solution.getSelectedEntitiesByClass((Class)TransformableEntity.class, true)) {
+            for (final TransformableEntity e : this.solution.getSelectedEntitiesByClass(TransformableEntity.class, true)) {
                 if (e.shouldDrawSingleElevation()) {
                     list2.add(e);
                     if (!(e instanceof ICDILine)) {
@@ -66,7 +66,7 @@ public class AddIsometricAssemblyElevationCommand extends Command
                         list2.addAll(verticalChasesCorrespondingToILines);
                     }
                 }
-                final ElevationEntity elevation = ElevationUtility.getElevation(-1, Render2D.elevationCount + 1, point3f, (IceEntity)this.solution.getElevationClusterGroup(true), true, (Class)ICDIsometricAssemblyElevationEntity.class);
+                final ElevationEntity elevation = ElevationUtility.getElevation(-1, Render2D.elevationCount + 1, point3f, (IceEntity)this.solution.getElevationClusterGroup(true), true, ICDIsometricAssemblyElevationEntity.class);
                 if (elevation != null && elevation instanceof ICDIsometricAssemblyElevationEntity) {
                     ((ElevationClusterEntity)elevation).setUserClickedClusterPoint(new Point3f(0.0f, 1.0f, 0.0f));
                     ((ElevationClusterEntity)elevation).setUserClickedPlaneStart(new Point3f(0.0f, 0.0f, 0.0f));

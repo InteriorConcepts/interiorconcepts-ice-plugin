@@ -50,7 +50,7 @@ public class ICDPanelMolding extends TransformableTriggerUser implements ICDManu
     
     protected void calculateDimensions() {
         super.calculateDimensions();
-        final TileInterface tileInterface = (TileInterface)this.getParent((Class)TileInterface.class);
+        final TileInterface tileInterface = (TileInterface)this.getParent(TileInterface.class);
         if (tileInterface != null) {
             if (this.isHorizontal()) {
                 this.setZDimension(tileInterface.getXDimension());

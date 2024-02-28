@@ -34,7 +34,7 @@ public class ICDHorizontalBeam extends ICDSubInternalExtrusion
     
     public void calculateDimensions() {
         super.calculateDimensions();
-        final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent((Class)ICDBeamSegment.class);
+        final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent(ICDBeamSegment.class);
         if (icdBeamSegment != null) {
             this.setZDimension(icdBeamSegment.getXDimension() - 1.0f);
         }
@@ -48,7 +48,7 @@ public class ICDHorizontalBeam extends ICDSubInternalExtrusion
     public void setModified(final boolean modified) {
         super.setModified(modified);
         if (modified) {
-            final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent((Class)ICDBeamSegment.class);
+            final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent(ICDBeamSegment.class);
             if (icdBeamSegment != null && !icdBeamSegment.isModified()) {
                 icdBeamSegment.setModified(true);
             }
@@ -59,7 +59,7 @@ public class ICDHorizontalBeam extends ICDSubInternalExtrusion
         super.applyChangesForAttribute(s, s2, b, b2, b3);
         if (s.equals("ICD_Mount_Height")) {
             final float attributeValueAsFloat = this.getAttributeValueAsFloat(s, -1.0f);
-            final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent((Class)ICDBeamSegment.class);
+            final ICDBeamSegment icdBeamSegment = (ICDBeamSegment)this.getParent(ICDBeamSegment.class);
             if (icdBeamSegment != null && attributeValueAsFloat >= 0.0f && !MathUtilities.isSameFloat(attributeValueAsFloat, icdBeamSegment.getAttributeValueAsFloat(icdBeamSegment.getSegmentHeighKeytAttributeName()), 0.05f)) {
                 icdBeamSegment.modifyAttributeValue(icdBeamSegment.getSegmentHeighKeytAttributeName(), s2);
             }

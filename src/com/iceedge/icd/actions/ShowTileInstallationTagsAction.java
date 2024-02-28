@@ -39,6 +39,6 @@ public class ShowTileInstallationTagsAction extends SolutionSettingIceCheckBox
     }
     
     static {
-        ShowTileInstallationTagsAction.logger = Logger.getLogger((Class)ShowTileInstallationTagsAction.class);
+        ShowTileInstallationTagsAction.logger = Logger.getLogger(ShowTileInstallationTagsAction.class);
     }
 }

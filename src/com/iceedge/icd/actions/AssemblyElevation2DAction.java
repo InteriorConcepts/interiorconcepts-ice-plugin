@@ -19,10 +19,10 @@ public class AssemblyElevation2DAction extends IceAction
     
     public void actionPerformed(final AppView appView) {
         AssemblyElevation2DAction.logger.info((Object)("Executing action: " + this.getActionInfo()));
-        CommandModule.getInstance(appView.getSolution()).executeAddCustomElevationCommand(appView, (Class)ICDAssemblyElevationEntity.class, (Class)AssemblyPaintableRoot.class, false);
+        CommandModule.getInstance(appView.getSolution()).executeAddCustomElevationCommand(appView, ICDAssemblyElevationEntity.class, AssemblyPaintableRoot.class, false);
     }
     
     static {
-        AssemblyElevation2DAction.logger = Logger.getLogger((Class)AllAssemblyElevation2DAction.class);
+        AssemblyElevation2DAction.logger = Logger.getLogger(AllAssemblyElevation2DAction.class);
     }
 }

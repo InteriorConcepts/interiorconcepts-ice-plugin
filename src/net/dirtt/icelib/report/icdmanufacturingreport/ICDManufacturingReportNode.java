@@ -58,7 +58,7 @@ public class ICDManufacturingReportNode extends ReportNode
         boolean b = false;
         final Iterator children = entityObject.getChildren();
         while (children.hasNext()) {
-            final EntityObject entityObject2 = children.next();
+            final EntityObject entityObject2 = (EntityObject) children.next();
             if (entityObject2 instanceof TypeableEntity && this.matchesMethodsAndAttributes((IceEntity)entityObject2)) {
                 this.getBucketAndAddToIt((IceEntity)entityObject2, true);
                 b = true;

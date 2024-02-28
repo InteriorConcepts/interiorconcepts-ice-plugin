@@ -41,6 +41,6 @@ public class ICDPlugin
     }
     
     static {
-        LOG = Logger.getLogger((Class)ICDPlugin.class);
+        LOG = Logger.getLogger(ICDPlugin.class);
     }
 }

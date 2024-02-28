@@ -67,7 +67,7 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
                 this.existingPartList.add(iterator.next());
             }
             final Pair<Boolean, Boolean> collectPartsForHorizontalExtrusion = this.collectPartsForHorizontalExtrusion(b, set, extrusionGroup, b3, b4, array);
-            (boolean)collectPartsForHorizontalExtrusion.first;
+            //(boolean)collectPartsForHorizontalExtrusion.first;
             if (b4) {
                 this.collectPartsForVerticalExtrusion(b, (boolean)collectPartsForHorizontalExtrusion.second, set, extrusionGroup, b2, b3, b4, array);
             }
@@ -138,7 +138,7 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
     }
     
     private void addVerticalExtrusionForChase(final boolean b, final float n, final ExtrusionGroupInterface extrusionGroupInterface, final HashSet<EntityObject> set, final Class<EntityObject>... array) {
-        final Vector allVerticalExtrusions = extrusionGroupInterface.getAllVerticalExtrusions();
+        final Vector<ExtrusionInterface> allVerticalExtrusions = extrusionGroupInterface.getAllVerticalExtrusions();
         final boolean doesTheArrayContain = ICDUtilities.doesTheArrayContain(array, BasicExtrusion.class);
         final boolean doesTheArrayContain2 = ICDUtilities.doesTheArrayContain(array, ICDJoint.class);
         if (doesTheArrayContain) {
@@ -163,9 +163,9 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
                     if (!b2) {
                         continue;
                     }
-                    final Iterator children = internalExtrusion.getChildren();
+                    final Iterator<EntityObject> children = internalExtrusion.getChildren();
                     while (children.hasNext()) {
-                        final ICDJoint next = children.next();
+                        final EntityObject next = children.next();
                         if (next instanceof ICDJoint && doesTheArrayContain2 && next.containsAttributeKey("isAssembled")) {
                             set.add((EntityObject)next);
                         }
@@ -180,18 +180,20 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
     
     private Pair<Boolean, Boolean> collectPartsForHorizontalExtrusion(final boolean b, final HashSet<EntityObject> set, final ExtrusionGroupInterface extrusionGroupInterface, final boolean b2, final boolean b3, final Class<EntityObject>... array) {
         final Pair pair = new Pair((Object)true, (Object)true);
-        final Vector allHorizontalExtrusions = extrusionGroupInterface.getAllHorizontalExtrusions(0);
+        final Vector<ExtrusionInterface> allHorizontalExtrusions = extrusionGroupInterface.getAllHorizontalExtrusions(0);
         Object o2;
+        final Object o;
         if (b) {
-            final Object o = this.getStartExtrusion();
+            o = this.getStartExtrusion();
             o2 = this.getEndExtrusion();
         }
         else {
             o2 = this.getStartExtrusion();
-            final Object o = this.getEndExtrusion();
+            o = this.getEndExtrusion();
         }
         for (final ExtrusionInterface extrusionInterface : allHorizontalExtrusions) {
-            final Object o;
+            // Needed to be initialized
+            //final Object o;
             if (extrusionInterface instanceof InnerExtrusionSetInterface && ((InnerExtrusionSetInterface)extrusionInterface).isReferenceTo(b, (ExtrusionInterface)o)) {
                 if (!((InnerExtrusionSetInterface)extrusionInterface).isReferenceTo(!b, (ExtrusionInterface)o2)) {
                     pair.second = false;
@@ -238,7 +240,7 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
             internalExtrusion = (ExtrusionInterface)((InnerExtrusionSetInterface)internalExtrusion).getInternalExtrusion(0);
         }
         if (b3) {
-            for (final EntityObject e : internalExtrusion.getChildrenByClass((Class)EntityObject.class, false, true)) {
+            for (final EntityObject e : internalExtrusion.getChildrenByClass(EntityObject.class, false, true)) {
                 if (e.containsAttributeKey("isAssembled") && ICDUtilities.doesTheArrayContain(array, e.getClass())) {
                     set.add(e);
                 }
@@ -286,7 +288,7 @@ public class ICDFrame extends BasicFrame implements ICDManufacturingReportable
                         }
                     }
                     else if (childByLWType instanceof ICDJoint) {
-                        final List childrenByClass = childByLWType.getParentEntity().getChildrenByClass((Class)ICDSubInternalExtrusion.class, false, false);
+                        final List<ICDSubInternalExtrusion> childrenByClass = childByLWType.getParentEntity().getChildrenByClass(ICDSubInternalExtrusion.class, false, false);
                         final ICDJoint icdJoint = (ICDJoint)childByLWType;
                         for (final TypeableEntity o : childrenByClass) {
                             if (set.contains(o) && icdJoint.extrusionConnectsToJoint(o)) {

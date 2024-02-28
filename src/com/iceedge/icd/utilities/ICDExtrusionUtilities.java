@@ -16,7 +16,7 @@ public class ICDExtrusionUtilities
         final Vector<ICDCornerSlot> vector = new Vector<ICDCornerSlot>();
         final Iterator children = entityObject.getChildren();
         while (children.hasNext()) {
-            final EntityObject entityObject2 = children.next();
+            final EntityObject entityObject2 = (EntityObject) children.next();
             if (entityObject2 instanceof ICDCornerSlot) {
                 vector.add((ICDCornerSlot)entityObject2);
             }
@@ -35,7 +35,7 @@ public class ICDExtrusionUtilities
     }
     
     private static List<ICDTabContainer> getTabContainers(final EntityObject entityObject) {
-        return (List<ICDTabContainer>)entityObject.getChildrenByClass((Class)ICDTabContainer.class, false);
+        return (List<ICDTabContainer>)entityObject.getChildrenByClass(ICDTabContainer.class, false);
     }
     
     public static String getTabCode(final EntityObject entityObject) {
@@ -73,6 +73,6 @@ public class ICDExtrusionUtilities
     }
     
     public static boolean isPartOfChase(final EntityObject entityObject) {
-        return entityObject.getParent((Class)ICDSubFrameSideContainer.class) != null;
+        return entityObject.getParent(ICDSubFrameSideContainer.class) != null;
     }
 }

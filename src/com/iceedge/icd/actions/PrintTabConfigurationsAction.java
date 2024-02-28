@@ -7,6 +7,7 @@ import net.iceedge.catalogs.icd.panel.ICDTabContainer;
 import net.dirtt.appviews.AppView;
 import javax.swing.KeyStroke;
 import org.apache.log4j.Logger;
+import java.util.List;
 import net.dirtt.icecomponents.IceAction;
 
 public class PrintTabConfigurationsAction extends IceAction
@@ -20,10 +21,11 @@ public class PrintTabConfigurationsAction extends IceAction
     
     public void actionPerformed(final AppView appView) {
         PrintTabConfigurationsAction.logger.info((Object)("Executing action: " + this.getActionInfo()));
-        if (!appView.getSolution().getChildrenByClass((Class)ICDTabContainer.class, true, true).isEmpty()) {
+        List<ICDTabContainer> tabContainers = appView.getSolution().getChildrenByClass(ICDTabContainer.class, true, true);
+        if (!tabContainers.isEmpty()) {
             PrintTabConfigurationsAction.logger.trace((Object)"===================Printing Tab Configurations===============================");
             boolean b = false;
-            for (final ICDTabContainer icdTabContainer : appView.getSolution().getChildrenByClass((Class)ICDTabContainer.class, true, true)) {
+            for (final ICDTabContainer icdTabContainer : tabContainers) {
                 final String reportIndex = icdTabContainer.getReportIndex();
                 if (reportIndex.trim().isEmpty()) {
                     continue;
@@ -61,6 +63,6 @@ public class PrintTabConfigurationsAction extends IceAction
     }
     
     static {
-        PrintTabConfigurationsAction.logger = Logger.getLogger((Class)PrintTabConfigurationsAction.class);
+        PrintTabConfigurationsAction.logger = Logger.getLogger(PrintTabConfigurationsAction.class);
     }
 }

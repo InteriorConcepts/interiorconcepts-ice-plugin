@@ -25,6 +25,6 @@ public class IsometricAssemblyElevation2DAction extends IceAction
     }
     
     static {
-        IsometricAssemblyElevation2DAction.logger = Logger.getLogger((Class)IsometricAssemblyElevation2DAction.class);
+        IsometricAssemblyElevation2DAction.logger = Logger.getLogger(IsometricAssemblyElevation2DAction.class);
     }
 }

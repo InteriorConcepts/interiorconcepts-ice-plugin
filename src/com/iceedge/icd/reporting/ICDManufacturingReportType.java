@@ -6,7 +6,7 @@ import net.dirtt.icelib.report.ReportType;
 public class ICDManufacturingReportType extends ReportType
 {
     public ICDManufacturingReportType() {
-        super(51, "Manufacturing Report", (Class)ICDManufacturingReport.class);
+        super(51, "Manufacturing Report", ICDManufacturingReport.class);
     }
     
     public String getShortString() {

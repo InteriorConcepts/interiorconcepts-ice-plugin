@@ -133,7 +133,7 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
             this.getNamedPointLocal("Suspened_Chase_Bottom_Support_B_POS").set((Tuple3f)new Point3f(0.0f, -0.5f, 0.75f));
             this.getNamedPointLocal("Suspened_Chase_Vertical_Support_B_POS").set((Tuple3f)new Point3f(0.0f, -n4 + 0.5f, n - n2 + 1.0f));
         }
-        for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, false)) {
+        for (final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion : this.getChildrenByClass(ICDChaseConnectorExtrusion.class, false)) {
             if (icdChaseConnectorExtrusion.isVertical()) {
                 if (icdChaseConnectorExtrusion.isSuspendedeChaseSupport()) {
                     continue;
@@ -164,7 +164,7 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
     
     public Vector<ICDChaseConnectorExtrusion> getVerticalPieces() {
         final Vector<ICDChaseConnectorExtrusion> vector = new Vector<ICDChaseConnectorExtrusion>();
-        for (final ICDChaseConnectorExtrusion e : this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, false, true)) {
+        for (final ICDChaseConnectorExtrusion e : this.getChildrenByClass(ICDChaseConnectorExtrusion.class, false, true)) {
             if (e.isVertical()) {
                 vector.add(e);
             }
@@ -264,7 +264,7 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
                 this.getNamedPointLocal("Bottom_Connector_B_POS").set(namedPointLocal12.x, namedPointLocal12.y, n3 - n2 + 1.0f);
             }
         }
-        final Iterator<ICDChaseConnectorExtrusion> iterator2 = (Iterator<ICDChaseConnectorExtrusion>)this.getChildrenByClass((Class)ICDChaseConnectorExtrusion.class, true, true).iterator();
+        final Iterator<ICDChaseConnectorExtrusion> iterator2 = (Iterator<ICDChaseConnectorExtrusion>)this.getChildrenByClass(ICDChaseConnectorExtrusion.class, true, true).iterator();
         while (iterator2.hasNext()) {
             iterator2.next().calculate();
         }
@@ -357,9 +357,9 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
     }
     
     private ICDPost getSpecialPost() {
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null) {
-            final ICDPost icdPost2 = (ICDPost)icdPost.getParent((Class)ICDPost.class);
+            final ICDPost icdPost2 = (ICDPost)icdPost.getParent(ICDPost.class);
             if (icdPost2 != null) {
                 final String id = icdPost2.getCurrentType().getId();
                 if ("ICD_TwoWayCurvedPostType".equals(id) || "ICD_TwoWayAngledPostType".equals(id)) {
@@ -376,13 +376,13 @@ public class ICDChaseMidConnectorContainer extends TransformableEntity implement
         }
         final String id = icdPost.getCurrentType().getId();
         if ("ICD_TwoWayCurvedPostType".equals(id)) {
-            final ICDCurvedPanel icdCurvedPanel = (ICDCurvedPanel)icdPost.getChild((Class)ICDCurvedPanel.class, true);
+            final ICDCurvedPanel icdCurvedPanel = (ICDCurvedPanel)icdPost.getChild(ICDCurvedPanel.class, true);
             if (icdCurvedPanel != null) {
                 icdCurvedPanel.setVerticalExtrusionsModified();
             }
         }
         else if ("ICD_TwoWayAngledPostType".equals(id)) {
-            final List childrenByClass = icdPost.getChildrenByClass((List)new ArrayList(), (Class)ICDAngledPanel.class, false, true);
+            final List childrenByClass = icdPost.getChildrenByClass((List)new ArrayList(), ICDAngledPanel.class, false, true);
             if (childrenByClass != null) {
                 final Iterator<ICDAngledPanel> iterator = childrenByClass.iterator();
                 while (iterator.hasNext()) {

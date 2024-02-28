@@ -410,7 +410,7 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final ArrayList<IceOutputTextNode> list = (ArrayList<IceOutputTextNode>)new ArrayList<Object>();
+        final ArrayList<IceOutputNode> list = new ArrayList<IceOutputNode>();
         if (!this.hasCustomAsset()) {
             final ICadTextNode cadOutputTextNode = this.getCadOutputTextNode(null);
             if (cadOutputTextNode != null) {
@@ -428,7 +428,7 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
                 list.add(new IceOutputTextNode((Paintable)null, cadOutputTextNode.getText(), 2.0f, 1.0f, 0.0f, new Point3f(), matrix4f));
             }
         }
-        list.addAll((Collection<?>)this.plotNodes);
+        list.addAll(this.plotNodes);
         return (List<IceOutputNode>)list;
     }
     
@@ -895,10 +895,10 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public boolean isSnapPointValid(final Point3f point3f) {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final ICDWireDip next = breadthFirstEnumerationIterator.next();
-            if (next instanceof ICDWireDip && next.getBasePoint3f().distance(point3f) < 0.02f) {
+            final Object next = breadthFirstEnumerationIterator.next();
+            if (next instanceof EntityObject && next instanceof ICDWireDip && ((EntityObject) next).getBasePoint3f().distance(point3f) < 0.02f) {
                 return false;
             }
         }
@@ -906,14 +906,15 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public void updateSnappedWireDips(final Point3f basePoint, final int n) {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final ICDWireDip next = breadthFirstEnumerationIterator.next();
-            if (next instanceof ICDWireDip) {
-                if (n == next.getSnapPointIndex()) {
-                    next.setBasePoint(basePoint);
+            final Object next = breadthFirstEnumerationIterator.next();
+            if (next instanceof EntityObject && next instanceof ICDWireDip) {
+                final ICDWireDip dip = (ICDWireDip) next;
+                if (n == dip.getSnapPointIndex()) {
+                    dip.setBasePoint(basePoint);
                 }
-                next.setRefPoint(this.wireDipRefPoints.get(0));
+                dip.setRefPoint(this.wireDipRefPoints.get(0));
             }
         }
     }
@@ -1074,20 +1075,24 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public void updateSnappedCutouts(final Point3f basePoint, final int n) {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final ICDParametricCutout next = breadthFirstEnumerationIterator.next();
-            if (next instanceof ICDParametricCutout && next.getAttributeValueAsBoolean("isUsePredefinedSnap", true) && n == next.getCutoutSnapPointIndex()) {
-                next.setBasePoint(basePoint);
+            final Object next = breadthFirstEnumerationIterator.next();
+            if (!(next instanceof ICDParametricCutout)) {
+                continue;
+            }
+            ICDParametricCutout cutout = (ICDParametricCutout) next;
+            if (cutout.getAttributeValueAsBoolean("isUsePredefinedSnap", true) && n == cutout.getCutoutSnapPointIndex()) {
+                cutout.setBasePoint(basePoint);
             }
         }
     }
     
     public boolean isCutoutSnapPointValid(final Point3f point3f) {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final ICDParametricCutout next = breadthFirstEnumerationIterator.next();
-            if (next instanceof ICDParametricCutout && next.getBasePoint3f().distance(point3f) < 0.02f) {
+            final Object next = breadthFirstEnumerationIterator.next();
+            if (next instanceof ICDParametricCutout && ((ICDParametricCutout) next).getBasePoint3f().distance(point3f) < 0.02f) {
                 return false;
             }
         }
@@ -1139,12 +1144,13 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     
     public ArrayList<ICDParametricCutout> getCutouts() {
         final ArrayList<ICDParametricCutout> list = new ArrayList<ICDParametricCutout>();
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final ICDParametricCutout next = breadthFirstEnumerationIterator.next();
-            if (next instanceof ICDParametricCutout) {
-                list.add(next);
+            final Object next = breadthFirstEnumerationIterator.next();
+            if (!(next instanceof ICDParametricCutout)) {
+                continue;
             }
+            list.add((ICDParametricCutout)next);
         }
         return list;
     }
@@ -1506,9 +1512,9 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public void updateCutoutsFromAttributes() {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final EntityObject entityObject = breadthFirstEnumerationIterator.next();
+            final Object entityObject = breadthFirstEnumerationIterator.next();
             if (entityObject instanceof ICDParametricCutout) {
                 ((ICDParametricCutout)entityObject).updateCutoutLocationFromAttributes();
             }
@@ -1516,13 +1522,15 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     }
     
     public void updateWiredipsFromAttributes() {
-        final Iterator breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
+        final Iterator<Object> breadthFirstEnumerationIterator = this.getBreadthFirstEnumerationIterator();
         while (breadthFirstEnumerationIterator.hasNext()) {
-            final EntityObject entityObject = breadthFirstEnumerationIterator.next();
-            if (entityObject instanceof ICDWireDip) {
-                ((ICDWireDip)entityObject).getDirection().x *= -1.0f;
-                this.updateDipLocation((ICDWireDip)entityObject, entityObject.getAttributeValueAsFloat("ICD_WireDip_Distance"));
+            final Object entityObject = breadthFirstEnumerationIterator.next();
+            if (!(entityObject instanceof ICDWireDip)) {
+                continue;
             }
+            final ICDWireDip dip = (ICDWireDip) entityObject;
+            dip.getDirection().x *= -1.0f;
+            this.updateDipLocation(dip, dip.getAttributeValueAsFloat("ICD_WireDip_Distance"));
         }
     }
     
@@ -1612,9 +1620,9 @@ public abstract class ICDParametricWorksurface extends ICDBasicWorksurface imple
     protected ArrayList<Notch> getNotches() {
         final ArrayList<Notch> list = new ArrayList<Notch>();
         if (this.getSolution() != null) {
-            final Iterator breadthFirstEnumerationIterator = this.getSolution().getBreadthFirstEnumerationIterator();
+            final Iterator<Object> breadthFirstEnumerationIterator = this.getSolution().getBreadthFirstEnumerationIterator();
             while (breadthFirstEnumerationIterator.hasNext()) {
-                final EntityObject entityObject = breadthFirstEnumerationIterator.next();
+                final Object entityObject = breadthFirstEnumerationIterator.next();
                 if (entityObject instanceof Notch) {
                     list.add((Notch)entityObject);
                 }

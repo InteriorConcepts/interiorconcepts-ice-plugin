@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.awt.Shape;
 import net.iceedge.icecore.basemodule.baseclasses.BasicIntersectionArm;
+import net.iceedge.icecore.basemodule.interfaces.ILineInterface;
 import net.iceedge.icecore.basemodule.interfaces.IntersectionArmInterface;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
@@ -77,7 +78,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static void appendInOrOut(final Point3f point3f, final ICDIntersection icdIntersection, final TransformableEntity obj, final Path2D.Float float1, final Line2D.Float float2, final Line2D.Float float3) {
-        final Vector armVector = icdIntersection.getArmVector();
+        final Vector<IntersectionArmInterface> armVector = icdIntersection.getArmVector();
         for (final IntersectionArmInterface intersectionArmInterface : armVector) {
             if (intersectionArmInterface.getSegment().equals(obj)) {
                 for (final IntersectionArmInterface intersectionArmInterface2 : armVector) {
@@ -162,7 +163,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static Collection<JointIntersectable> getAllIntersectables(final ICDJoint icdJoint) {
-        final Vector<Object> vector = (Vector<Object>)new Vector<JointIntersectable>();
+        final Vector<JointIntersectable> vector = new Vector<JointIntersectable>();
         if (icdJoint != null) {
             if (icdJoint.isUnderIntersection()) {
                 final ICDIntersection intersection = icdJoint.getIntersection();
@@ -177,7 +178,7 @@ public class ICDAssemblyElevationUtilities
                 }
             }
             else {
-                final ICDSegment icdSegment = (ICDSegment)icdJoint.getParent((Class)ICDSegment.class);
+                final ICDSegment icdSegment = icdJoint.getParent(ICDSegment.class);
                 if (icdSegment != null) {
                     vector.addAll(icdSegment.getAllIntersectables());
                 }
@@ -238,15 +239,15 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static boolean isJointOnChase(final ICDJoint icdJoint) {
-        return icdJoint.getParent((Class)ICDChaseMidConnectorContainer.class) != null;
+        return icdJoint.getParent(ICDChaseMidConnectorContainer.class) != null;
     }
     
     public static boolean isExtrusionOnChase(final TransformableEntity transformableEntity) {
-        return transformableEntity.getParent((Class)ICDChaseMidConnectorContainer.class) != null;
+        return transformableEntity.getParent(ICDChaseMidConnectorContainer.class) != null;
     }
     
     public static void appendChaseInOrOut(final TransformableEntity transformableEntity, final Path2D.Float float1, final Line2D.Float float2, final Line2D.Float float3) {
-        final ICDSubILine icdSubILine = (ICDSubILine)transformableEntity.getParent((Class)ICDSubILine.class);
+        final ICDSubILine icdSubILine = (ICDSubILine)transformableEntity.getParent(ICDSubILine.class);
         if (icdSubILine != null) {
             final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(transformableEntity.getBasePoint3f()), (EntityObject)transformableEntity, (EntityObject)icdSubILine);
             ICDSegment icdSegment = null;
@@ -256,7 +257,7 @@ public class ICDAssemblyElevationUtilities
                 }
             }
             if (icdSegment != null) {
-                final ICDPanel icdPanel = icdSegment.getChildrenByClass((Class)ICDPanel.class, true).get(0);
+                final ICDPanel icdPanel = icdSegment.getChildrenByClass(ICDPanel.class, true).get(0);
                 if (icdPanel != null) {
                     if (icdPanel.getCurrentOption().getId().equals("ICD_Panel_With_Chase_Side_A")) {
                         float1.append(float2, false);
@@ -287,7 +288,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static void appendChaseLeftOrRight(final TransformableEntity transformableEntity, final TransformableEntity transformableEntity2, final Path2D.Float float1, final Line2D.Float float2, final Line2D.Float float3) {
-        final ICDSubILine icdSubILine = (ICDSubILine)transformableEntity2.getParent((Class)ICDSubILine.class);
+        final ICDSubILine icdSubILine = (ICDSubILine)transformableEntity2.getParent(ICDSubILine.class);
         if (icdSubILine != null) {
             final Point3f point3f = new Point3f(transformableEntity.getBasePoint3f());
             final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(), (EntityObject)transformableEntity, (EntityObject)icdSubILine);
@@ -307,7 +308,7 @@ public class ICDAssemblyElevationUtilities
     }
     
     private static void appendChaseDirection(final ICDSegment icdSegment, final TransformableEntity transformableEntity, final Path2D.Float float1, final Line2D.Float s) {
-        final List childrenByClass = icdSegment.getChildrenByClass((Class)ICDPanel.class, true);
+        final List<ICDPanel> childrenByClass = icdSegment.getChildrenByClass(ICDPanel.class, true);
         if (childrenByClass.size() > 0) {
             final Point3f point3f = new Point3f(transformableEntity.getBasePoint3f());
             final ICDPanel icdPanel = childrenByClass.get(0);
@@ -318,11 +319,11 @@ public class ICDAssemblyElevationUtilities
     }
     
     public static ICDILine getILineForEntity(final EntityObject entityObject) {
-        ICDILine icdiLine = (ICDILine)entityObject.getParent((Class)ICDILine.class);
+        ICDILine icdiLine = (ICDILine)entityObject.getParent(ICDILine.class);
         if (icdiLine == null) {
-            final Vector wallSetsFromArms = ((ICDIntersection)entityObject.getParent((Class)ICDIntersection.class)).getWallSetsFromArms();
+            final Vector<ILineInterface> wallSetsFromArms = ((ICDIntersection)entityObject.getParent(ICDIntersection.class)).getWallSetsFromArms();
             if (wallSetsFromArms.size() > 0) {
-                icdiLine = wallSetsFromArms.firstElement();
+                icdiLine = (ICDILine) wallSetsFromArms.firstElement();
             }
         }
         return icdiLine;
@@ -335,7 +336,7 @@ public class ICDAssemblyElevationUtilities
         if ("Yes".equals(transformableEntity.getAttributeValueAsString("specialInternalExtrusion"))) {
             return false;
         }
-        final ICDPanel icdPanel = (ICDPanel)transformableEntity.getParent((Class)ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)transformableEntity.getParent(ICDPanel.class);
         return icdPanel == null || !icdPanel.isSlopedPanel();
     }
     
@@ -418,15 +419,15 @@ public class ICDAssemblyElevationUtilities
     
     public static List<ICDVerticalChase> getVerticalChases(final Solution solution) {
         final List<ICDVerticalChase> list = null;
-        final MiscItemsBucket miscItemsBucket = (MiscItemsBucket)solution.getChild((Class)MiscItemsBucket.class, true);
+        final MiscItemsBucket miscItemsBucket = (MiscItemsBucket)solution.getChild(MiscItemsBucket.class, true);
         if (miscItemsBucket == null) {
             return list;
         }
-        final ICDVerticalChaseGroup icdVerticalChaseGroup = (ICDVerticalChaseGroup)miscItemsBucket.getChild((Class)ICDVerticalChaseGroup.class, true);
+        final ICDVerticalChaseGroup icdVerticalChaseGroup = (ICDVerticalChaseGroup)miscItemsBucket.getChild(ICDVerticalChaseGroup.class, true);
         if (icdVerticalChaseGroup == null) {
             return list;
         }
-        return (List<ICDVerticalChase>)icdVerticalChaseGroup.getChildrenByClass((Class)ICDVerticalChase.class, false, true);
+        return (List<ICDVerticalChase>)icdVerticalChaseGroup.getChildrenByClass(ICDVerticalChase.class, false, true);
     }
     
     public static ArrayList<ICDVerticalChase> getVerticalChasesCorrespondingToILines(final List<ICDVerticalChase> list, final ArrayList<ICDILine> list2) {

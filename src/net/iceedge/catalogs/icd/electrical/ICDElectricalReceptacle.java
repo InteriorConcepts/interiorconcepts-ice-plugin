@@ -80,7 +80,7 @@ public class ICDElectricalReceptacle extends BasicElectricalReceptacle implement
     
     protected void calculateNamedPoints() {
         super.calculateNamedPoints();
-        final ICDPanel icdPanel = (ICDPanel)this.getParentByClassRecursive((Class)ICDPanel.class);
+        final ICDPanel icdPanel = (ICDPanel)this.getParentByClassRecursive(ICDPanel.class);
         if (icdPanel != null) {
             float n;
             if (icdPanel.hasChase(0)) {

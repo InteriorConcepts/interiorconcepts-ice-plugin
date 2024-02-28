@@ -58,7 +58,7 @@ public class ICDLock extends TransformableEntity implements ICDManufacturingRepo
         final boolean b = !icdTile.isSingleValetDoor();
         final float n = b ? 3.0f : 2.0f;
         final boolean rightHanded = icdTile.isRightHanded();
-        final ICDValetHandle icdValetHandle = (ICDValetHandle)icdTile.getChildByClass((Class)ICDValetHandle.class);
+        final ICDValetHandle icdValetHandle = (ICDValetHandle)icdTile.getChildByClass(ICDValetHandle.class);
         final float n2 = icdValetHandle.getBasePoint().getY() + icdValetHandle.getZDimension() / 2.0f;
         final Point3f point3f = new Point3f();
         if (b) {

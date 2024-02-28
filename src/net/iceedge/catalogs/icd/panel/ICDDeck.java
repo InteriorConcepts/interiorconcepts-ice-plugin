@@ -152,7 +152,7 @@ public class ICDDeck extends TransformableTriggerUser implements ICDManufacturin
         if (parentPanel != null && parentPanel.isSuspendedChaseHorizontalSplit()) {
             b = false;
         }
-        final ChildPool childPool = new ChildPool((TypeableEntity)this, (Class)ICDSupport.class);
+        final ChildPool childPool = new ChildPool((TypeableEntity)this, ICDSupport.class);
         if (b) {
             childPool.next();
             childPool.next();
@@ -317,7 +317,7 @@ public class ICDDeck extends TransformableTriggerUser implements ICDManufacturin
     }
     
     static {
-        ICDDeck.logger = Logger.getLogger((Class)ICDDeck.class);
+        ICDDeck.logger = Logger.getLogger(ICDDeck.class);
         ICDDeck.skuGenerator = null;
     }
 }

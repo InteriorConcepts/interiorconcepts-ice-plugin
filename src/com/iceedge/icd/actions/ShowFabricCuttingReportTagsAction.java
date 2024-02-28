@@ -36,6 +36,6 @@ public class ShowFabricCuttingReportTagsAction extends SolutionSettingIceCheckBo
     }
     
     static {
-        ShowFabricCuttingReportTagsAction.logger = Logger.getLogger((Class)ShowFabricCuttingReportTagsAction.class);
+        ShowFabricCuttingReportTagsAction.logger = Logger.getLogger(ShowFabricCuttingReportTagsAction.class);
     }
 }

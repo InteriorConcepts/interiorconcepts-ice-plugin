@@ -50,7 +50,7 @@ public class ICDSubILine extends BasicSubILine implements ICDManufacturingReport
     
     public void setPanelToPanelHWModified(final boolean modified) {
         if (modified) {
-            final Iterator<ICDPanelToPanelConnectionHW> iterator = this.getChildrenByClass((Class)ICDPanelToPanelConnectionHW.class, false).iterator();
+            final Iterator<ICDPanelToPanelConnectionHW> iterator = this.getChildrenByClass(ICDPanelToPanelConnectionHW.class, false).iterator();
             while (iterator.hasNext()) {
                 iterator.next().setModified(modified);
             }

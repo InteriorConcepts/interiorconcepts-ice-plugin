@@ -324,7 +324,7 @@ public class ICDBasicOverhead extends ICDBasicWorksurface implements BasicAttrib
     
     @Override
     public void populateCompareNodeForICD(final Class clazz, final CompareNode compareNode) {
-        compareNode.addCompareValue("finish", (Object)((BasicMaterialEntity)this.getChildByClass((Class)BasicMaterialEntity.class)).getDescription());
+        compareNode.addCompareValue("finish", (Object)((BasicMaterialEntity)this.getChildByClass(BasicMaterialEntity.class)).getDescription());
         compareNode.addCompareValue("usertag", (Object)this.getUserTagNameAttribute("TagName1"));
     }
     

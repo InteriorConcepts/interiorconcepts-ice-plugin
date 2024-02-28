@@ -68,7 +68,7 @@ public class ICDQuoteExport extends ReportNode
     }
     
     public void writeQuoteBuckets() throws IOException {
-        final Enumeration breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
+        final Enumeration<ReportNode> breadthFirstEnumeration = this.report.getBreadthFirstEnumeration();
         while (breadthFirstEnumeration.hasMoreElements()) {
             final ReportNode reportNode = breadthFirstEnumeration.nextElement();
             if (reportNode instanceof GeneralQuoteSectionBucket) {
@@ -123,7 +123,7 @@ public class ICDQuoteExport extends ReportNode
                 }
             }
             else if (b) {
-                final Iterator iterator = ((ICDPanel)aEntity).getChildrenByClass((Class)ICDTile.class, true, true).iterator();
+                final Iterator iterator = ((ICDPanel)aEntity).getChildrenByClass(ICDTile.class, true, true).iterator();
                 while (iterator.hasNext()) {
                     this.writeNode(icdQuoteFirstLevelBucket, (EntityObject)iterator.next(), b);
                     ++this.sequenceCounter;
@@ -185,6 +185,6 @@ public class ICDQuoteExport extends ReportNode
     }
     
     static {
-        ICDQuoteExport.logger = Logger.getLogger((Class)ICDQuoteExport.class);
+        ICDQuoteExport.logger = Logger.getLogger(ICDQuoteExport.class);
     }
 }

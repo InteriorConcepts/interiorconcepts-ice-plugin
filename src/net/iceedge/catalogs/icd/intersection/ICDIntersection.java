@@ -141,7 +141,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     
     private int getNumberOfSegmentsAtLocation(final Point3f point3f) {
         int n = 0;
-        final Vector sortedSegmentByHeight = this.getSortedSegmentByHeight();
+        final Vector<Segment> sortedSegmentByHeight = this.getSortedSegmentByHeight();
         final Vector<Segment> vector = new Vector<Segment>();
         for (final Segment e : sortedSegmentByHeight) {
             if (e.getHeight() > point3f.z - 1.0f && e.hasExtrusionAtLocation(point3f)) {
@@ -176,9 +176,9 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
         while (iterator.hasNext()) {
             addLocation(vector, iterator.next().getSplitLocation((BasicIntersection)this));
         }
-        final ICDPost icdPost = (ICDPost)this.getChildByClass((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getChildByClass(ICDPost.class);
         if (icdPost != null) {
-            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass((Class)ICDChaseMidConnectorContainer.class);
+            final ICDChaseMidConnectorContainer icdChaseMidConnectorContainer = (ICDChaseMidConnectorContainer)icdPost.getChildByClass(ICDChaseMidConnectorContainer.class);
             if (icdChaseMidConnectorContainer != null && icdChaseMidConnectorContainer.isSuspendedContainer()) {
                 final ICDChaseConnectorExtrusion icdChaseConnectorExtrusion = (ICDChaseConnectorExtrusion)icdChaseMidConnectorContainer.getChildByLWType("ICD_Chase_Mid_Bottom_Connector_Type");
                 if (icdChaseConnectorExtrusion != null) {
@@ -203,7 +203,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
             final Vector<ILineInterface> connectedILines = icdPostHostInterface.getConnectedILines();
             for (final ILineInterface o : generalSnapSet.getAllILines()) {
                 if (connectedILines == null || !connectedILines.contains(o)) {
-                    for (final ICDSubFrameSideContainer e : ((EntityObject)o).getChildrenByClass((Class)ICDSubFrameSideContainer.class, true)) {
+                    for (final ICDSubFrameSideContainer e : ((EntityObject)o).getChildrenByClass(ICDSubFrameSideContainer.class, true)) {
                         final Line2D.Float line = e.getLine();
                         if (line != null && (MathUtilities.isSamePoint(line.getP1(), (Point2D)float1, 0.001f) || MathUtilities.isSamePoint(line.getP2(), (Point2D)float1, 0.001f))) {
                             vector.add(e);
@@ -296,13 +296,13 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     public boolean canAcceptPowerIntent(final BasicPowerIntent basicPowerIntent) {
-        return basicPowerIntent instanceof BasicEndfeedPowerSourceIntent && this.getChildrenByClass((Class)BasicEndfeedPowerSourceIntent.class, true, true).size() < 1 && this.getVerticalChase() == null;
+        return basicPowerIntent instanceof BasicEndfeedPowerSourceIntent && this.getChildrenByClass(BasicEndfeedPowerSourceIntent.class, true, true).size() < 1 && this.getVerticalChase() == null;
     }
     
     protected void deleteUnUsedConnectorKit() {
         for (final RequiredChildTypeContainer requiredChildTypeContainer : this.getCurrentOption().getTypeKeyList()) {
             if (requiredChildTypeContainer.getMinimum() == 0) {
-                final Iterator allChildrenByType = this.getAllChildrenByType(requiredChildTypeContainer.getType());
+                final Iterator<EntityObject> allChildrenByType = this.getAllChildrenByType(requiredChildTypeContainer.getType());
                 while (allChildrenByType.hasNext()) {
                     final EntityObject entityObject = allChildrenByType.next();
                     if (!(entityObject instanceof BasicEndfeedPowerSourceIntent) && !(entityObject instanceof ICDPostForSubPanel)) {
@@ -314,7 +314,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     public ICDEndfeedPowerSource buildPowerEndfeed(final boolean b, final BasicPowerIntent basicPowerIntent) {
-        final List childrenByClass = this.getChildrenByClass((Class)ICDEndfeedPowerSource.class, true);
+        final List childrenByClass = this.getChildrenByClass(ICDEndfeedPowerSource.class, true);
         if (b) {
             final Iterator<ICDEndfeedPowerSource> iterator = childrenByClass.iterator();
             if (iterator.hasNext()) {
@@ -343,7 +343,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     private void calculateChildPost4SubPanel() {
-        final List childrenByClass = this.getChildrenByClass((Class)ICDPostForSubPanel.class, false, true);
+        final List childrenByClass = this.getChildrenByClass(ICDPostForSubPanel.class, false, true);
         final List<SubPostInfo> allSubPostInfos = this.getAllSubPostInfos();
         this.validatePostsAndInfo(childrenByClass, allSubPostInfos);
         this.validateChildPostsForSubPanel(childrenByClass, allSubPostInfos);
@@ -351,7 +351,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     private void validateChildPostsForSubPanel(final List<ICDPostForSubPanel> list, final List<SubPostInfo> list2) {
-        final TypeObject childType = this.getChildTypeFor((Class)ICDPostForSubPanel.class);
+        final TypeObject childType = this.getChildTypeFor(ICDPostForSubPanel.class);
         if (childType != null) {
             for (int i = 0; i < list2.size(); ++i) {
                 final SubPostInfo subPostInfo = list2.get(i);
@@ -442,7 +442,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     private boolean needToValidatePostForSubPanels() {
-        return this.getChildTypeFor((Class)ICDPostForSubPanel.class) != null;
+        return this.getChildTypeFor(ICDPostForSubPanel.class) != null;
     }
     
     protected void addSimpleSnapTargets(final SimpleSnapTargetCollection collection) {
@@ -575,7 +575,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     
     public boolean hasBoltOnJointOnHeight(final float n) {
         boolean hasBoltOnJointOnHeight = false;
-        final EntityObject childByClass = this.getChildByClass((Class)ICDPost.class);
+        final EntityObject childByClass = this.getChildByClass(ICDPost.class);
         if (childByClass != null) {
             hasBoltOnJointOnHeight = ((ICDPost)childByClass).hasBoltOnJointOnHeight(n);
         }
@@ -584,7 +584,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     
     public float getBoltOnJointHeight(final float n) {
         float n2 = ICDPost.BIG_NEGATIVE;
-        final EntityObject childByClass = this.getChildByClass((Class)ICDPost.class);
+        final EntityObject childByClass = this.getChildByClass(ICDPost.class);
         if (childByClass != null) {
             n2 = ((ICDPost)childByClass).getBoltOnJointHeight(n);
         }
@@ -596,7 +596,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     }
     
     protected void buildElevationPaintableReportTag(final int n, final Ice2DContainer ice2DContainer, final SolutionSetting solutionSetting) {
-        final ICDPost icdPost = (ICDPost)this.getChildByClass((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getChildByClass(ICDPost.class);
         if (!solutionSetting.isShowICDPreassembledTag() || !icdPost.shouldICDMakePreAssembledReport()) {
             return;
         }
@@ -668,7 +668,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     
     public Collection<JointIntersectable> getAllIntersectables() {
         final Vector<JointIntersectable> vector = new Vector<JointIntersectable>();
-        for (final JointIntersectable jointIntersectable : this.getChildrenByClass((Class)JointIntersectable.class, true, true)) {
+        for (final JointIntersectable jointIntersectable : this.getChildrenByClass(JointIntersectable.class, true, true)) {
             if (jointIntersectable.doesParticipateInJointIntersection()) {
                 vector.add(jointIntersectable);
             }
@@ -757,7 +757,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
         final boolean b2 = this.getIntersectionType() == 4;
         boolean b3 = false;
         if (b && b2) {
-            final Vector armsOrderedByIndex = this.getArmsOrderedByIndex();
+            final Vector<IntersectionArmInterface> armsOrderedByIndex = this.getArmsOrderedByIndex();
             if (armsOrderedByIndex.size() > 0) {
                 final Segment segment = armsOrderedByIndex.get(0).getSegment();
                 if (segment != null && segment instanceof ICDBeamSegment) {
@@ -767,7 +767,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
         }
         if (this.qualifiedOptions.size() > 0) {
             while (i < this.qualifiedOptions.size()) {
-                final OptionObject optionObject = this.qualifiedOptions.get(i);
+                final OptionObject optionObject = (OptionObject) this.qualifiedOptions.get(i);
                 final String attributeValueAsString = optionObject.getAttributeValueAsString("NonBreakingArms");
                 final boolean b4 = attributeValueAsString != null && attributeValueAsString.length() > 0;
                 if ((!b && b4) || (b && !b4)) {
@@ -939,7 +939,7 @@ public class ICDIntersection extends BasicIntersection implements ICDPostHostInt
     
     private Segment[] getArmSegments() {
         final Segment[] array = new Segment[4];
-        final Vector armsOrderedByIndex_WithoutCloning = this.getArmsOrderedByIndex_WithoutCloning();
+        final Vector<IntersectionArmInterface> armsOrderedByIndex_WithoutCloning = this.getArmsOrderedByIndex_WithoutCloning();
         for (int i = 0; i < armsOrderedByIndex_WithoutCloning.size(); ++i) {
             final IntersectionArmInterface intersectionArmInterface = armsOrderedByIndex_WithoutCloning.get(i);
             if (intersectionArmInterface != null) {

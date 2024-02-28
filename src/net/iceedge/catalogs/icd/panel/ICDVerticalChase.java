@@ -195,7 +195,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
             this.applyChangesForAttribute("ICD_Vertical_Chase_Width", Float.toString(getWidthForILines(this.chaseILines)));
             this.applyChangesForAttribute("ICD_Vertical_Chase_Height", Float.toString(this.chaseILines.get(0).getHeight()));
             for (final ICDILine icdiLine : this.chaseILines) {
-                final Iterator iterator2 = icdiLine.getChildrenByClass((Class)ICDSegment.class, true).iterator();
+                final Iterator<ICDSegment> iterator2 = icdiLine.getChildrenByClass(ICDSegment.class, true).iterator();
                 while (iterator2.hasNext()) {
                     iterator2.next().applyChangesForAttribute("ICD_Segment_Height", (int)icdiLine.getHeight() + "");
                 }
@@ -221,7 +221,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
             }
         }
         if (mainSolution != null && mainSolution.isLoading() && this.chaseILineIDs.size() != 0) {
-            for (final EntityObject o : this.getChildrenByClass((Class)BasicILine.class, true, true)) {
+            for (final EntityObject o : this.getChildrenByClass(BasicILine.class, true, true)) {
                 if (o != null) {
                     final Iterator<Long> iterator3 = this.chaseILineIDs.iterator();
                     while (iterator3.hasNext()) {
@@ -241,7 +241,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
         final String attributeValueAsString = this.getAttributeValueAsString("ICD_Vertical_Chase_Finish_Type");
         final Iterator<ICDILine> iterator = this.chaseILines.iterator();
         while (iterator.hasNext()) {
-            string += ICDVerticalChase.skuGenerator.getRegularPanelFinishCode((ICDPanel)iterator.next().getFirstChildByClass((Class)ICDPanel.class, false));
+            string += ICDVerticalChase.skuGenerator.getRegularPanelFinishCode((ICDPanel)iterator.next().getFirstChildByClass(ICDPanel.class, false));
         }
         if (string.contains("F")) {
             s = "F";
@@ -275,7 +275,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     }
     
     private static void populatePossibleDimensionsForAttribute(final Vector<Float> vector, final String key, final boolean b) {
-        final Iterator<OptionProxyValue> iterator = Solution.getWorldAttributeProxy().get(key).getPossibleValues().iterator();
+        final Iterator<OptionProxyValue> iterator = ((OptionAttributeProxy) Solution.getWorldAttributeProxy().get(key)).getPossibleValues().iterator();
         while (iterator.hasNext()) {
             final float float1 = Float.parseFloat(iterator.next().getValue());
             vector.add(float1);
@@ -297,7 +297,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     public void setVerticalChaseSegmentsSelected(final boolean b, final Solution solution) {
         final Iterator<ICDILine> iterator = this.getChaseILines().iterator();
         while (iterator.hasNext()) {
-            for (final ICDSegment icdSegment : iterator.next().getChildrenByClass((Class)ICDSegment.class, true)) {
+            for (final ICDSegment icdSegment : iterator.next().getChildrenByClass(ICDSegment.class, true)) {
                 if (b != icdSegment.isSelected()) {
                     icdSegment.setSelected(b, solution);
                 }
@@ -310,7 +310,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
         if (icdPanelSegment != null) {
             final Iterator<ICDILine> iterator = this.getChaseILines().iterator();
             while (iterator.hasNext()) {
-                for (final ICDPanelSegment icdPanelSegment2 : iterator.next().getChildrenByClass((Class)ICDPanelSegment.class, true)) {
+                for (final ICDPanelSegment icdPanelSegment2 : iterator.next().getChildrenByClass(ICDPanelSegment.class, true)) {
                     if (b != icdPanelSegment2.isSelected() && icdPanelSegment.isBaseSegment() == icdPanelSegment2.isBaseSegment()) {
                         icdPanelSegment2.setSelected(b, solution);
                     }
@@ -328,7 +328,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
         ICDPanel icdPanel = null;
         final Iterator<ICDILine> iterator = this.chaseILines.iterator();
         while (iterator.hasNext()) {
-            icdPanel = (ICDPanel)iterator.next().getFirstChildByClass((Class)ICDPanel.class, false);
+            icdPanel = (ICDPanel)iterator.next().getFirstChildByClass(ICDPanel.class, false);
             if (icdPanel != null) {
                 break;
             }
@@ -376,7 +376,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     }
     
     public void handleDynamicAttributes() {
-        final HashMap attributeList = this.currentCatalogOption.getAttributeList();
+        final HashMap<String, Attribute> attributeList = this.currentCatalogOption.getAttributeList();
         if (attributeList != null) {
             for (final String s : attributeList.keySet()) {
                 final Attribute attribute = (Attribute)attributeList.get(s);
@@ -469,7 +469,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
         boolean b = false;
         final Iterator<ICDILine> iterator = this.getChaseILines().iterator();
         while (iterator.hasNext()) {
-            final Iterator iterator2 = iterator.next().getChildrenByClass((Class)AssembleParent.class, true, true).iterator();
+            final Iterator iterator2 = iterator.next().getChildrenByClass(AssembleParent.class, true, true).iterator();
             while (iterator2.hasNext()) {
                 b |= ((EntityObject)iterator2.next()).getAttributeValueAsBoolean("isAssembled", false);
             }
@@ -508,7 +508,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     public Vector<Ice2DPaintableNode> getAssemblyIcons(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
         final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
         final ICDILine chaseReferenceILine = this.getChaseReferenceILine();
-        for (final BasicExtrusion basicExtrusion : ((EntityObject)chaseReferenceILine.getIntersections().get(0)).getChildrenByClass((Class)BasicExtrusion.class, true, true)) {
+        for (final BasicExtrusion basicExtrusion : ((EntityObject)chaseReferenceILine.getIntersections().get(0)).getChildrenByClass(BasicExtrusion.class, true, true)) {
             vector.add((Ice2DPaintableNode)ICDAssemblyElevationUtilities.createAssemblyDimensionTextNode(this, new Vector3f(0.0f, 0.0f, basicExtrusion.getBasePointWorldSpace().z + basicExtrusion.getZDimension() / 2.0f), Math.round(basicExtrusion.getZDimension()) + "", new Vector3f(-1.5707964f, 3.1415927f, -1.5707964f)));
         }
         final Ice2DTextNode assemblyDimensionTextNode = ICDAssemblyElevationUtilities.createAssemblyDimensionTextNode(this, new Vector3f(chaseReferenceILine.getWidth() / 2.0f, 0.0f, chaseReferenceILine.getHeight()), Math.round(chaseReferenceILine.getWidth() - 1.0f) + "", new Vector3f(-1.5707964f, 3.1415927f, 3.1415927f));
@@ -563,7 +563,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
         if (chaseReferenceILine != null) {
             final Iterator iterator = chaseReferenceILine.getSegments().iterator();
             while (iterator.hasNext()) {
-                final PanelSubILineInterface panelSubILineInterface = (PanelSubILineInterface)((EntityObject)iterator.next()).getChildByInterface((Class)PanelSubILineInterface.class);
+                final PanelSubILineInterface panelSubILineInterface = (PanelSubILineInterface)((EntityObject)iterator.next()).getChildByInterface(PanelSubILineInterface.class);
                 if (panelSubILineInterface instanceof BasicPanelSubILine && ((BasicPanelSubILine)panelSubILineInterface).getStackingSegment() != null) {
                     return ((BasicPanelSubILine)panelSubILineInterface).getStackingSegment();
                 }
@@ -579,7 +579,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     private ICDPanel getPanelWithSplit() {
         final ICDILine chaseReferenceILine = this.getChaseReferenceILine();
         if (chaseReferenceILine != null) {
-            for (final ICDPanel icdPanel : chaseReferenceILine.getChildrenByClass((Class)ICDPanel.class, true, true)) {
+            for (final ICDPanel icdPanel : chaseReferenceILine.getChildrenByClass(ICDPanel.class, true, true)) {
                 if (icdPanel.withHorizontalInnerExtrusion()) {
                     return icdPanel;
                 }
@@ -731,7 +731,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     }
     
     public List<IceOutputNode> getPlotOutputNodes() {
-        final ArrayList<IceOutputTextNode> list = (ArrayList<IceOutputTextNode>)new ArrayList<IceOutputNode>();
+        final ArrayList<IceOutputNode> list = new ArrayList<IceOutputNode>();
         final ICadTextNode cadOutputTextNode = this.getCadOutputTextNode(null);
         if (cadOutputTextNode != null) {
             final Matrix4f matrix4f = new Matrix4f();
@@ -758,13 +758,13 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     }
     
     public HashSet<AssembleParent> getExternalAssemblyParts() {
-        final HashSet<Object> set = (HashSet<Object>)new HashSet<AssembleParent>();
+        final HashSet<AssembleParent> set = new HashSet<AssembleParent>();
         set.addAll(this.chaseILines);
         return (HashSet<AssembleParent>)set;
     }
     
     public Collection<EntitySpaceCompareNodeWrapper> getSpaceCompareNodeWrappers() {
-        final LinkedList<Object> list = (LinkedList<Object>)new LinkedList<EntitySpaceCompareNodeWrapper>();
+        final LinkedList<EntitySpaceCompareNodeWrapper> list = new LinkedList<EntitySpaceCompareNodeWrapper>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             list.addAll(iterator.next().getSpaceCompareNodeWrappers());
@@ -773,7 +773,7 @@ public class ICDVerticalChase extends TransformableEntity implements AssemblePar
     }
     
     public HashSet<TypeableEntity> getAssembledChildrenForManReport() {
-        final HashSet<Object> set = (HashSet<Object>)new HashSet<TypeableEntity>();
+        final HashSet<TypeableEntity> set = new HashSet<TypeableEntity>();
         final Iterator<AssembleParent> iterator = this.getExternalAssemblyParts().iterator();
         while (iterator.hasNext()) {
             set.addAll(iterator.next().getAssembledChildrenForManReport());

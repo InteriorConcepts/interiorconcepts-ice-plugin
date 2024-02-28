@@ -223,14 +223,15 @@ public class ICDSubFrameSideContainer extends ICDPanel
     
     public Collection<ICDPanel> getAllPanels() {
         final Vector<ICDPanel> vector = new Vector<ICDPanel>();
-        final GeneralSnapSet set = (GeneralSnapSet)this.getParent((TypeFilter)new GeneralSnapSetFilter());
-        if (set != null) {
-            final EnumerationIterator enumerationIterator = new EnumerationIterator(set.breadthFirstEnumeration());
-            while (((Iterator)enumerationIterator).hasNext()) {
-                final ICDPanel next = ((Iterator<ICDPanel>)enumerationIterator).next();
-                if (next instanceof ICDPanel) {
-                    vector.add(next);
-                }
+        final GeneralSnapSet set = this.getParent(new GeneralSnapSetFilter());
+        if (set == null) {
+            return vector;
+        }
+        final EnumerationIterator<Object> enumerationIterator = new EnumerationIterator(set.breadthFirstEnumeration());
+        while (enumerationIterator.hasNext()) {
+            final Object next = enumerationIterator.next();
+            if (next instanceof ICDPanel) {
+                vector.add((ICDPanel) next);
             }
         }
         return vector;

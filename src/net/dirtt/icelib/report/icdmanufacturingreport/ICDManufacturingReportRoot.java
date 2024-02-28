@@ -117,10 +117,10 @@ public class ICDManufacturingReportRoot extends ICDManufacturingReportNode imple
     }
     
     private Vector<String> getSortedMatchingCustomNodes(final String anObject) {
-        final Vector<String> list = (Vector<String>)new Vector<Comparable>();
+        final Vector<String> list = new Vector<String>();
         final Iterator children = this.getChildren();
         while (children.hasNext()) {
-            final ICDManufacturingReportNode icdManufacturingReportNode = children.next();
+            final ICDManufacturingReportNode icdManufacturingReportNode = (ICDManufacturingReportNode) children.next();
             final TypeableEntity typeableEntity = (TypeableEntity)icdManufacturingReportNode.getAEntity();
             if (typeableEntity != null) {
                 final Attribute attributeObject = typeableEntity.getCurrentOption().getAttributeObject("Material_ID");
@@ -130,7 +130,7 @@ public class ICDManufacturingReportRoot extends ICDManufacturingReportNode imple
                 list.add(icdManufacturingReportNode.getUID() + "");
             }
         }
-        Collections.sort((List<Comparable>)list);
+        Collections.sort(list);
         return list;
     }
     

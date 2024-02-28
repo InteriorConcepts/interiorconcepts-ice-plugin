@@ -20,6 +20,6 @@ public class ShowICDManufacturingReportAction extends IceAction
     }
     
     static {
-        ShowICDManufacturingReportAction.logger = Logger.getLogger((Class)ShowICDManufacturingReportAction.class);
+        ShowICDManufacturingReportAction.logger = Logger.getLogger(ShowICDManufacturingReportAction.class);
     }
 }

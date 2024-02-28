@@ -62,7 +62,7 @@ Interior Concepts Plugin for IceEdge Software
 - There will be multiple horizontally split collapsible/expandible sections
   - Open Editors is the first and will show any open files (editors) which will also be represented by tabs along the top of the application
   - The next will be the name of the folder/project that was opened with all of its sub folders and files displayed in a tree-view
-  - The Outline section will show methods and such within the current scope (class) of the active open file
+  - The Outline section will show methods and such within the current scope  of the active open file
   - Timeline will show recent pushes that have been done to the Repo
   - Java Projects will show our project's code structure, all Java Runtime Environment libraries, and all referenced Libraries that are required to compile the plugin for Ice.
 - The UI panel in the bottom middle of the applications has views for the following (that are relevent):

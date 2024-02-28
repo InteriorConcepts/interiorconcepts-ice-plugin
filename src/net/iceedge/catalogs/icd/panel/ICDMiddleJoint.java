@@ -66,7 +66,7 @@ public class ICDMiddleJoint extends ICDJoint
     
     @Override
     protected void validateIndicator() {
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null) {
             final String id = icdPost.getCurrentType().getId();
             String s;
@@ -85,11 +85,11 @@ public class ICDMiddleJoint extends ICDJoint
     
     @Override
     public Vector<Ice2DPaintableNode> getAssemblyIcons(final int n, final Point3f point3f, final TransformableEntity transformableEntity, final Matrix4f matrix4f) {
-        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent((Class)ICDIntersection.class);
+        final ICDIntersection icdIntersection = (ICDIntersection)this.getParent(ICDIntersection.class);
         if (icdIntersection != null && icdIntersection.getVerticalChase() != null) {
             return null;
         }
-        final ICDPost icdPost = (ICDPost)this.getParent((Class)ICDPost.class);
+        final ICDPost icdPost = (ICDPost)this.getParent(ICDPost.class);
         if (icdPost != null && icdPost.isCurvedPost()) {
             return null;
         }
@@ -104,8 +104,8 @@ public class ICDMiddleJoint extends ICDJoint
         }
         final Ice2DShapeNode e2 = new Ice2DShapeNode(this.getLayerName(), (TransformableEntity)this, this.getAssemblyElevationMatrix(transformableEntity, false), (Shape)float1);
         e2.setStroke(stroke);
-        final Vector<ICD2DJointDirectionNode> vector = new Vector<ICD2DJointDirectionNode>();
-        vector.add((ICD2DJointDirectionNode)e2);
+        final Vector<Ice2DPaintableNode> vector = new Vector<Ice2DPaintableNode>();
+        vector.add(e2);
         vector.add(e);
         return (Vector<Ice2DPaintableNode>)vector;
     }
@@ -206,11 +206,11 @@ public class ICDMiddleJoint extends ICDJoint
             ++n;
         }
         final Vector<TypeValidatorEntity> vector = new Vector<TypeValidatorEntity>();
-        final Iterator clonedChildren = this.getClonedChildren();
+        final Iterator<Object> clonedChildren = this.getClonedChildren();
         while (clonedChildren.hasNext()) {
-            final TypeValidatorEntity next = clonedChildren.next();
+            final Object next = clonedChildren.next();
             if (next instanceof TypeValidatorEntity) {
-                vector.add(next);
+                vector.add((TypeValidatorEntity)next);
             }
         }
         if (vector.size() < n) {
@@ -229,6 +229,6 @@ public class ICDMiddleJoint extends ICDJoint
     }
     
     static {
-        ICDMiddleJoint.logger = Logger.getLogger((Class)ICDMiddleJoint.class);
+        ICDMiddleJoint.logger = Logger.getLogger(ICDMiddleJoint.class);
     }
 }

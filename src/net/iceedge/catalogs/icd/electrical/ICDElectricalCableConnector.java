@@ -66,7 +66,7 @@ public class ICDElectricalCableConnector extends BasicElectricalCableConnector i
     
     protected String calculateConnectorWidth() {
         float a = 0.0f;
-        final ICDElectricalCable icdElectricalCable = (ICDElectricalCable)this.getParent((Class)ICDElectricalCable.class);
+        final ICDElectricalCable icdElectricalCable = (ICDElectricalCable)this.getParent(ICDElectricalCable.class);
         if (icdElectricalCable != null) {
             a += icdElectricalCable.getConnectorExtensionWidth();
             SegmentBase segmentBase;
@@ -77,7 +77,7 @@ public class ICDElectricalCableConnector extends BasicElectricalCableConnector i
                 segmentBase = icdElectricalCable.getSegment().getSegmentAfter();
             }
             if (segmentBase != null) {
-                final List childrenByClass = ((EntityObject)segmentBase).getChildrenByClass((Class)ICDElectricalCable.class, true, true);
+                final List<ICDElectricalCable> childrenByClass = segmentBase.getChildrenByClass(ICDElectricalCable.class, true, true);
                 if (childrenByClass != null && childrenByClass.size() != 0) {
                     final ICDElectricalCable icdElectricalCable2 = childrenByClass.get(0);
                     if (icdElectricalCable2 != null) {

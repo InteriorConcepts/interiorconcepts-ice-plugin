@@ -83,8 +83,8 @@ public class ICDDoorTrack extends TransformableEntity implements ICDManufacturin
     public void populateCompareNodeForICD(final Class clazz, final CompareNode compareNode) {
         compareNode.addCompareValue("length", (Object)Math.round(this.getWidth()));
         String description = "";
-        if (((BasicMaterialEntity)this.getChildByClass((Class)BasicMaterialEntity.class)).getDescription() != null) {
-            description = ((BasicMaterialEntity)this.getChildByClass((Class)BasicMaterialEntity.class)).getDescription();
+        if (((BasicMaterialEntity)this.getChildByClass(BasicMaterialEntity.class)).getDescription() != null) {
+            description = ((BasicMaterialEntity)this.getChildByClass(BasicMaterialEntity.class)).getDescription();
         }
         compareNode.addCompareValue("finish", (Object)description);
         compareNode.addCompareValue("description", (Object)this.getDescription());

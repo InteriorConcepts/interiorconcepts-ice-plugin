@@ -46,6 +46,6 @@ public class ICDCatalogPartDelegate extends BasicCatalogPartDelegate
     }
     
     static {
-        ICDCatalogPartDelegate.logger = Logger.getLogger((Class)ICDCatalogPartDelegate.class);
+        ICDCatalogPartDelegate.logger = Logger.getLogger(ICDCatalogPartDelegate.class);
     }
 }

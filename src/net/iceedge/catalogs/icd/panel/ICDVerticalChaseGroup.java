@@ -40,7 +40,7 @@ public class ICDVerticalChaseGroup extends TypeableEntity implements ICDManufact
     }
     
     public void solve() {
-        this.destroyTheseChases(this.getVerticalChasesToDestroy(this.getChildrenByClass((Class)ICDVerticalChase.class, false).iterator()));
+        this.destroyTheseChases(this.getVerticalChasesToDestroy(this.getChildrenByClass(ICDVerticalChase.class, false).iterator()));
         super.solve();
     }
     
@@ -115,7 +115,7 @@ public class ICDVerticalChaseGroup extends TypeableEntity implements ICDManufact
     }
     
     private ICDVerticalChase getChaseWithILine(final ICDILine o) {
-        for (final ICDVerticalChase icdVerticalChase : this.getChildrenByClass((Class)ICDVerticalChase.class, false)) {
+        for (final ICDVerticalChase icdVerticalChase : this.getChildrenByClass(ICDVerticalChase.class, false)) {
             if (icdVerticalChase.getChaseILines().contains(o)) {
                 return icdVerticalChase;
             }

@@ -324,7 +324,7 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
         }
         final int n2 = -1;
         final int n3 = 1;
-        final ICDILine icdiLine = (ICDILine)this.getParent((Class)ICDILine.class);
+        final ICDILine icdiLine = (ICDILine)this.getParent(ICDILine.class);
         final Point3f point3f2 = new Point3f();
         if (!this.isVertical()) {
             point3f2.y += this.getMyLength();
@@ -408,7 +408,7 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
     
     public List<IceOutputNode> getPlotOutputNodes() {
         final IceOutputShapeNode e = new IceOutputShapeNode(this.shape, this.getEntWorldSpaceMatrix());
-        final Vector<IceOutputShapeNode> vector = (Vector<IceOutputShapeNode>)new Vector<IceOutputNode>();
+        final Vector<IceOutputNode> vector = new Vector<IceOutputNode>();
         vector.add(e);
         e.setParent((IceOutputNode)new IceOutputLayerNode("Panels"));
         return (List<IceOutputNode>)vector;
@@ -424,8 +424,8 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
     public void populateCompareNodeForICD(final Class clazz, final CompareNode compareNode) {
         compareNode.addCompareValue("length", (Object)Math.round(this.getMyLength()));
         String description = "";
-        if (((BasicMaterialEntity)this.getChildByClass((Class)BasicMaterialEntity.class)).getDescription() != null) {
-            description = ((BasicMaterialEntity)this.getChildByClass((Class)BasicMaterialEntity.class)).getDescription();
+        if (((BasicMaterialEntity)this.getChildByClass(BasicMaterialEntity.class)).getDescription() != null) {
+            description = ((BasicMaterialEntity)this.getChildByClass(BasicMaterialEntity.class)).getDescription();
         }
         compareNode.addCompareValue("finish", (Object)description);
         compareNode.addCompareValue("description", (Object)this.getDescription());
@@ -492,7 +492,7 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
         }
         treeMap.put("Description", this.getDescription() + ",Length:" + Math.round(this.getLength()) + " " + this.getReportDescription());
         treeMap.put("Width", Math.round(this.getLength()) + "");
-        final List childrenByClass = this.getChildrenByClass((Class)BasicMaterialEntity.class, false);
+        final List<BasicMaterialEntity> childrenByClass = this.getChildrenByClass(BasicMaterialEntity.class, false);
         if (childrenByClass != null) {
             for (int i = 0; i < childrenByClass.size(); ++i) {
                 final BasicMaterialEntity basicMaterialEntity = childrenByClass.get(i);
@@ -528,7 +528,7 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
     
     public Collection<ICDCornerSlot> getAllSlots() {
         final Vector<ICDCornerSlot> vector = new Vector<ICDCornerSlot>();
-        final Iterator children = this.getChildren();
+        final Iterator<EntityObject> children = this.getChildren();
         while (children.hasNext()) {
             final EntityObject entityObject = children.next();
             if (entityObject instanceof ICDCornerSlot) {
@@ -583,7 +583,7 @@ public class ICDChaseConnectorExtrusion extends TransformableTriggerUser impleme
     }
     
     private List<ICDTabContainer> getTabContainers() {
-        return (List<ICDTabContainer>)this.getChildrenByClass((Class)ICDTabContainer.class, false);
+        return (List<ICDTabContainer>)this.getChildrenByClass(ICDTabContainer.class, false);
     }
     
     public boolean isSuspendedeChaseSupport() {

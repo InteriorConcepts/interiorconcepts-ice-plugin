@@ -71,19 +71,21 @@ public class ICDWorksurfaceSolver extends TypeableEntity implements ICDManufactu
     class WorksurfaceSnapper implements SolutionPreSolveListener
     {
         public void preSolve(final Solution solution) {
-            if (solution != null) {
-                for (final GeneralSnapSet set : solution.getChildrenByClass((Class)GeneralSnapSet.class, false, true)) {
-                    if (set.isModified()) {
-                        final Iterator iterator2 = set.getChildrenByClass((Class)ICDBasicWorksurface.class, false, true).iterator();
-                        while (iterator2.hasNext()) {
-                            iterator2.next().handleSnap();
-                        }
-                    }
+            if (solution == null) {
+                return;
+            }
+            for (final GeneralSnapSet set : solution.getChildrenByClass(GeneralSnapSet.class, false, true)) {
+                if (!(set.isModified())) {
+                    continue;
                 }
-                final Iterator<ICDBasicWorksurface> iterator3 = solution.getChildrenByClass((Class)ICDBasicWorksurface.class, false, true).iterator();
-                while (iterator3.hasNext()) {
-                    iterator3.next().handleSnap();
+                final Iterator<ICDBasicWorksurface> iterator2 = set.getChildrenByClass(ICDBasicWorksurface.class, false, true).iterator();
+                while (iterator2.hasNext()) {
+                    iterator2.next().handleSnap();
                 }
+            }
+            final Iterator<ICDBasicWorksurface> iterator3 = solution.getChildrenByClass(ICDBasicWorksurface.class, false, true).iterator();
+            while (iterator3.hasNext()) {
+                iterator3.next().handleSnap();
             }
         }
     }

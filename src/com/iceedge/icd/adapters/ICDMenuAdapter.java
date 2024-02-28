@@ -32,7 +32,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildFileMenu() {
-        final ArrayList<ExportToSIFAction> list = (ArrayList<ExportToSIFAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new ExportToSIFAction(33, "Export To ICD SIF"));
         return (List<IceSubMenuJoinable>)list;
     }
@@ -42,7 +42,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildViewMenu() {
-        final ArrayList<ShowFabricCuttingReportTagsAction> list = (ArrayList<ShowFabricCuttingReportTagsAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new ShowPreassembledTagAction());
         list.add((IceSubMenuJoinable)new ShowFabricCuttingReportTagsAction());
         list.add((IceSubMenuJoinable)new ShowTileInstallationTagsAction());
@@ -50,7 +50,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildInsertMenu() {
-        final ArrayList<AllAssemblyElevation2DAction> list = (ArrayList<AllAssemblyElevation2DAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new AssemblyElevation2DAction());
         list.add((IceSubMenuJoinable)new AllAssemblyElevation2DAction());
         list.add((IceSubMenuJoinable)new IsometricAssemblyElevation2DAction());
@@ -58,7 +58,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildToolsMenu() {
-        final ArrayList<AllAssemblyElevationAction> list = (ArrayList<AllAssemblyElevationAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new AssemblyElevationAction());
         list.add((IceSubMenuJoinable)new AllAssemblyElevationAction());
         list.add((IceSubMenuJoinable)new IsometricAssemblyElevation());
@@ -66,7 +66,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildReportsMenu() {
-        final ArrayList<ShowICDSheetAction> list = (ArrayList<ShowICDSheetAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new ShowICDQuoteAction());
         list.add((IceSubMenuJoinable)new ShowICDSheetAction());
         list.add((IceSubMenuJoinable)new ShowICDManufacturingReportAction());
@@ -74,7 +74,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildSettingsMenu() {
-        final ArrayList<ToggleTabsAction> list = (ArrayList<ToggleTabsAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new ShowDXFExportAction());
         list.add((IceSubMenuJoinable)new ToggleTabsAction());
         return (List<IceSubMenuJoinable>)list;
@@ -89,7 +89,7 @@ public class ICDMenuAdapter implements IceMenuAdapter
     }
     
     public List<IceSubMenuJoinable> buildDeveloperMenu() {
-        final ArrayList<PrintTabConfigurationsAction> list = (ArrayList<PrintTabConfigurationsAction>)new ArrayList<IceSubMenuJoinable>();
+        final ArrayList<IceSubMenuJoinable> list = new ArrayList<IceSubMenuJoinable>();
         list.add((IceSubMenuJoinable)new ICDReportTestAction());
         list.add((IceSubMenuJoinable)new PrintTabConfigurationsAction());
         return (List<IceSubMenuJoinable>)list;
