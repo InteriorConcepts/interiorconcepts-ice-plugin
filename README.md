@@ -1,7 +1,7 @@
 # InteriorConcepts Ice Plugin
 An IceEdge plugin made in Java that implements our parametric Tube-And-Joint framing system, as well as all our other products, into the software for Quoting and Engineering.
 
-This was initially developed by the company of IceEdge and then decompiled to give access to correct things in-house that they were quite unable to do themselves.
+This was initially developed by the company of IceEdge and then decompiled to allow us to correct problems in-house that- which they were quite unable to do themselves.
 
 
 
