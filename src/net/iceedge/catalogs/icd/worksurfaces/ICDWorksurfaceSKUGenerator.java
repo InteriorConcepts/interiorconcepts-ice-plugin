@@ -27,62 +27,113 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
     }
     
     private void initializeCatalog() {
-        if (ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth == null || ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth == null) {
-            final Catalog catalog = Solution.getCatalogs().get("ICI_ICD");
-            if (catalog != null) {
-                ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth = new HashMap<String, SortedSet<Integer>>();
-                ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth = new HashMap<String, SortedSet<Integer>>();
-                try {
-                    final CatalogBroker broker = catalog.getBroker();
-                    TableOfContents tableOfContents = null;
-                    for (final TableOfContents tableOfContents2 : catalog.getTableOfContents()) {
-                        if ("Wks".equals(tableOfContents2.getDescription())) {
-                            tableOfContents = tableOfContents2;
-                            break;
-                        }
-                    }
-                    if (tableOfContents == null) {
-                        return;
-                    }
-                    for (final TableOfContents tableOfContents3 : tableOfContents.getChildren()) {
-                        final String description = tableOfContents3.getDescription();
-                        SortedSet<Integer> value = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(description);
-                        SortedSet<Integer> value2 = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(description);
-                        if (value == null) {
-                            value = new TreeSet<Integer>();
-                            ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.put(description, value);
-                        }
-                        if (value2 == null) {
-                            value2 = new TreeSet<Integer>();
-                            ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.put(description, value2);
-                        }
-                        final Iterator<TableOfContents.PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
-                        while (iterator3.hasNext()) {
-                            final Part part = broker.getPart(iterator3.next().getPartName());
-                            final String attributeValue = part.getAttributeValue("Depth", (String)null);
-                            final String attributeValue2 = part.getAttributeValue("Width", (String)null);
-                            if (attributeValue != null) {
-                                value.add((int)Float.parseFloat(attributeValue));
-                            }
-                            if (attributeValue2 != null) {
-                                value2.add((int)Float.parseFloat(attributeValue2));
-                            }
-                        }
-                    }
-                }
-                catch (IOException ex) {
-                    ex.printStackTrace();
+        if (ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth != null && ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth != null) {
+            return;
+        }
+        final Catalog catalog = Solution.getCatalogs().get("ICI_ICD");
+        if (catalog == null) {
+            System.err.println("Could not find catalog ICI_ICD. Unable to initalize ICDWorksurfaceSKUGenerator");
+            Thread.dumpStack();
+            return;
+        }
+        ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth = new HashMap<String, SortedSet<Integer>>();
+        ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth = new HashMap<String, SortedSet<Integer>>();
+        try {
+            final CatalogBroker broker = catalog.getBroker();
+            TableOfContents tableOfContents = null;
+            for (final TableOfContents tableOfContents2 : catalog.getTableOfContents()) {
+                if ("Wks".equals(tableOfContents2.getDescription())) {
+                    tableOfContents = tableOfContents2;
+                    break;
                 }
             }
-            else {
-                System.err.println("Could not find catalog ICI_ICD. Unable to initalize ICDWorksurfaceSKUGenerator");
-                Thread.dumpStack();
+            if (tableOfContents == null) {
+                return;
             }
+            for (final TableOfContents tableOfContents3 : tableOfContents.getChildren()) {
+                final String description = tableOfContents3.getDescription();
+                SortedSet<Integer> depth = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(description);
+                SortedSet<Integer> width = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(description);
+                if (depth == null) {
+                    depth = new TreeSet<Integer>();
+                    ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.put(description, depth);
+                }
+                if (width == null) {
+                    width = new TreeSet<Integer>();
+                    ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.put(description, width);
+                }
+                final Iterator<TableOfContents.PartItem> iterator3 = tableOfContents3.getPartItems().iterator();
+                while (iterator3.hasNext()) {
+                    final Part part = broker.getPart(iterator3.next().getPartName());
+                    final String attributeValue = part.getAttributeValue("Depth", (String)null);
+                    final String attributeValue2 = part.getAttributeValue("Width", (String)null);
+                    if (attributeValue != null) {
+                        depth.add((int)Float.parseFloat(attributeValue));
+                    }
+                    if (attributeValue2 != null) {
+                        width.add((int)Float.parseFloat(attributeValue2));
+                    }
+                }
+            }
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
     
     public String generateSKU(final TypeableEntity typeableEntity) {
         String s = "";
+        String shapeTag = "";
+        float xDim = 0.0f,
+              yDim = 0.0f;
+
+        // Size for Normal Decks/Shelves/Wks
+        if (typeableEntity instanceof ICDParametricDeckOrShelf || typeableEntity instanceof ICDWSCParametricWorksurface || typeableEntity instanceof ICDBasicWorksurface) {
+            shapeTag = ((ICDBasicWorksurface) typeableEntity).getShapeTag();
+            xDim = ((ICDBasicWorksurface) typeableEntity).getXDimensionForReport();
+            yDim = ((ICDBasicWorksurface) typeableEntity).getYDimensionForReport();
+        }
+        // Size for Suspended Chase Decks
+        if (typeableEntity instanceof ICDDeck) {
+            shapeTag = ((ICDDeck) typeableEntity).getShapeTag();
+            xDim = ((ICDDeck) typeableEntity).getXDimensionForReport();
+            yDim = ((ICDDeck) typeableEntity).getYDimensionForReport();
+        }
+        if (shapeTag.isEmpty()) {
+            return "";
+        }
+        
+        String validDepth = "",
+               validWidth = "";
+        validDepth = this.getValidDimString(xDim, shapeTag, WidthDepth.Depth);
+        validWidth = this.getValidDimString(yDim, shapeTag, WidthDepth.Width);
+
+        String finishCodeForDeckOrShelf = "";
+
+        // Finish Code for Decks and Shelves (Lam or Mel), Blank for Wks
+        if (typeableEntity instanceof ICDParametricDeckOrShelf) {
+            finishCodeForDeckOrShelf = ((ICDParametricDeckOrShelf) typeableEntity).getFinishCodeForDeckOrShelf();
+        }
+        if (typeableEntity instanceof ICDDeck) {
+            finishCodeForDeckOrShelf = ((ICDDeck) typeableEntity).getFinishCodeForManufacturingReport();
+        }
+        
+        // Letter for Decks and Shelves (instead of using full ShapeTag)
+        if (typeableEntity instanceof ICDParametricDeckOrShelf) {
+            shapeTag = (typeableEntity instanceof ICDParametricDeck ? "D" : "S");
+        }
+
+        // Create SKU
+        if (shapeTag != null && validDepth != null && validWidth != null) {
+            s = shapeTag + finishCodeForDeckOrShelf + validDepth + validWidth;
+        }
+
+        this.relinkCatalogPart(s, typeableEntity);
+        return s;
+
+
+
+        /*
         if (typeableEntity instanceof ICDParametricShelf) {
             final ICDParametricShelf icdParametricShelf = (ICDParametricShelf)typeableEntity;
             final String shapeTag = icdParametricShelf.getShapeTag();
@@ -136,6 +187,7 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         }
         this.relinkCatalogPart(s, typeableEntity);
         return s;
+        */
     }
     
     public boolean shouldRelinkCatalogPart() {
@@ -156,34 +208,44 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         return catalog;
     }
     
-    private String getValidDepth(final float n, final String key) {
-        String string = "";
-        if (key != null) {
-            final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(key);
-            if (set != null) {
-                for (final int intValue : set) {
-                    if ((int)n <= intValue) {
-                        string = intValue + "";
-                        break;
-                    }
-                }
-            }
-        }
-        return string;
+
+    public enum WidthDepth {
+        Width,
+        Depth
     }
-    
-    private String getValidWidth(final float n, final String key) {
+
+
+    /*
+     * Pads single digit numbers with a zero
+     */
+    private String getPaddedNumber(final int n) {
+        if (n <= 9) {
+            return ("0" + n);
+        } else {
+            return ("" + n);
+        }
+    }
+
+    /*
+     * Searches Wks catalog items for the closest matching size, without going over.
+     */
+    private String getValidDimString(final float n, final String key, WidthDepth type) {
         String string = "";
-        if (key != null) {
-            final SortedSet<Integer> set = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(key);
-            if (set != null) {
-                for (final int intValue : set) {
-                    if ((int)n <= intValue) {
-                        string = intValue + "";
-                        break;
-                    }
-                }
+        if (key == null) {
+            return string;
+        }
+        final SortedSet<Integer> set;
+        if (type == WidthDepth.Depth) {
+            set = ICDWorksurfaceSKUGenerator.worksurfaceTypeDepth.get(key);
+        } else {
+            set = ICDWorksurfaceSKUGenerator.worksurfaceTypeWidth.get(key);
+        }
+        for (final int intValue : set) {
+            if (!((int)n <= intValue)) {
+                continue;
             }
+            string = getPaddedNumber(intValue);
+            break;
         }
         return string;
     }
