@@ -66,7 +66,7 @@ Interior Concepts Plugin for IceEdge Software
   - Timeline will show recent pushes that have been done to the Repo
   - Java Projects will show our project's code structure, all Java Runtime Environment libraries, and all referenced Libraries that are required to compile the plugin for Ice.
 - The UI panel in the bottom middle of the applications has views for the following (that are relevent):
-  - Problems, lists any Errors (prevent compiling), Warnings (strong suggestions based on standard Java syntax), and Infos (general messages). These can be filtered with the funnel button on the top right of the panel.
+  - Problems, lists any Errors (prevent compiling), Warnings (strong suggestions based on standard Java syntax/practices), and Infos (general messages). These can be filtered with the funnel button on the top right of the panel.
   - Terminal, embeded command line instances (Powershell or Command Prompt). Will output information when compiling, including any errors specific to a task that VSCode is running in the command-line.
 
 ## Building The Jar File
