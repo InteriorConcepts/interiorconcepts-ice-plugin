@@ -72,7 +72,8 @@ Interior Concepts Plugin for IceEdge Software
 ## Building The Jar File
 - When all files are without errors (which prevent compiling), expand the Java Projects tab in the Explorer sidebar tab
 - Hover over the Java Projects section header, the 2nd button to the right (arrow point to right icon) is "Export Jar"
-- Clicking it will switch the lower panel to the Terminal, which will print out a bunch of lines reading `[OK] Successfully added ...` for each file that it compiles into the Jar file.
+- Clicking it will prompt you to select which folders to build the files from. Deselect all, check the `bin` folder, and click the ok button.
+- It'll switch the lower panel to the Terminal, as it starts the build process, which will print out a bunch of lines reading `[OK] Successfully added ...` for each file that it compiles into the Jar file.
 - Errors for building will show in the Terminal as `[ERROR]` followed by the reason for the error and the file name. This means the file is not in the resulting Jar file, so be sure to review this output.
 - Once you have the Jar file, the `MANIFEST.MF` file must be manually inserted into it. This is because Java compiling creates a new manifest file for each build, however Ice requires specific content be inside it for the plugin to work.
 - Open the exported Jar as an archive or zip file using 7Zip or other program. The navigate to the `META-INF` folder within.
