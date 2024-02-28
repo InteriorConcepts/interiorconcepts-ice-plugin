@@ -1,15 +1,27 @@
-# interiorconcepts-ice-plugin
-Interior Concepts Plugin for IceEdge Software
-   
-   
----
-   
-   
-# Development Setup:
-## GitHub Desktop (file versioning and change management)
+# InteriorConcepts Ice Plugin
+An IceEdge plugin made in Java that implements our parametric Tube-And-Joint framing system, as well as all our other products, into the software for Quoting and Engineering.
+
+This was initially developed by the company of IceEdge and then decompiled to give access to correct things in-house that they were quite unable to do themselves.
+
+
+
+
+## Table of contents
+- [Development Setup](#development-setup)
+  - [GitHub Desktop](#github-desktop)
+  - [Java Development Kit](#jdk-java-development-kit)
+  - [Visual Studio Code](#vscode-visual-studio-code)   
+- [Getting Started](#getting-started)
+  - [Opening The Project](#opening-the-project)
+  - [VSCode Interface](#vscode-interface-rundown)
+  - [Building](#building-the-jar-file)
+
+
+## Development Setup:
+### GitHub Desktop
 - Download GitHub Desktop from the official site [here](https://desktop.github.com/) and install it
 - Sign in using ICC GitHub account
-- Clone the repository
+- #### Clone the repository
   - On the main page for the repo in the browser, click the Code button > HTTPS > Copy Url in input box
   - Then back in the GitHub Desktop app, File > Clone repository > URL tab > Paste Url in input box
   - Choose a main path for GitHub Desktop to put things into (should default to the Documents folder, which is good)
@@ -19,13 +31,13 @@ Interior Concepts Plugin for IceEdge Software
 - Notification prefs can be changed at File > Options > Prompts
 - How to use GitHub Desktop will not be covered in these setup instructions
 
-## JDK, Java Development Kit (instuctions-set to debug and compile)
+### JDK, Java Development Kit
 - Download the installer for JDK version 8u261 build 12 from ~[this direct-download link](https://sdlc-esd.oracle.com/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe?GroupName=JSC&FilePath=/ESD6/JSCDL/jdk/8u261-b12/a4634525489241b9a9e1aa73d9e118e6/jdk-8u261-windows-x64.exe&BHost=javadl.sun.com&File=jdk-8u261-windows-x64.exe&AuthParam=1708433732_0ec20e882f223082cf61b163205277af&ext=.exe)~ (link broke, run from "H:\IceEdge\IceDevelopment\Setup Files\" instead)
 - Run the installer, and ensure that it installs at `C:\Program Files\Java\` into a folder named `jdk1.8.0_261` (this exact path is used in the VSCode settings files in the repo for compiling)
 - Download the installer for another JDK, this time version 17  (they go 1.8, 1.9, 10, ..., 17) from [this direct-download link](https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe)
 - Run the installer, and ensure that it installs at `C:\Program Files\Java\` into a folder named `JDK-17` (for the same reason as the other one)
 
-## VSCode, Visual Studio Code (editor)
+### VSCode, Visual Studio Code
 - Download VSCode from the official site [here](https://code.visualstudio.com/)
 - Durring installation, be sure enable the option for "Open in Code" context menu for windows explorer to be added
 - After setup installation, open the program if it didn't already automatically
@@ -35,17 +47,16 @@ Interior Concepts Plugin for IceEdge Software
 - A breif rundown of the user-interface will be covered in the next major section
 
 
-** All software should now be setup and ready to go. Continue onto the next section which will quickly touch on how to get started with the code and editor.
+** All software should now be setup and ready to go. Continue onto the [Getting Started](#getting-started) section which will quickly touch on how to use the editor and get into the code.
 
----
 
-# Getting Started
+## Getting Started
 
-## Opening The Project
+### Opening The Project
 - Navigate to the repository folder, right click anywhere in the blank space of the window, choose "Open with Code" from the context menu
 - After it's open it'll begin loading the referenced jar files from the `lib` folder, as well as checking over the code in `src`, and building `.java` files to `.class` files to the `bin` folder if they're without errors.
 
-## VSCode Interface Rundown
+### VSCode Interface Rundown
 - This process is indicated in the bottom status bar of the program and looks like this: ![image](https://github.com/InteriorConcepts/interiorconcepts-ice-plugin/assets/45998846/1a7f2204-8238-4f10-9480-cc55d236b0dc)
 - Status bar information from left to right (hovering over each gives info in the tooltip as well):
   - Remote Window button (green), ignore this
@@ -69,7 +80,7 @@ Interior Concepts Plugin for IceEdge Software
   - Problems, lists any Errors (prevent compiling), Warnings (strong suggestions based on standard Java syntax/practices), and Infos (general messages). These can be filtered with the funnel button on the top right of the panel.
   - Terminal, embeded command line instances (Powershell or Command Prompt). Will output information when compiling, including any errors specific to a task that VSCode is running in the command-line.
 
-## Building The Jar File
+### Building The Jar File
 - When all files are without errors (which prevent compiling), expand the Java Projects tab in the Explorer sidebar tab
 - Hover over the Java Projects section header, the 2nd button to the right (arrow point to right icon) is "Export Jar"
 - Clicking it will prompt you to select which folders to build the files from. Deselect all, check the `bin` folder, and click the ok button.
