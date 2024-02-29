@@ -1,0 +1,188 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build, Apply, and Run Ice",
+			"command": "",
+			"args": [],
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Build-and-Apply",
+				"Run"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Builds Jar file, replaces existing local ice plugin file, and runs Ice",
+			"icon": {
+				"id": "debug-all",
+				"color": "terminal.ansiGreen"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Build-and-Apply",
+			"command": "",
+			"args": [],
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Build",
+				"Apply"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "Builds Jar file, and replaces existing local ice plugin file",
+			"icon": {
+				"id": "package",
+				"color": "terminal.ansiCyan"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Build",
+			"command": "",
+			"args": [],
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Export-Jar",
+				"Update-Manifest"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Builds Jar file",
+			"icon": {
+				"id": "package",
+				"color": "terminal.ansiCyan"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Apply",
+			"command": "",
+			"args": [],
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Setup-Ice-Plugin-Dir",
+				"Kill-Ice-Process",
+				"Apply-Original-Plugin",
+				"Copy-New-Plugin",
+				"Apply-New-As-Current"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Copies Jar file from project folder to Ice plugins folder, setting it as the current",
+			"icon": {
+				"id": "go-to-file",
+				"color": "terminal.ansiYellow"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Run",
+			"command": "${workspaceFolder}/cmd/launch-ice.cmd",
+			"args": [],
+			"group": {
+				"kind": "test",
+				"isDefault": false
+			},
+			"detail": "Launch Ice program",
+			"icon": {
+				"id": "run",
+				"color": "terminal.ansiGreen"
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Swap and Run",
+			"command": "",
+			"args": [],
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Swap-Plugin-Files",
+				"Run"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Swaps the current file for either the original or the modified one, then runs Ice",
+			"icon": {
+				"id": "arrow-swap",
+				"color": "terminal.ansiYellow"
+			}
+		},
+		{
+			"type": "java (buildArtifact)",
+			"targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
+			"elements": [
+				"bin/",
+				"!bin/META-INF/MANIFEST.MF"
+			],
+			"problemMatcher": [],
+			"label": "Export-Jar",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Update-Manifest",
+			"command": "${workspaceFolder}/cmd/update-manifest.cmd",
+			"args": [],
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Setup-Ice-Plugin-Dir",
+			"command": "${workspaceFolder}/cmd/setup-ice-folder.cmd",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Kill-Ice-Process",
+			"command": "${workspaceFolder}/cmd/kill-icebox-process.cmd",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Apply-Original-Plugin",
+			"command": "${workspaceFolder}/cmd/set-original-plugin.cmd",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Copy-New-Plugin",
+			"command": "${workspaceFolder}/cmd/copy-to-ice.cmd",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Apply-New-As-Current",
+			"command": "${workspaceFolder}/cmd/swap-ice-plugin.cmd",
+			"group": "build",
+			"hide": true
+		},
+		{
+			"type": "shell",
+			"label": "Swap-Plugin-Files",
+			"command": "${workspaceFolder}/cmd/swap-ice-plugin.cmd",
+			"args": [],
+			"group": "build",
+			"hide": true
+		},
+	]
+}

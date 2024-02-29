@@ -14,5 +14,9 @@
 				"path": "C:\\Program Files\\Java\\jdk1.8.0_261\\",
 				"default": true,
 		}
-],
+	],
+	"terminal.integrated.defaultProfile.windows":"Command Prompt",
+	"task.quickOpen.history": 0,
+	"task.autoDetect": "off",
+	"task.verboseLogging": true
 }

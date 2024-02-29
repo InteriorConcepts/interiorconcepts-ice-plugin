@@ -1,0 +1,39 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node-terminal",
+			"name": "Launch Ice",
+			"request": "launch",
+			//"cwd": "C:\\Program Files\\Ice\\3.28-ICE-64",
+			"cwd": "${workspaceFolder}",
+			"command": "cmd /c \"C:\\Program Files\\Ice\\3.28-ICE-64\\ICEbox.exe\"",
+			"autoAttachChildProcesses": true,
+			"internalConsoleOptions": "openOnSessionStart"
+		}
+		/*
+		{
+			"type": "java",
+			"name": "Launch Ice",
+			"request": "launch",
+			"modulePaths": [],
+			//"cwd": "C:\\Program Files\\Ice\\3.28-ICE-64",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "net.dirtt.icebox.IceBoxApp",
+			"vmArgs": "-Xms512m -Xmx16475m -XX:MaxPermSize=192m -Djogl.1thread=true -Dsun.java2d.noddraw=true -Dsun.java2d.d3d=false -Dsun.awt.nopixfmt=true -XX:+UseConcMarkSweepGC",
+			"classPaths": [
+				"C:\\Program Files\\Ice\\3.28-ICE-64",
+				"C:\\Program Files\\Ice\\3.28-ICE-64\\libs",
+				"C:\\Program Files\\Ice\\3.28-ICE-64\\jre",
+				"C:\\Program Files\\Ice\\3.28-ICE-64\\jre\\libs",
+				"C:\\Program Files\\Ice\\3.28-ICE-64\\ice.jar",
+			],
+			"preLaunchTask": "Run"
+		}
+		*/
+
+	]
+}
