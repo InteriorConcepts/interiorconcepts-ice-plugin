@@ -10,7 +10,11 @@ This was initially developed by the company of IceEdge and then decompiled to al
 - [Development Setup](#development-setup)
   - [GitHub Desktop](#github-desktop)
   - [Java Development Kit](#jdk-java-development-kit)
-  - [Visual Studio Code](#vscode-visual-studio-code)   
+  - [Visual Studio Code](#vscode-visual-studio-code)
+- [Advanced Development Setup](#advanced-development-setup)
+  - [Java Runtime Environment v21.0](#java-runtime-environment)
+  - [Apache Derby Database v10.14](#apache-derby-db)
+  - [SQuirreL SQL Client v4.7.1](#squirrel-sql-client)
 - [Getting Started](#getting-started)
   - [Opening The Project](#opening-the-project)
   - [VSCode Interface](#vscode-interface-rundown)
@@ -18,6 +22,7 @@ This was initially developed by the company of IceEdge and then decompiled to al
 
 
 ## Development Setup:
+
 ### GitHub Desktop
 - Download GitHub Desktop from the official site [here](https://desktop.github.com/) and install it
 - Sign in using ICC GitHub account
@@ -50,12 +55,61 @@ This was initially developed by the company of IceEdge and then decompiled to al
 ** All software should now be setup and ready to go. Continue onto the [Getting Started](#getting-started) section which will quickly touch on how to use the editor and get into the code.
 
 
+## Advanced Development Setup
+
+### Java Runtime Environment
+- [GitHub direct download (v21.0.2_b13)](https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jre_x64_windows_hotspot_21.0.2_13.msi)
+- On the Custom Setup page of the installer, ensure the first 3 options are set to "Will be installed" and not a red X
+- Continue through installer
+
+### Apache Derby DB
+- [Apache direct download (v10.14.2.0)](https://archive.apache.org/dist/db/derby/db-derby-10.14.2.0/db-derby-10.14.2.0-bin.zip)
+- Extract zip to Downloads or Documents folder (likely no permisions for Program Files)
+- Go into folder until there are files, then go up one, cut the folder, and paste it within `C:\Program Files\`. Delete left over empty folder(s), if any.
+- Open Command Prompt as Admin, copy and paste the following (right click to paste in cmd, not Ctrl+V): `set DERBY_HOME=C:\Program Files\db-derby-10.16.1.1-bin`
+
+### SQuirreL SQL Client
+#### Client Installation
+- [GitHub direct download (v4.7.1)](https://github.com/squirrel-sql-client/squirrel-sql-stable-releases/releases/download/4.7.1-installer/squirrel-sql-4.7.1-standard.jar)
+- Install to Downloads or Documents (no permissions for Program Files)
+- Check the following optional plugins, when prompted: Multi-Source, Derby, Microsoft SQL Server, Oracle, and SQL Validator
+- Continue pressing Next and then Done when it's completed
+- Open the program if it doesn't automatically after setup
+#### Database Driver Setup
+- Expand the drivers pane, on the left side of the program
+- Right click on "Acache Derby Embedded" and select "Modify Driver"
+- Enter the following for the "JDBC URL" input: `jdbc:derby:C:\Program Files\ICE\3.28-ICE-64\catalogs\ICD`
+- In the lower section of the popup window, in the "JDBC Driver" tab, click Add
+- In the popup, paste the following `C:\Program Files\db-derby-10.16.1.1-bin\lib` and press Ctrl+Enter
+- Select all files within the folder, click Open, then OK
+- The driver should now have a blue check (instead of a red X) next to it in the side panel, as well as a green-highlighted message in the log at the bottom
+#### Connection Setup
+- Click the "Aliases" button on the left side, expanding the Aliases panel
+- Click the plus icon to create a new one
+- Set the name to "Ice ICD - DerbyDB" (or whatever you want)
+- For Driver, make sure "Apache Derby Embebedded" is selected (and has a blue check mark)
+- URL is the path to the folder that the database files are located. The folders are identifiable by having a `seg0` folder and `service.properties` file within it. The folder path must be prefixed with `jdbc:derby:` to interpret it as the location of derby database files.
+- UserName and Password should be left blank, and the "Auto logon" checkbox should be checked.
+- Click the Test button to check if the connection to the specified path works.
+- A popup should say "Connection successful", click OK, then Connect to initialize a full connection and add the connection Alias to the sidebar
+#### Viewing the Database
+- The screen should change as the program opens the database's tables.
+- Expanding the "APP" section on the left, then "TABLE", will list the database tables found.
+- Clicking on one, like "OPTIONS" for example, then the "Content" tab at the top, will show the headers and rows within the table.
+- However, currently only 100 rows are shown.
+- Click Session (at the top), Session Properties, Object Tree tab, uncheck "Contents - Limit Rows"
+- Switch to SQL tab, under "SQL result loading" section, uncheck both items (if checked)
+- Click OK
+- Tada, you're done
+
+---
+
 ## Getting Started
 
 ### Opening The Project
 - Navigate to the repository folder, right click anywhere in the blank space of the window, choose "Open with Code" from the context menu
 - After it's open it'll begin loading the referenced jar files from the `lib` folder, as well as checking over the code in `src`, and building `.java` files to `.class` files to the `bin` folder if they're without errors.
-
+- 
 ### VSCode Interface Rundown
 - This process is indicated in the bottom status bar of the program and looks like this: ![image](https://github.com/InteriorConcepts/interiorconcepts-ice-plugin/assets/45998846/1a7f2204-8238-4f10-9480-cc55d236b0dc)
 - Status bar information from left to right (hovering over each gives info in the tooltip as well):
