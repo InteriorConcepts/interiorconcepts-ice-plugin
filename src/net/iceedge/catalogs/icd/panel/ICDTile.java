@@ -63,6 +63,7 @@ import net.dirtt.icelib.main.OptionObject;
 import org.apache.log4j.Logger;
 import net.dirtt.icelib.report.icdmanufacturingreport.ICDManufacturingReportable;
 import net.iceedge.catalogs.icd.interfaces.ICDInstallTagDrawable;
+import net.iceedge.catalogs.icd.worksurfaces.ICDParametricDeckOrShelf;
 import net.iceedge.catalogs.icd.elevation.assembly.AssemblyPaintable;
 import net.iceedge.icecore.basemodule.baseclasses.panels.BasicTile;
 
@@ -908,15 +909,25 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public String getInstallTag() {
-        String installTag = "";
         final Solution solution = this.getSolution();
-        if (solution != null) {
-            final Report report = solution.getReport(51);
-            if (report != null) {
-                installTag = ((ICDManufacturingReport)report).getInstallTag((EntityObject)this);
-            }
+        if (solution == null) {
+            return "";
         }
-        return installTag;
+        final Report report = solution.getReport(51);
+        if (report == null) {
+            return "";
+        }
+        String installTag = ((ICDManufacturingReport)report).getInstallTag((EntityObject)this);
+        
+        boolean asterisk = false;
+        // Doors/Decks/Shelves have panel standard, asterisk indicates there's a modification to CNC and Shops
+        if (this instanceof ICDTile && ((ICDTile) this).isValetDoorTile()) {
+            asterisk = true;
+        }
+        if (this instanceof ICDCurvedTile) {
+            asterisk = true;
+        }
+        return ((asterisk ? "*" : "") + installTag);
     }
     
     public String getMultiTags(final SolutionSetting solutionSetting) {

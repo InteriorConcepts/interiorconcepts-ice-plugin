@@ -11,6 +11,7 @@ import java.util.SortedSet;
 import net.iceedge.icecore.basemodule.baseclasses.grips.BasicAttributeGrip;
 import net.iceedge.icecore.basemodule.baseclasses.worksurfaces.parametric.buildingblock.Parameter2D;
 import java.util.Collection;
+import java.util.TreeMap;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Point3f;
 import net.dirtt.icelib.main.OptionObject;
@@ -132,6 +133,11 @@ public class ICDParametricDeckOrShelf extends ICDParametricWorksurface implement
         this.depth1Direction = new Vector3f(0.0f, -1.0f, 0.0f);
         this.wireDipRefPoints.clear();
         this.wireDipRefPoints.add(new Point3f(startPoint));
+    }
+    
+    public void getManufacturingInfo(final TreeMap<String, String> treeMap) {
+        super.getManufacturingInfo(treeMap);
+        treeMap.put("TileIndicator", "*");
     }
     
     @Override

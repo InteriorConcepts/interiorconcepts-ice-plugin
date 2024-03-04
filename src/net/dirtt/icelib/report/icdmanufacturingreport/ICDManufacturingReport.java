@@ -145,11 +145,12 @@ public class ICDManufacturingReport extends Report
     }
     
     public String getInstallTag(final EntityObject entityObject) {
-        String tag = "";
         final ICDManufacturingReportNode icdManufacturingReportNode = (ICDManufacturingReportNode)entityObject.getBucketInReport((Report)this);
-        if (icdManufacturingReportNode != null) {
-            tag = icdManufacturingReportNode.getTag();
+        if (icdManufacturingReportNode == null) {
+            return "";
         }
+        String tag = "";
+        tag = icdManufacturingReportNode.getTag();
         return tag;
     }
     

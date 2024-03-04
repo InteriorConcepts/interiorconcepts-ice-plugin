@@ -11,7 +11,13 @@ import java.util.TreeMap;
 import net.iceedge.catalogs.icd.elevation.isometric.ICDIsometricAssemblyElevationEntity;
 import net.iceedge.catalogs.icd.elevation.assembly.ICDAssemblyElevationEntity;
 import net.dirtt.icelib.main.ElevationEntity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
+
 import net.iceedge.icecore.basemodule.baseclasses.material.BasicMaterialEntity;
 import java.util.Vector;
 import net.iceedge.icecore.basemodule.baseclasses.panels.BasicTile;
@@ -23,6 +29,7 @@ import net.dirtt.icelib.main.OptionObject;
 import net.dirtt.icelib.main.TypeObject;
 import net.dirtt.icelib.report.icdmanufacturingreport.ICDManufacturingReportable;
 import net.iceedge.catalogs.icd.interfaces.ICDInstallTagDrawable;
+import net.iceedge.catalogs.icd.worksurfaces.ICDParametricDeckOrShelf;
 import net.iceedge.icecore.basemodule.baseclasses.panels.BasicSubTile;
 
 public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, ICDManufacturingReportable
@@ -81,6 +88,13 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
         this.addNamedPoint("ASE_DOUBLE_VAL_DOOR", new Point3f(0.0f, 1.0f, 0.0f));
     }
     
+    public boolean isValetDoorTile() {
+        return (
+            ICDTile.PARENT_TYPE.equals(this.getCurrentOption().getAttributeValueAsString("Tile_Indicator")) ||
+            this.getCurrentOption().getAttributeValueAsString("Base_SKU").startsWith("Valetdoor")
+        );
+    }
+
     public boolean isStackedTile() {
         final PanelInterface parentPanel = this.getParentPanel();
         return parentPanel != null && !parentPanel.isCorePanel();
@@ -142,15 +156,22 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
     }
     
     public String getInstallTag() {
-        String installTag = "";
         final Solution solution = this.getSolution();
-        if (solution != null) {
-            final Report report = solution.getReport(51);
-            if (report != null) {
-                installTag = ((ICDManufacturingReport)report).getInstallTag((EntityObject)this);
-            }
+        if (solution == null) {
+            return "";
         }
-        return installTag;
+        final Report report = solution.getReport(51);
+        if (report == null) {
+            return "";
+        }
+        String installTag = ((ICDManufacturingReport)report).getInstallTag((EntityObject)this);
+        
+        boolean asterisk = false;
+        // Doors/Decks/Shelves have panel standard, asterisk indicates there's a modification to CNC and Shops
+        if (this instanceof ICDSubTile && ((ICDSubTile) this).isValetDoorTile()) {
+            asterisk = true;
+        }
+        return ((asterisk ? "*" : "") + installTag);
     }
     
     public String getMultiTags(final SolutionSetting solutionSetting) {

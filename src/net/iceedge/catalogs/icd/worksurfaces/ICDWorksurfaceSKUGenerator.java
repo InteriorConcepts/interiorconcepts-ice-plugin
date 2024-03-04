@@ -108,6 +108,11 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         validDepth = this.getValidDimString(xDim, shapeTag, WidthDepth.Depth);
         validWidth = this.getValidDimString(yDim, shapeTag, WidthDepth.Width);
 
+        // Letter for Decks and Shelves (instead of using full ShapeTag)
+        if (typeableEntity instanceof ICDParametricDeckOrShelf) {
+            shapeTag = (typeableEntity instanceof ICDParametricDeck ? "D" : "S");
+        }
+        
         String finishCodeForDeckOrShelf = "";
 
         // Finish Code for Decks and Shelves (Lam or Mel), Blank for Wks
@@ -116,11 +121,6 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         }
         if (typeableEntity instanceof ICDDeck) {
             finishCodeForDeckOrShelf = ((ICDDeck) typeableEntity).getFinishCodeForManufacturingReport();
-        }
-        
-        // Letter for Decks and Shelves (instead of using full ShapeTag)
-        if (typeableEntity instanceof ICDParametricDeckOrShelf) {
-            shapeTag = (typeableEntity instanceof ICDParametricDeck ? "D" : "S");
         }
 
         // Create SKU
