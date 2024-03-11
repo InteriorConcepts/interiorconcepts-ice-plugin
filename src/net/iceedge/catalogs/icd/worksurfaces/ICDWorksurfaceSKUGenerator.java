@@ -105,8 +105,8 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         
         String validDepth = "",
                validWidth = "";
-        validDepth = this.getValidDimString(xDim, shapeTag, WidthDepth.Depth);
-        validWidth = this.getValidDimString(yDim, shapeTag, WidthDepth.Width);
+        validDepth = this.getValidDimString(yDim, shapeTag, WidthDepth.Depth);
+        validWidth = this.getValidDimString(xDim, shapeTag, WidthDepth.Width);
 
         // Letter for Decks and Shelves (instead of using full ShapeTag)
         if (typeableEntity instanceof ICDParametricDeckOrShelf) {
