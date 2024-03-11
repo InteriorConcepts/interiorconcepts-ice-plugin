@@ -2,6 +2,8 @@ package com.iceedge.icd.reporting;
 
 import net.iceedge.catalogs.icd.panel.ICDTile;
 import net.iceedge.catalogs.icd.intersection.ICDCornerSlot;
+import net.iceedge.catalogs.icd.intersection.ICDPost;
+
 import java.util.Vector;
 import com.iceedge.icd.utilities.ICDExtrusionUtilities;
 import java.text.DecimalFormat;
@@ -9,6 +11,7 @@ import net.dirtt.icelib.main.TransformableEntity;
 import net.dirtt.utilities.TypeFilter;
 import com.iceedge.icd.typefilters.ICDJointTypeFilter;
 import net.iceedge.catalogs.icd.panel.ICDJoint;
+import net.iceedge.catalogs.icd.panel.ICDSubInternalExtrusion;
 import net.iceedge.icecore.basemodule.baseclasses.material.BasicMaterialEntity;
 import net.dirtt.icelib.main.TypeValidatorEntity;
 import net.dirtt.icelib.report.compare.CompareNode;
@@ -90,7 +93,17 @@ public class ICDManufacturingUtils
     public static String getReportDescriptionForExtrusion(final EntityObject entityObject) {
         final Vector<ICDCornerSlot> allSlottedSlots = ICDExtrusionUtilities.getAllSlottedSlots(entityObject);
         if (allSlottedSlots != null && allSlottedSlots.size() > 0) {
-            return " CS" + allSlottedSlots.size() + " ";
+            String specText = " ";
+            if (entityObject instanceof ICDSubInternalExtrusion) {
+                ICDSubInternalExtrusion ext = ((ICDSubInternalExtrusion) entityObject);
+                float boltOnHeight = ext.getPost().getBoltOnJointHeight();
+                if (boltOnHeight != ICDPost.BIG_NEGATIVE) {
+                    if ((boltOnHeight > ext.getBasePointWorldSpace().z) && (boltOnHeight < (ext.getBasePointWorldSpace().z + ext.getZDimension()))) {
+                        specText = "-spec";
+                    }
+                }
+            }
+            return " CS" + allSlottedSlots.size() + specText;
         }
         final String tabCode = ICDExtrusionUtilities.getTabCode(entityObject);
         if (tabCode.length() > 0) {
