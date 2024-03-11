@@ -925,6 +925,22 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
         }
         return b;
     }
+
+    public boolean hasBoltOnJointIntersectsExtrusion(final ICDSubInternalExtrusion ext) {
+        return hasBoltOnJointIntersect(ext.getBasePoint3f().z, ext.getZDimension());
+    }
+
+    public boolean hasBoltOnJointIntersect(final float z, final float h) {
+        final EntityObject childByClass = this.getChildByClass(ICDMiddleJoint.class);
+        if (childByClass == null || !(((ICDMiddleJoint)childByClass).getAttributeValueAsString("Joint_BoltOn")).equals("Yes")) {
+            return false;
+        }
+        final Point3f basePointWorldSpace = childByClass.getBasePointWorldSpace();
+        if (basePointWorldSpace == null) {
+            return false;
+        }
+        return (basePointWorldSpace.z > z) && (basePointWorldSpace.z < z + h);
+    }
     
     public boolean hasBoltOnJointOnHeight(final float n) {
         boolean b = false;
@@ -936,6 +952,19 @@ public class ICDPost extends BasicPost implements AssembleParent, AssemblyPainta
             }
         }
         return b;
+    }
+
+    public float getBoltOnJointHeight() {
+        final EntityObject childByClass = this.getChildByClass(ICDMiddleJoint.class);
+        if (childByClass == null || !(((ICDMiddleJoint)childByClass).getAttributeValueAsString("Joint_BoltOn")).equals("Yes")) {
+            return ICDPost.BIG_NEGATIVE;
+        }
+        final Point3f basePointWorldSpace = childByClass.getBasePointWorldSpace();
+        if (basePointWorldSpace == null) {
+            return ICDPost.BIG_NEGATIVE;
+        }
+        final float z = basePointWorldSpace.z;
+        return z;
     }
     
     public float getBoltOnJointHeight(final float n) {
