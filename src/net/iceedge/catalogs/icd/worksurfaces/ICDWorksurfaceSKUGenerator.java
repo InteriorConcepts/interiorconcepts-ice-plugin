@@ -4,6 +4,7 @@ import net.dirtt.icelib.main.CatalogManager;
 import net.iceedge.icebox.ui.catalogChooser.Manufacturer;
 import net.dirtt.icelib.main.OptionObject;
 import net.iceedge.catalogs.icd.panel.ICDDeck;
+import net.iceedge.catalogs.icd.worksurfaces.parametric.ICDParametricWorksurface;
 import net.dirtt.icelib.main.TypeableEntity;
 import net.iceedge.icebox.dataimport.sif.Part;
 import java.util.Iterator;
@@ -92,7 +93,7 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
             shapeTag = ((ICDBasicWorksurface) typeableEntity).getShapeTag();
             xDim = ((ICDBasicWorksurface) typeableEntity).getXDimensionForReport();
             yDim = ((ICDBasicWorksurface) typeableEntity).getYDimensionForReport();
-        }
+        } else
         // Size for Suspended Chase Decks
         if (typeableEntity instanceof ICDDeck) {
             shapeTag = ((ICDDeck) typeableEntity).getShapeTag();
@@ -118,9 +119,10 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         // Finish Code for Decks and Shelves (Lam or Mel), Blank for Wks
         if (typeableEntity instanceof ICDParametricDeckOrShelf) {
             finishCodeForDeckOrShelf = ((ICDParametricDeckOrShelf) typeableEntity).getFinishCodeForDeckOrShelf();
-        }
+        } else
         if (typeableEntity instanceof ICDDeck) {
             finishCodeForDeckOrShelf = ((ICDDeck) typeableEntity).getFinishCodeForManufacturingReport();
+            shapeTag = "D";
         }
 
         // Create SKU
