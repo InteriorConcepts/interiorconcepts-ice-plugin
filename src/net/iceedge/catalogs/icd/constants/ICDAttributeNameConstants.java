@@ -151,6 +151,7 @@ public interface ICDAttributeNameConstants
     public static final String ICD_SLOT_2 = "ICD_SLOT_2";
     public static final String ICD_SLOT_3 = "ICD_SLOT_3";
     public static final String ICD_SLOT_4 = "ICD_SLOT_4";
+    public static final String TILE_PANEL_STD = "Tile_Panel_Std";
     public static final String ICD_SLOT_TYPE_USERCONTROLLABLE = "ICD_Slot_Type_UserControllable";
     public static final String ICD_CORNER1SLOTTING_TYPE = "ICD_Corner1Slotting_Type";
     public static final String ICD_CORNER2SLOTTING_TYPE = "ICD_Corner2Slotting_Type";

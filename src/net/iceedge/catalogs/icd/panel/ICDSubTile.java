@@ -27,6 +27,7 @@ import javax.vecmath.Point3f;
 import net.dirtt.icelib.main.EntityObject;
 import net.dirtt.icelib.main.OptionObject;
 import net.dirtt.icelib.main.TypeObject;
+import net.dirtt.icelib.main.attributes.Attribute;
 import net.dirtt.icelib.report.icdmanufacturingreport.ICDManufacturingReportable;
 import net.iceedge.catalogs.icd.interfaces.ICDInstallTagDrawable;
 import net.iceedge.catalogs.icd.worksurfaces.ICDParametricDeckOrShelf;
@@ -153,6 +154,12 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
         if (this.getAttributeValueAsString("Valet_Door_Hand_Indicator") != null) {
             treeMap.put("Description", this.getDescription() + " " + this.getAttributeValueAsString("Valet_Door_Hand_Indicator"));
         }
+        Attribute attrPnlStd = this.getParentPanel().getAttributeObject("Tile_Panel_Std");
+        if (attrPnlStd != null)
+            System.out.println("SubTile2: " + attrPnlStd.getValueAsString());
+        if (attrPnlStd != null && !Arrays.asList("", ICDTile.Default_PanelStd).contains(attrPnlStd.getValueAsString())) {
+            treeMap.put("Description", this.getDescription() + " (" + attrPnlStd.getValueAsString() + ")");
+        }
     }
     
     public String getInstallTag() {
@@ -169,6 +176,9 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
         boolean asterisk = false;
         // Doors/Decks/Shelves have panel standard, asterisk indicates there's a modification to CNC and Shops
         if (this instanceof ICDSubTile && ((ICDSubTile) this).isValetDoorTile()) {
+            asterisk = true;
+        }
+        if (this.hasPanelStd()) {
             asterisk = true;
         }
         return ((asterisk ? "*" : "") + installTag);
@@ -193,8 +203,19 @@ public class ICDSubTile extends BasicSubTile implements ICDInstallTagDrawable, I
     public void addManufacturingInfoToTreeMap(final TreeMap<String, String> treeMap) {
         ICDManufacturingUtils.addManufacturingInfoToTreeMap(treeMap, (ManufacturingReportable)this);
     }
+
+    public Boolean hasPanelStd() {
+        Attribute attrPnlStd = this.getParentPanel().getAttributeObject("Tile_Panel_Std");
+        return (attrPnlStd != null && !Arrays.asList("", ICDTile.Default_PanelStd).contains(attrPnlStd.getValueAsString()));
+    }
     
     public String getDescriptionForManufacturingReport() {
+        Attribute attrPnlStd = this.getParentPanel().getAttributeObject("Tile_Panel_Std");
+        if (attrPnlStd != null)
+            System.out.println("SubTile1: " + attrPnlStd.getValueAsString());
+        if (attrPnlStd != null && this.hasPanelStd()) {
+            return this.getDescription() + " (" + attrPnlStd.getValueAsString() + ")";
+        }
         return this.getDescription();
     }
 }

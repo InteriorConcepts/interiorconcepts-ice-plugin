@@ -18,5 +18,6 @@
 	"terminal.integrated.defaultProfile.windows":"Command Prompt",
 	"task.quickOpen.history": 0,
 	"task.autoDetect": "off",
-	"task.verboseLogging": true
+	"task.verboseLogging": true,
+	"java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms100m -Xlog:disable"
 }

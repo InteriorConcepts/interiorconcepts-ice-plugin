@@ -1,11 +1,23 @@
 package net.iceedge.catalogs.icd.panel;
 
 import net.dirtt.icelib.report.ManufacturingReportable;
+
+import org.xith3d.scenegraph.Node;
+import org.xith3d.scenegraph.Geometry;
+import org.xith3d.scenegraph.PolygonAttributes;
+import org.xith3d.scenegraph.Appearance;
+import org.xith3d.scenegraph.Group;
+import org.xith3d.scenegraph.Shape3D;
+import org.xith3d.scenegraph.TriangleArray;
+
+//import com.apstex.javax.media.j3d.Geometry;
 import com.iceedge.icd.reporting.ICDManufacturingUtils;
 import java.util.HashSet;
 import net.iceedge.catalogs.icd.ICDUtilities;
 import net.dirtt.icelib.report.icdmanufacturingreport.ICDManufacturingReport;
 import java.util.TreeMap;
+import java.util.TreeSet;
+
 import net.iceedge.icecore.basemodule.interfaces.panels.BottomExtrusionInterface;
 import java.io.File;
 import net.dirtt.icelib.ui.attribute.explorer.ui.entity.PossibleValue;
@@ -18,34 +30,62 @@ import net.dirtt.icebox.iceoutput.core.IceOutputTextNode;
 import net.dirtt.icebox.iceoutput.core.IceOutputNode;
 import net.dirtt.icebox.canvas2d.Ice2DTextNode;
 import net.dirtt.icebox.canvas2d.Ice2DPaintableNode;
+
+import javax.media.j3d.Transform3D;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.vecmath.Matrix4f;
 import net.dirtt.icelib.main.TransformableEntity;
 import net.dirtt.icelib.main.attributes.Attribute;
 import com.iceedge.icd.utilities.ICDPathConstants;
+
+import javafx.geometry.Rectangle2D;
+import net.iceedge.icebox.attribute.OnTheFlyAttributeInterface;
 import net.iceedge.icebox.utilities.ImagePool;
 import java.io.IOException;
 import net.dirtt.icelib.main.Catalog;
 import net.dirtt.icelib.main.SolutionSetting;
+import net.dirtt.icebox.ice3dviewer.Ice3dAppearance;
 import net.dirtt.icebox.ice3dviewer.IceMaterial;
 import net.dirtt.utilities.GuiUtilities;
+import net.dirtt.utilities.MathUtilities;
+import net.dirtt.utilities.PersistentFileManager;
 import net.dirtt.icelib.main.MaterialEntity;
 import net.dirtt.icelib.main.TypeableEntity;
 import net.dirtt.icelib.main.UV3Map;
 import net.dirtt.icelib.main.CatalogMapping;
 import org.xith3d.scenegraph.Shape3D;
+import org.xith3d.scenegraph.TriangleArray;
+import org.xith3d.scenegraph.Appearance;
+import org.xith3d.scenegraph.Group;
 import org.xith3d.scenegraph.Node;
+import org.xith3d.scenegraph.PolygonAttributes;
+
+import org.openmali.vecmath2.Colorf;
+
 import net.dirtt.utilities.Utility3D;
+import net.dirtt.xmlFiles.XMLWriter;
+
 import java.util.Vector;
 import java.util.LinkedList;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import net.dirtt.icebox.canvas2d.Ice2DContainer;
+import net.dirtt.icebox.canvas2d.Ice2DCubeNode;
+import net.dirtt.icebox.canvas2d.Ice2DLightShapeNode;
+import net.dirtt.icebox.canvas2d.Ice2DNode;
 import net.dirtt.icelib.report.Report;
+import net.dirtt.icelib.report.compare.CompareNode;
 import net.iceedge.catalogs.icd.ICDILine;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.SortedSet;
+
 import net.iceedge.icecore.basemodule.interfaces.panels.PanelSubILineInterface;
 import net.iceedge.icecore.basemodule.interfaces.panels.PanelSegmentInterface;
 import net.iceedge.icecore.basemodule.interfaces.panels.TopExtrusionInterface;
+import net.iceedge.vecmath.MathLibraryConversions;
+import net.iceedge.xith.TransformGroup;
 import net.iceedge.icecore.basemodule.interfaces.panels.FrameInterface;
 import net.iceedge.icecore.basemodule.interfaces.panels.PanelInterface;
 import net.dirtt.icelib.main.Solution;
@@ -53,9 +93,17 @@ import net.dirtt.icelib.main.AdjustmentValue;
 import net.iceedge.icecore.basemodule.interfaces.panels.StickLineInterface;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Point3f;
+import javax.vecmath.Tuple3f;
+import javax.vecmath.Vector3d;
+
 import java.util.Iterator;
 import net.iceedge.icecore.basemodule.baseclasses.material.BasicMaterialEntity;
+import net.iceedge.icecore.basemodule.baseclasses.BasicCatalogOption;
+import net.iceedge.icecore.basemodule.baseclasses.BasicCatalogPart;
 import net.iceedge.icecore.basemodule.baseclasses.TransformableTriggerUser;
+import net.iceedge.icecore.basemodule.baseclasses.grips.AttributeGripPoint;
+import net.iceedge.icecore.basemodule.baseclasses.grips.BasicAttributeGrip;
+import net.iceedge.icecore.basemodule.baseclasses.grips.BasicAttributeGrippable;
 import net.dirtt.icelib.main.EntityObject;
 import net.dirtt.icelib.main.TypeObject;
 import net.dirtt.icelib.undo.iceobjects.AttributeHashMapWithUndo;
@@ -64,10 +112,13 @@ import org.apache.log4j.Logger;
 import net.dirtt.icelib.report.icdmanufacturingreport.ICDManufacturingReportable;
 import net.iceedge.catalogs.icd.interfaces.ICDInstallTagDrawable;
 import net.iceedge.catalogs.icd.worksurfaces.ICDParametricDeckOrShelf;
+import net.iceedge.catalogs.icd.worksurfaces.parametric.ICDParametricCircularCutout;
+import net.iceedge.catalogs.icd.worksurfaces.parametric.ICDParametricCutout;
 import net.iceedge.catalogs.icd.elevation.assembly.AssemblyPaintable;
 import net.iceedge.icecore.basemodule.baseclasses.panels.BasicTile;
+import net.iceedge.icecore.basemodule.baseclasses.worksurfaces.parametric.buildingblock.CircleParameter;
 
-public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallTagDrawable, ICDManufacturingReportable
+public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallTagDrawable, BasicAttributeGrippable, OnTheFlyAttributeInterface, ICDManufacturingReportable
 {
     private static final String BOTTOM = "Bottom";
     private static final String ICD_SOLID_TILE_POSITION = "ICD_Solid_Tile_Position";
@@ -871,8 +922,65 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         if (s.equals("Tile_Indicator") && !this.allowNoTileWithoutFrame()) {
             attributePossibleValues.remove(new PossibleValue("No Tile, Without Frame", "No Tile, Without Frame", (File)null));
         }
+        if (s.equals("Tile_Panel_Std") && !(this.getAttributeValueAsString("Tile_Indicator").equals("Hardboard Tile"))) {
+            //attributePossibleValues.removeAll(attributePossibleValues);
+        }
         return (Collection<PossibleValue>)attributePossibleValues;
     }
+
+    //
+
+    public Boolean hasPanelStd() {
+        Attribute attrPnlStd = this.getAttributeObject("Tile_Panel_Std");
+        return (attrPnlStd != null && !Arrays.asList("", ICDTile.Default_PanelStd).contains(this.PanelStd));
+    }
+    
+    public void populateCompareNode(final Class clazz, final CompareNode compareNode) {
+        super.populateCompareNode(clazz, compareNode);
+        compareNode.addCompareValue("panelStd", (Object)this.PanelStd);
+    }
+
+    public static String Default_PanelStd = "None";
+    public String PanelStd = "None";
+    protected void writeXMLFields(final XMLWriter xmlWriter, final PersistentFileManager.FileWriter fileWriter) throws IOException {
+        super.writeXMLFields(xmlWriter, fileWriter);
+        xmlWriter.writeTextElement("panelStd", this.PanelStd);
+    }
+    
+    protected void setFieldInfoFromXML(final net.iceedge.icebox.utilities.Node node, final DefaultMutableTreeNode defaultMutableTreeNode, final PersistentFileManager.FileReader fileReader) {
+        super.setFieldInfoFromXML(node, defaultMutableTreeNode, fileReader);
+        this.PanelStd = this.getStringValueFromXML("panelStd", node, Default_PanelStd);
+    }
+
+    public void addOnTheFlyAttribute() {
+        super.addOnTheFlyAttribute();
+        this.createNewAttribute("Tile_Panel_Std", this.PanelStd, true, false);
+    }
+    
+    public void removeOnTheFlyAttribute() {
+        super.removeOnTheFlyAttribute();
+        this.removeAttribute("Tile_Panel_Std");
+    }
+
+    public void setLocalVariables(final String anObject) {
+        super.setLocalVariables(anObject);
+        System.out.println("@#@: " + anObject);
+        if ("Tile_Panel_Std".equals(anObject)) {
+            final Attribute attributeObject = this.getAttributeObject("Tile_Panel_Std");
+            if (attributeObject != null) {
+                this.PanelStd = attributeObject.getValueAsString();
+            }
+        }
+    }
+    
+    public void getOnTheFlyAttributes(final Collection<Attribute> collection) {
+        super.getOnTheFlyAttributes((Collection)collection);
+        final Attribute attributeObject = this.getAttributeObject("Tile_Panel_Std");
+        if (attributeObject != null) {
+            collection.add(attributeObject);
+        }
+    }
+    //
     
     private boolean allowNoTileWithoutFrame() {
         final PanelInterface parentPanel = this.getParentPanel();
@@ -906,6 +1014,12 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         if (this.getAttributeValueAsString("Valet_Door_Hand_Indicator") != null) {
             treeMap.put("Description", this.getDescription() + ", " + this.getAttributeValueAsString("Valet_Door_Hand_Indicator"));
         }
+        Attribute attrPnlStd = this.getAttributeObject("Tile_Panel_Std");
+        if (attrPnlStd != null)
+            System.out.println("Tile2: " + this.PanelStd);
+        if (attrPnlStd != null && !Arrays.asList("", ICDTile.Default_PanelStd).contains(this.PanelStd)) {
+            treeMap.put("Description", this.getDescription() + " (" + this.PanelStd + ")");
+        }
     }
     
     public String getInstallTag() {
@@ -927,6 +1041,9 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         if (this instanceof ICDCurvedTile) {
             asterisk = true;
         }
+        if (this.hasPanelStd()) {
+            asterisk = true;
+        }
         return ((asterisk ? "*" : "") + installTag);
     }
     
@@ -938,8 +1055,37 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         return str;
     }
     
+    @Override
     public void handleAttributeChange(final String s, final String s2) {
         ICDUtilities.handleAttributeChange((EntityObject)this, s, s2);
+        System.out.println("#[ICDTile][Attribute Change]  " + s + ":" + s2);
+        if (s.equals("Tile_Panel_Std")) {
+            // Remove existing std marker object, if any
+            final Iterator<ICDParametricCircularCutout> iterator = this.getChildrenByClass(ICDParametricCircularCutout.class, false, true).iterator();
+            while (iterator.hasNext()) {
+                ICDParametricCircularCutout part = iterator.next();
+                //System.out.println("`*^=-,._ " + part.getId());
+                try {
+                    if (part.getLayerName() != null && part.getId().equals("Cutout-Visual")) {
+                        part.destroy();
+                    }
+                } catch (NullPointerException ex) {
+                    System.err.println(ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+            if (!hasPanelStd()) {
+                return;
+            }
+            // Add new
+            ICDParametricCircularCutout cutout = new ICDParametricCircularCutout("Cutout-Visual", (TypeObject)null, (OptionObject)null);
+            cutout.setLayerName("Cutout-Visual");
+            final Point3f convertSpaces = MathUtilities.convertSpaces(new Point3f(2.5f, 2.5f, 0.0f), this.getEntWorldSpaceMatrix());
+            cutout.setBasePoint(convertSpaces);
+            this.addToTree(cutout);
+            cutout.calculate();
+            this.calculate();
+        }
     }
     
     public void collectExtraIndirectAssemblyParts(final boolean b, final HashSet<EntityObject> set, final boolean b2, final Class<EntityObject>[] array) {
@@ -959,6 +1105,12 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
     }
     
     public String getDescriptionForManufacturingReport() {
+        Attribute attrPnlStd = this.getAttributeObject("Tile_Panel_Std");
+        if (attrPnlStd != null)
+            System.out.println("Tile1: " + attrPnlStd.getValueAsString());
+        if (attrPnlStd != null && !Arrays.asList("", ICDTile.Default_PanelStd).contains(attrPnlStd.getValueAsString())) {
+            return this.getDescription() + " (" + attrPnlStd.getValueAsString() + ")";
+        }
         return this.getDescription();
     }
     
@@ -968,5 +1120,88 @@ public class ICDTile extends BasicTile implements AssemblyPaintable, ICDInstallT
         ICDTile.PARENT_TYPE = "Valet Door";
         priorityArray = new char[] { 'L', 'F', 'M' };
         ICD_ERROR_OPTION = "ICD_Panel_Error_Option";
+    }
+
+    
+    public Group build3DModel() {
+        final Group group = super.get3DModel();
+
+        /*
+        final TransformGroup transformGroup = new TransformGroup();
+        final Transform3D transform = new Transform3D();
+        //final Point3f geoCen = this.getGeometricCenterPointLocal();
+        transform.setTranslation(new Vector3f(0.0f, 0.0f, 0.0f)); //new Vector3f(0.0f, 0.0f, 0.0f)
+        if (this.getScaleVector3d() != null)
+            transform.setScale(new Vector3d(1.0 / this.getScaleVector3d().x, 1.0 / this.getScaleVector3d().y, 1.0 / this.getScaleVector3d().z));
+        transformGroup.setTransform(transform);
+
+        final ArrayList<Point3f> shape = new ArrayList<Point3f>();
+        final CircleParameter circleParameter = new CircleParameter(new Point3f(), 3.0f / 2.0f);
+        circleParameter.setCenter(new Point3f(0.0f, 0.0f, 0.0f)); //this.getBasePoint3f()
+        shape.clear();
+        shape.addAll(circleParameter.getPath((Point3f)null, (Point3f)null, false, true, 25.0f));
+
+        final Shape3D shape3D = new Shape3D();
+        final Point3f[] triangulateCoords = Utility3D.triangulateCoords(Utility3D.toPoint3fArray(shape));
+        Utility3D.flipTris(triangulateCoords);
+        final TriangleArray geometry = new TriangleArray(triangulateCoords.length);
+        geometry.setCoordinates(0, (org.openmali.vecmath2.Tuple3f[])MathLibraryConversions.toXithArrayPoint3f((Tuple3f[])triangulateCoords));
+        final Appearance appearance = new Appearance();
+        appearance.setPolygonAttributes(Ice3dAppearance.getNewOrExistingPolygonAttributes(PolygonAttributes.POLYGON_FILL, PolygonAttributes.CULL_NONE, 0.0f));
+        appearance.setColor(Colorf.PINK);
+        shape3D.setGeometry((Geometry)geometry);
+        shape3D.setAppearance(appearance);
+        transformGroup.addChild((Node)shape3D);
+
+        final Shape3D shape3D2 = new Shape3D();
+        final Point3f[] triangulateCoords2 = Utility3D.triangulateCoords(Utility3D.toPoint3fArray(Utility3D.extrudeShape(shape, 0.75f)));
+        Utility3D.flipTris(triangulateCoords2);
+        final TriangleArray geometry2 = new TriangleArray(triangulateCoords2.length);
+        geometry2.setCoordinates(0, (org.openmali.vecmath2.Tuple3f[])MathLibraryConversions.toXithArrayPoint3f((Tuple3f[])triangulateCoords2));
+        final Appearance appearance2 = new Appearance();
+        appearance2.setPolygonAttributes(Ice3dAppearance.getNewOrExistingPolygonAttributes(PolygonAttributes.POLYGON_FILL, PolygonAttributes.CULL_NONE, 0.0f));
+        appearance2.setColor(Colorf.CYAN);
+        shape3D2.setGeometry((Geometry)geometry2);
+        shape3D2.setAppearance(appearance2);
+        transformGroup.addChild((Node)shape3D2);
+
+        group.addChild((Node)transformGroup);
+        */
+        return group;
+    }
+
+    
+    @Override
+    public Group get3DModel() {
+        if (!this.hasPanelStd()) {
+            return super.get3DModel();
+        }
+        return this.build3DModel();
+    }
+
+    @Override
+    public SortedSet<AttributeGripPoint> getAttributeMap(BasicAttributeGrip arg0) {
+        // TODO Auto-generated method stub
+        //throw new UnsupportedOperationException("Unimplemented method 'getAttributeMap'");
+        return new TreeSet<AttributeGripPoint>();
+    }
+
+    @Override
+    public List<BasicAttributeGrip> getGrips() {
+        // TODO Auto-generated method stub
+        //throw new UnsupportedOperationException("Unimplemented method 'getGrips'");
+        return new LinkedList<BasicAttributeGrip>();
+    }
+
+    @Override
+    public void setupGripPainters() {
+        // TODO Auto-generated method stub
+        //throw new UnsupportedOperationException("Unimplemented method 'setupGripPainters'");
+    }
+
+    @Override
+    public void updateGrips(BasicAttributeGrip arg0) {
+        // TODO Auto-generated method stub
+        //throw new UnsupportedOperationException("Unimplemented method 'updateGrips'");
     }
 }
