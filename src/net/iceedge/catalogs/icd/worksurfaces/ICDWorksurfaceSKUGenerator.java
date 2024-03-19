@@ -89,12 +89,18 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
               yDim = 0.0f;
 
         // Size for Normal Decks/Shelves/Wks
-        if (typeableEntity instanceof ICDParametricDeckOrShelf || typeableEntity instanceof ICDWSCParametricWorksurface || typeableEntity instanceof ICDBasicWorksurface) {
+        // Circular Wks
+        if (typeableEntity instanceof ICDWSCParametricWorksurface) {
+            shapeTag = ((ICDWSCParametricWorksurface) typeableEntity).getShapeTag();
+            yDim = ((ICDBasicWorksurface) typeableEntity).getYDimensionForReport();
+        } else
+        // Parametric Deck/Shelf or Basic Wks
+        if (typeableEntity instanceof ICDParametricDeckOrShelf || typeableEntity instanceof ICDBasicWorksurface) {
             shapeTag = ((ICDBasicWorksurface) typeableEntity).getShapeTag();
             xDim = ((ICDBasicWorksurface) typeableEntity).getXDimensionForReport();
             yDim = ((ICDBasicWorksurface) typeableEntity).getYDimensionForReport();
         } else
-        // Size for Suspended Chase Decks
+        // Suspended Chase Decks
         if (typeableEntity instanceof ICDDeck) {
             shapeTag = ((ICDDeck) typeableEntity).getShapeTag();
             xDim = ((ICDDeck) typeableEntity).getXDimensionForReport();
@@ -106,8 +112,10 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         
         String validDepth = "",
                validWidth = "";
-        validDepth = this.getValidDimString(yDim, shapeTag, WidthDepth.Depth);
-        validWidth = this.getValidDimString(xDim, shapeTag, WidthDepth.Width);
+        if (yDim != 0.0)
+            validDepth = this.getValidDimString(yDim, shapeTag, WidthDepth.Depth);
+        if (xDim != 0.0)
+            validWidth = this.getValidDimString(xDim, shapeTag, WidthDepth.Width);
 
         // Letter for Decks and Shelves (instead of using full ShapeTag)
         if (typeableEntity instanceof ICDParametricDeckOrShelf) {
@@ -126,8 +134,10 @@ public class ICDWorksurfaceSKUGenerator implements SkuGeneratable
         }
 
         // Create SKU
-        if (shapeTag != null && validDepth != null && validWidth != null) {
-            s = shapeTag + finishCodeForDeckOrShelf + validDepth + validWidth;
+        if (shapeTag != null) {
+            if (validDepth != "" || validWidth != "") {
+                s = shapeTag + finishCodeForDeckOrShelf + validDepth + validWidth;
+            }
         }
 
         this.relinkCatalogPart(s, typeableEntity);
